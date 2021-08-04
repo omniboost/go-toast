@@ -1,4 +1,4 @@
-package bexio
+package ikentoo
 
 type Accounts []Account
 

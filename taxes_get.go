@@ -1,10 +1,10 @@
-package bexio
+package ikentoo
 
 import (
 	"net/http"
 	"net/url"
 
-	"github.com/omniboost/go-bexio/utils"
+	"github.com/omniboost/go-ikentoo/utils"
 )
 
 func (c *Client) NewTaxesGetRequest() TaxesGetRequest {

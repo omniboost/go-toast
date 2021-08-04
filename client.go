@@ -1,4 +1,4 @@
-package bexio
+package ikentoo
 
 import (
 	"bytes"
@@ -20,7 +20,7 @@ import (
 
 const (
 	libraryVersion = "0.0.1"
-	userAgent      = "go-bexio/" + libraryVersion
+	userAgent      = "go-ikentoo/" + libraryVersion
 	mediaType      = "application/json"
 	charset        = "utf-8"
 )
@@ -28,7 +28,7 @@ const (
 var (
 	BaseURL = url.URL{
 		Scheme: "https",
-		Host:   "api.bexio.com",
+		Host:   "api.ikentoo.com",
 		Path:   "/3.0",
 	}
 )

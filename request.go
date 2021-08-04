@@ -1,4 +1,4 @@
-package bexio
+package ikentoo
 
 import "net/url"
 

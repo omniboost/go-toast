@@ -1,4 +1,4 @@
-package bexio_test
+package ikentoo_test
 
 import (
 	"encoding/json"

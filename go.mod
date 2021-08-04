@@ -1,4 +1,4 @@
-module github.com/omniboost/go-bexio
+module github.com/omniboost/go-ikentoo
 
 go 1.16
 
