@@ -29,7 +29,7 @@ var (
 	BaseURL = url.URL{
 		Scheme: "https",
 		Host:   "api.ikentoo.com",
-		Path:   "/3.0",
+		Path:   "/f",
 	}
 )
 

@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/url"
 	"os"
+	"strconv"
 	"testing"
 
 	ikentoo "github.com/omniboost/go-ikentoo"
@@ -11,7 +12,8 @@ import (
 )
 
 var (
-	client *ikentoo.Client
+	client     *ikentoo.Client
+	businessID int
 )
 
 func TestMain(m *testing.M) {
@@ -20,9 +22,13 @@ func TestMain(m *testing.M) {
 	baseURLString := os.Getenv("BASE_URL")
 	clientID := os.Getenv("CLIENT_ID")
 	clientSecret := os.Getenv("CLIENT_SECRET")
-	refreshToken := os.Getenv("REFRESH_TOKEN")
+	accessToken := os.Getenv("ACCESS_TOKEN")
 	tokenURL := os.Getenv("TOKEN_URL")
 	debug := os.Getenv("DEBUG")
+	businessID, err = strconv.Atoi(os.Getenv("BUSINESS_ID"))
+	if err != nil {
+		log.Fatal(err)
+	}
 	var baseURL *url.URL
 
 	if baseURLString != "" {
@@ -45,7 +51,11 @@ func TestMain(m *testing.M) {
 	// log.Fatal(string(b))
 
 	token := &oauth2.Token{
-		RefreshToken: refreshToken,
+		AccessToken: accessToken,
+		// If zero, TokenSource implementations will reuse the same
+		// token forever and RefreshToken or equivalent
+		// mechanisms for that TokenSource will not be used.
+		// Expiry: time.Zero(),
 	}
 
 	// get http client with automatic oauth logic

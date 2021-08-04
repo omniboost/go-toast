@@ -25,7 +25,7 @@ func NewOauth2Config() *Oauth2Config {
 			ClientSecret: "",
 			Scopes:       []string{scope},
 			Endpoint: oauth2.Endpoint{
-				TokenURL: "https://idp.ikentoo.com/token",
+				TokenURL: "https://api.lsk.lightspeed.app/oauth/token",
 			},
 		},
 	}
