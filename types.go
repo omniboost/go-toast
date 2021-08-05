@@ -43,26 +43,26 @@ type Sale struct {
 	} `json:"source,omitempty"`
 	SalesLines []struct {
 		ID                       string `json:"id"`
-		TotalNetAmountWithTax    string `json:"totalNetAmountWithTax"`
-		TotalNetAmountWithoutTax string `json:"totalNetAmountWithoutTax"`
-		MenuListPrice            string `json:"menuListPrice"`
-		UnitCostPrice            string `json:"unitCostPrice"`
-		ServiceCharge            string `json:"serviceCharge"`
-		DiscountAmount           string `json:"discountAmount"`
-		TaxAmount                string `json:"taxAmount"`
+		TotalNetAmountWithTax    Number `json:"totalNetAmountWithTax"`
+		TotalNetAmountWithoutTax Number `json:"totalNetAmountWithoutTax"`
+		MenuListPrice            Number `json:"menuListPrice"`
+		UnitCostPrice            Number `json:"unitCostPrice"`
+		ServiceCharge            Number `json:"serviceCharge"`
+		DiscountAmount           Number `json:"discountAmount"`
+		TaxAmount                Number `json:"taxAmount"`
 		DiscountType             string `json:"discountType"`
 		DiscountCode             string `json:"discountCode"`
 		DiscountName             string `json:"discountName"`
-		AccountDiscountAmount    string `json:"accountDiscountAmount"`
-		TotalDiscountAmount      string `json:"totalDiscountAmount"`
+		AccountDiscountAmount    Number `json:"accountDiscountAmount"`
+		TotalDiscountAmount      Number `json:"totalDiscountAmount"`
 		AccountDiscountType      string `json:"accountDiscountType"`
 		AccountDiscountCode      string `json:"accountDiscountCode"`
 		AccountDiscountName      string `json:"accountDiscountName"`
 		Sku                      string `json:"sku"`
 		Name                     string `json:"name"`
 		StatisticGroup           string `json:"statisticGroup"`
-		Quantity                 string `json:"quantity"`
-		TaxRatePercentage        string `json:"taxRatePercentage"`
+		Quantity                 Number `json:"quantity"`
+		TaxRatePercentage        Number `json:"taxRatePercentage"`
 		AccountingGroup          struct {
 			AccountingGroupID int64  `json:"accountingGroupId"`
 			Name              string `json:"name"`
@@ -84,9 +84,9 @@ type Sale struct {
 		Code             string `json:"code"`
 		Description      string `json:"description"`
 		PaymentMethodID  int    `json:"paymentMethodId"`
-		NetAmountWithTax string `json:"netAmountWithTax"`
+		NetAmountWithTax Number `json:"netAmountWithTax"`
 		Currency         string `json:"currency"`
-		Tip              string `json:"tip"`
+		Tip              Number `json:"tip"`
 		Type             string `json:"type"`
 		DeviceID         int    `json:"deviceId"`
 		DeviceName       string `json:"deviceName"`
