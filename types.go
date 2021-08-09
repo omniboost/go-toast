@@ -36,3 +36,14 @@ type Costunits []Costunit
 
 type Costunit struct {
 }
+
+type Journals []Journal
+
+type Journal struct {
+	ID          string `json:"id"`
+	Description string `json:"description"`
+	Type        string `json:"type"`
+	Meta        struct {
+		Self string `json:"self"`
+	} `json:"_meta"`
+}
