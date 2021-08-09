@@ -1,11 +1,11 @@
-package ikentoo
+package asperion
 
 import (
 	"net/http"
 	"net/url"
 	"strconv"
 
-	"github.com/omniboost/go-ikentoo/utils"
+	"github.com/omniboost/go-asperion/utils"
 )
 
 func (c *Client) NewPaymentMethodsGetRequest() PaymentMethodsGetRequest {

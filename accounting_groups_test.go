@@ -1,4 +1,4 @@
-package ikentoo_test
+package asperion_test
 
 import (
 	"encoding/json"

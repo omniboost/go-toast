@@ -1,4 +1,4 @@
-module github.com/omniboost/go-ikentoo
+module github.com/omniboost/go-asperion
 
 go 1.16
 

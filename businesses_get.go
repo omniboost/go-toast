@@ -1,10 +1,10 @@
-package ikentoo
+package asperion
 
 import (
 	"net/http"
 	"net/url"
 
-	"github.com/omniboost/go-ikentoo/utils"
+	"github.com/omniboost/go-asperion/utils"
 )
 
 func (c *Client) NewBusinessesGetRequest() BusinessesGetRequest {

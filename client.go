@@ -1,4 +1,4 @@
-package ikentoo
+package asperion
 
 import (
 	"bytes"
@@ -20,7 +20,7 @@ import (
 
 const (
 	libraryVersion = "0.0.1"
-	userAgent      = "go-ikentoo/" + libraryVersion
+	userAgent      = "go-asperion/" + libraryVersion
 	mediaType      = "application/json"
 	charset        = "utf-8"
 )
@@ -28,7 +28,7 @@ const (
 var (
 	BaseURL = url.URL{
 		Scheme: "https",
-		Host:   "api.ikentoo.com",
+		Host:   "api.asperion.com",
 		Path:   "/f",
 	}
 )

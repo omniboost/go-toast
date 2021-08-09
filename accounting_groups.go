@@ -1,4 +1,4 @@
-package ikentoo
+package asperion
 
 import (
 	"net/http"
@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/omniboost/go-ikentoo/utils"
+	"github.com/omniboost/go-asperion/utils"
 )
 
 func (c *Client) NewAccountingGroupsGetRequest() AccountingGroupsGetRequest {

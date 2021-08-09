@@ -1,4 +1,4 @@
-package ikentoo_test
+package asperion_test
 
 import (
 	"encoding/json"
@@ -6,13 +6,13 @@ import (
 	"testing"
 	"time"
 
-	ikentoo "github.com/omniboost/go-ikentoo"
+	asperion "github.com/omniboost/go-asperion"
 )
 
 func TestDailyFinancialsGet(t *testing.T) {
 	req := client.NewDailyFinancialsGetRequest()
 	req.PathParams().BusinessID = businessID
-	req.QueryParams().Date = ikentoo.Date{time.Now().AddDate(0, 0, -1)}
+	req.QueryParams().Date = asperion.Date{time.Now().AddDate(0, 0, -1)}
 	req.QueryParams().Include = append(req.QueryParams().Include, "payments")
 	req.QueryParams().Include = append(req.QueryParams().Include, "payment")
 	resp, err := req.Do()

@@ -1,4 +1,4 @@
-package ikentoo_test
+package asperion_test
 
 import (
 	"log"
@@ -7,12 +7,12 @@ import (
 	"strconv"
 	"testing"
 
-	ikentoo "github.com/omniboost/go-ikentoo"
+	asperion "github.com/omniboost/go-asperion"
 	"golang.org/x/oauth2"
 )
 
 var (
-	client     *ikentoo.Client
+	client     *asperion.Client
 	businessID int
 )
 
@@ -38,7 +38,7 @@ func TestMain(m *testing.M) {
 		}
 	}
 
-	oauthConfig := ikentoo.NewOauth2Config()
+	oauthConfig := asperion.NewOauth2Config()
 	oauthConfig.ClientID = clientID
 	oauthConfig.ClientSecret = clientSecret
 
@@ -61,7 +61,7 @@ func TestMain(m *testing.M) {
 	// get http client with automatic oauth logic
 	httpClient := oauthConfig.Client(oauth2.NoContext, token)
 
-	client = ikentoo.NewClient(httpClient)
+	client = asperion.NewClient(httpClient)
 	if debug != "" {
 		client.SetDebug(true)
 	}
