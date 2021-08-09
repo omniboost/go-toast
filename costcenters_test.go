@@ -6,8 +6,8 @@ import (
 	"testing"
 )
 
-func TestBusinessesGet(t *testing.T) {
-	req := client.NewBusinessesGetRequest()
+func TestCostcentersGet(t *testing.T) {
+	req := client.NewCostcentersGetRequest()
 	resp, err := req.Do()
 	if err != nil {
 		t.Error(err)

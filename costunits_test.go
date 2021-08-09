@@ -6,9 +6,8 @@ import (
 	"testing"
 )
 
-func TestAccountingGroupsGet(t *testing.T) {
-	req := client.NewAccountingGroupsGetRequest()
-	req.PathParams().BusinessID = businessID
+func TestCostunitsGet(t *testing.T) {
+	req := client.NewCostunitsGetRequest()
 	resp, err := req.Do()
 	if err != nil {
 		t.Error(err)

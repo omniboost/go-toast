@@ -28,13 +28,13 @@ const (
 var (
 	BaseURL = url.URL{
 		Scheme: "https",
-		Host:   "api.asperion.com",
-		Path:   "/f",
+		Host:   "api-sandbox.asperion.nl",
+		Path:   "",
 	}
 )
 
 // NewClient returns a new Exact Globe Client client
-func NewClient(httpClient *http.Client) *Client {
+func NewClient(httpClient *http.Client, tenantID int) *Client {
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
@@ -42,6 +42,7 @@ func NewClient(httpClient *http.Client) *Client {
 	client := &Client{}
 
 	client.SetHTTPClient(httpClient)
+	client.SetTenantID(tenantID)
 	client.SetBaseURL(BaseURL)
 	client.SetDebug(false)
 	client.SetUserAgent(userAgent)
@@ -60,6 +61,7 @@ type Client struct {
 	baseURL url.URL
 
 	// credentials
+	tenantID int
 
 	// User agent for client
 	userAgent string
@@ -80,6 +82,14 @@ type RequestCompletionCallback func(*http.Request, *http.Response)
 
 func (c *Client) SetHTTPClient(client *http.Client) {
 	c.http = client
+}
+
+func (c Client) TenantID() int {
+	return c.tenantID
+}
+
+func (c *Client) SetTenantID(tenantID int) {
+	c.tenantID = tenantID
 }
 
 func (c Client) Debug() bool {

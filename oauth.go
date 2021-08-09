@@ -25,7 +25,7 @@ func NewOauth2Config() *Oauth2Config {
 			ClientSecret: "",
 			Scopes:       []string{scope},
 			Endpoint: oauth2.Endpoint{
-				TokenURL: "https://api.lsk.lightspeed.app/oauth/token",
+				TokenURL: "https://identity.asperion.nl/connect/token",
 			},
 		},
 	}

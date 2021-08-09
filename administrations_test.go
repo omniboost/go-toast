@@ -6,9 +6,8 @@ import (
 	"testing"
 )
 
-func TestPaymentMethodsGet(t *testing.T) {
-	req := client.NewPaymentMethodsGetRequest()
-	req.PathParams().BusinessID = businessID
+func TestAdministrationsGet(t *testing.T) {
+	req := client.NewAdministrationsGetRequest()
 	resp, err := req.Do()
 	if err != nil {
 		t.Error(err)
