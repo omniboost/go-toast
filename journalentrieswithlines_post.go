@@ -97,8 +97,8 @@ type JournalEntriesWithLinesPostRequestBody struct {
 			SalesInvoiceID    int     `json:"salesInvoiceId,omitempty"`
 			Description       string  `json:"description"`
 			LedgerAccountID   int     `json:"ledgerAccountId,omitempty"`
-			// VATAmount         float64 `json:"vatAmount"`
-			// VATCode           string  `json:"vatCode"`
+			VATAmount         float64 `json:"vatAmount"`
+			VATCode           string  `json:"vatCode"`
 			// Meta              struct {
 			// 	AdministrationID   int    `json:"administrationId"`
 			// 	AdministrationName string `json:"administrationName"`
