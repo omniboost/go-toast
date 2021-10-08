@@ -28,7 +28,7 @@ const (
 var (
 	BaseURL = url.URL{
 		Scheme: "https",
-		Host:   "api-sandbox.asperion.nl",
+		Host:   "api.asperion.nl",
 		Path:   "",
 	}
 )
@@ -371,17 +371,29 @@ type ErrorResponse struct {
 	// HTTP response that caused this error
 	Response *http.Response
 
-	Type    string      `json:"ErrorType"`
-	Numbers interface{} `json:"ErrorNumbers"`
-	Message string      `json:"ErrorMessage"`
+	Title   string              `json:"title"`
+	Status  int                 `json:"status"`
+	Detail  string              `json:"detail"`
+	TraceID string              `json:"traceId"`
+	Errors  map[string][]string `json:"errors"`
 }
 
 func (r *ErrorResponse) Error() string {
-	if r.Type == "" && r.Message == "" {
+	if r.Title == "" && r.Status == 0 {
 		return ""
 	}
 
-	return fmt.Sprintf("%s: %s", r.Type, r.Message)
+	if len(r.Errors) > 0 {
+		errors := []string{}
+		for k, ee := range r.Errors {
+			for _, v := range ee {
+				errors = append(errors, fmt.Sprintf("%s: %s", k, v))
+			}
+		}
+		return strings.Join(errors, ", ")
+	}
+
+	return fmt.Sprintf("%s: %s", r.Title, r.Detail)
 }
 
 func checkContentType(response *http.Response) error {

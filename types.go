@@ -47,3 +47,22 @@ type Journal struct {
 		Self string `json:"self"`
 	} `json:"_meta"`
 }
+
+type LedgerAccounts []LedgerAccount
+
+type LedgerAccount struct {
+	ID          int         `json:"id"`
+	Type        int         `json:"type"`
+	Description string      `json:"description"`
+	VatCode     interface{} `json:"vatCode"`
+	Disabled    bool        `json:"disabled"`
+	Rcsfi       interface{} `json:"rcsfi"`
+	Meta        struct {
+		Self string `json:"self"`
+	} `json:"_meta"`
+}
+
+type JournalEntriesWithLines []JournalEntryWithLines
+
+type JournalEntryWithLines struct {
+}
