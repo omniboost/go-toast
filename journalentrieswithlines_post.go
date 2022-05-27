@@ -34,7 +34,9 @@ func (r JournalEntriesWithLinesPostRequest) NewQueryParams() *JournalEntriesWith
 	return &JournalEntriesWithLinesPostRequestQueryParams{}
 }
 
-type JournalEntriesWithLinesPostRequestQueryParams struct{}
+type JournalEntriesWithLinesPostRequestQueryParams struct {
+	ValidateOnly bool `schema:"validateOnly,omitempty"`
+}
 
 func (p JournalEntriesWithLinesPostRequestQueryParams) ToURLValues() (url.Values, error) {
 	encoder := utils.NewSchemaEncoder()
@@ -85,67 +87,7 @@ func (r JournalEntriesWithLinesPostRequest) NewRequestBody() JournalEntriesWithL
 	return JournalEntriesWithLinesPostRequestBody{}
 }
 
-type JournalEntriesWithLinesPostRequestBody struct {
-	Lines struct {
-		Data []struct {
-			ID                int     `json:"id,omitempty"`
-			Amount            float64 `json:"amount"`
-			BookingDate       Date    `json:"bookingDate"`
-			CreditorID        int     `json:"creditorId,omitempty"`
-			DebtorID          int     `json:"debtorId,omitempty"`
-			PurchaseInvoiceID int     `json:"purchaseInvoiceId,omitempty"`
-			SalesInvoiceID    int     `json:"salesInvoiceId,omitempty"`
-			Description       string  `json:"description"`
-			LedgerAccountID   int     `json:"ledgerAccountId,omitempty"`
-			VATAmount         float64 `json:"vatAmount"`
-			VATCode           string  `json:"vatCode"`
-			// Meta              struct {
-			// 	AdministrationID   int    `json:"administrationId"`
-			// 	AdministrationName string `json:"administrationName"`
-			// 	ProfileName        string `json:"profileName"`
-			// 	Self               string `json:"self"`
-			// 	AdditionalProp1    struct {
-			// 	} `json:"additionalProp1"`
-			// 	AdditionalProp2 struct {
-			// 	} `json:"additionalProp2"`
-			// 	AdditionalProp3 struct {
-			// 	} `json:"additionalProp3"`
-			// } `json:"_meta"`
-		} `json:"_data"`
-		// Meta struct {
-		// 	AdministrationID   int    `json:"administrationId"`
-		// 	AdministrationName string `json:"administrationName"`
-		// 	ProfileName        string `json:"profileName"`
-		// 	PreviousPage       string `json:"previousPage"`
-		// 	NextPage           string `json:"nextPage"`
-		// 	TotalCount         int    `json:"totalCount"`
-		// 	PageCount          int    `json:"pageCount"`
-		// 	Self               string `json:"self"`
-		// } `json:"_meta"`
-	} `json:"lines"`
-	ID                   int    `json:"id,omitempty"`
-	Bookperiod           int    `json:"bookperiod"`
-	Bookyear             int    `json:"bookyear"`
-	Date                 Date   `json:"date"`
-	JournalID            string `json:"journalId"`
-	OpeningBalance       int    `json:"openingBalance,omitempty"`
-	ClosingBalance       int    `json:"closingBalance,omitempty"`
-	Description          string `json:"description"`
-	SourceDocumentNumber string `json:"sourceDocumentNumber,omitempty"`
-	State                int    `json:"state,omitempty"`
-	// Meta                 struct {
-	// 	AdministrationID   int    `json:"administrationId"`
-	// 	AdministrationName string `json:"administrationName"`
-	// 	ProfileName        string `json:"profileName"`
-	// 	Self               string `json:"self"`
-	// 	AdditionalProp1    struct {
-	// 	} `json:"additionalProp1"`
-	// 	AdditionalProp2 struct {
-	// 	} `json:"additionalProp2"`
-	// 	AdditionalProp3 struct {
-	// 	} `json:"additionalProp3"`
-	// } `json:"_meta"`
-}
+type JournalEntriesWithLinesPostRequestBody JournalEntryWithLines
 
 func (r *JournalEntriesWithLinesPostRequest) RequestBody() *JournalEntriesWithLinesPostRequestBody {
 	return &r.requestBody
@@ -163,10 +105,7 @@ func (r *JournalEntriesWithLinesPostRequest) NewResponseBody() *JournalEntriesWi
 	return &JournalEntriesWithLinesPostResponseBody{}
 }
 
-type JournalEntriesWithLinesPostResponseBody struct {
-	Data Costunits `json:"_data"`
-	Meta Meta      `json:"_meta"`
-}
+type JournalEntriesWithLinesPostResponseBody JournalEntryWithLines
 
 func (r *JournalEntriesWithLinesPostRequest) URL() *url.URL {
 	u := r.client.GetEndpointURL("/v1/journalentrieswithlines", r.PathParams())

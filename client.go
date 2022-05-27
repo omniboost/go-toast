@@ -8,13 +8,16 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"mime/multipart"
 	"net/http"
 	"net/http/httputil"
+	"net/textproto"
 	"net/url"
 	"path"
 	"strings"
 	"text/template"
 
+	"github.com/omniboost/go-asperion/utils"
 	"github.com/pkg/errors"
 )
 
@@ -176,16 +179,24 @@ func (c *Client) GetEndpointURL(p string, pathParams PathParams) url.URL {
 
 func (c *Client) NewRequest(ctx context.Context, req Request) (*http.Request, error) {
 	// convert body struct to json
-	buf := new(bytes.Buffer)
+	var body io.Reader
 	if req.RequestBodyInterface() != nil {
-		err := json.NewEncoder(buf).Encode(req.RequestBodyInterface())
-		if err != nil {
-			return nil, err
+		if r, ok := req.RequestBodyInterface().(io.Reader); ok {
+			body = r
+		} else if bb, ok := req.RequestBodyInterface().([]byte); ok {
+			body = bytes.NewReader(bb)
+		} else {
+			buf := new(bytes.Buffer)
+			err := json.NewEncoder(buf).Encode(req.RequestBodyInterface())
+			if err != nil {
+				return nil, err
+			}
+			body = buf
 		}
 	}
 
 	// create new http request
-	r, err := http.NewRequest(req.Method(), req.URL().String(), buf)
+	r, err := http.NewRequest(req.Method(), req.URL().String(), body)
 	if err != nil {
 		return nil, err
 	}
@@ -207,6 +218,57 @@ func (c *Client) NewRequest(ctx context.Context, req Request) (*http.Request, er
 	r.Header.Add("User-Agent", c.UserAgent())
 
 	return r, nil
+}
+
+func (c *Client) NewFormRequest(ctx context.Context, method string, URL url.URL, form Form) (*http.Request, error) {
+	body := &bytes.Buffer{}
+	w := multipart.NewWriter(body)
+
+	for k, vv := range form.Values() {
+		for _, v := range vv {
+			err := w.WriteField(k, v)
+			if err != nil {
+				return nil, err
+			}
+		}
+	}
+
+	for k, f := range form.Files() {
+		part, err := CreateFormFile(w, f.Content, k, f.Filename)
+		if err != nil {
+			return nil, err
+		}
+		_, err = io.Copy(part, f.Content)
+	}
+
+	err := w.Close()
+	if err != nil {
+		return nil, err
+	}
+
+	// create new http request
+	req, err := http.NewRequest(method, URL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	values := url.Values{}
+	err = utils.AddURLValuesToRequest(values, req, true)
+	if err != nil {
+		return nil, err
+	}
+
+	// optionally pass along context
+	if ctx != nil {
+		req = req.WithContext(ctx)
+	}
+
+	// set other headers
+	req.Header.Add("Content-Type", fmt.Sprintf("%s; charset=%s", w.FormDataContentType(), c.Charset()))
+	req.Header.Add("Accept", c.MediaType())
+	req.Header.Add("User-Agent", c.UserAgent())
+
+	return req, nil
 }
 
 // Do sends an Client request and returns the Client response. The Client response is json decoded and stored in the value
@@ -383,6 +445,10 @@ func (r *ErrorResponse) Error() string {
 		return ""
 	}
 
+	if r.Title == "" && r.Detail == "" {
+		return ""
+	}
+
 	if len(r.Errors) > 0 {
 		errors := []string{}
 		for k, ee := range r.Errors {
@@ -404,4 +470,41 @@ func checkContentType(response *http.Response) error {
 	}
 
 	return nil
+}
+
+func CreateFormFile(w *multipart.Writer, data io.Reader, fieldname, filename string) (io.Writer, error) {
+	var quoteEscaper = strings.NewReplacer("\\", "\\\\", `"`, "\\\"")
+
+	escapeQuotes := func(s string) string {
+		return quoteEscaper.Replace(s)
+	}
+
+	h := make(textproto.MIMEHeader)
+	h.Set("Content-Disposition",
+		fmt.Sprintf(`form-data; name="%s"; filename="%s"`,
+			escapeQuotes(fieldname), escapeQuotes(filename)))
+
+	contentType, err := GetFileContentType(data)
+	if err != nil {
+		return nil, err
+	}
+	h.Set("Content-Type", contentType)
+	return w.CreatePart(h)
+}
+
+func GetFileContentType(file io.Reader) (string, error) {
+
+	// Only the first 512 bytes are used to sniff the content type.
+	buffer := make([]byte, 512)
+
+	_, err := file.Read(buffer)
+	if err != nil {
+		return "", err
+	}
+
+	// Use the net/http package's handy DectectContentType function. Always returns a valid
+	// content-type by returning "application/octet-stream" if no others seemed to match.
+	contentType := http.DetectContentType(buffer)
+
+	return contentType, nil
 }

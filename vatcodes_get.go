@@ -114,7 +114,8 @@ func (r *VATCodesGetRequest) NewResponseBody() *VATCodesGetResponseBody {
 }
 
 type VATCodesGetResponseBody struct {
-	Data Administrations `json:"_data"`
+	Data VATCodes `json:"_data"`
+	Meta Meta     `json:"_meta"`
 }
 
 func (r *VATCodesGetRequest) URL() *url.URL {
