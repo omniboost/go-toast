@@ -1,4 +1,4 @@
-package asperion
+package toast
 
 import (
 	"bytes"
@@ -17,13 +17,13 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/omniboost/go-asperion/utils"
+	"github.com/omniboost/go-toast/utils"
 	"github.com/pkg/errors"
 )
 
 const (
 	libraryVersion = "0.0.1"
-	userAgent      = "go-asperion/" + libraryVersion
+	userAgent      = "go-toast/" + libraryVersion
 	mediaType      = "application/json"
 	charset        = "utf-8"
 )
@@ -31,13 +31,13 @@ const (
 var (
 	BaseURL = url.URL{
 		Scheme: "https",
-		Host:   "api.asperion.nl",
+		Host:   "ws-api.toasttab.com",
 		Path:   "",
 	}
 )
 
 // NewClient returns a new Exact Globe Client client
-func NewClient(httpClient *http.Client, tenantID int) *Client {
+func NewClient(httpClient *http.Client) *Client {
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
@@ -45,7 +45,6 @@ func NewClient(httpClient *http.Client, tenantID int) *Client {
 	client := &Client{}
 
 	client.SetHTTPClient(httpClient)
-	client.SetTenantID(tenantID)
 	client.SetBaseURL(BaseURL)
 	client.SetDebug(false)
 	client.SetUserAgent(userAgent)
@@ -64,7 +63,10 @@ type Client struct {
 	baseURL url.URL
 
 	// credentials
-	tenantID int
+	clientID                  string
+	clientSecret              string
+	toastRestaurantExternalID string
+	token                     Token
 
 	// User agent for client
 	userAgent string
@@ -87,12 +89,28 @@ func (c *Client) SetHTTPClient(client *http.Client) {
 	c.http = client
 }
 
-func (c Client) TenantID() int {
-	return c.tenantID
+func (c Client) ClientID() string {
+	return c.clientID
 }
 
-func (c *Client) SetTenantID(tenantID int) {
-	c.tenantID = tenantID
+func (c *Client) SetClientID(clientID string) {
+	c.clientID = clientID
+}
+
+func (c Client) ClientSecret() string {
+	return c.clientSecret
+}
+
+func (c *Client) SetClientSecret(clientSecret string) {
+	c.clientSecret = clientSecret
+}
+
+func (c Client) ToastRestaurantExternalID() string {
+	return c.toastRestaurantExternalID
+}
+
+func (c *Client) SetToastRestaurantExternalID(toastRestaurantExternalID string) {
+	c.toastRestaurantExternalID = toastRestaurantExternalID
 }
 
 func (c Client) Debug() bool {
@@ -216,6 +234,9 @@ func (c *Client) NewRequest(ctx context.Context, req Request) (*http.Request, er
 	r.Header.Add("Content-Type", fmt.Sprintf("%s; charset=%s", c.MediaType(), c.Charset()))
 	r.Header.Add("Accept", c.MediaType())
 	r.Header.Add("User-Agent", c.UserAgent())
+	if c.ToastRestaurantExternalID() != "" {
+		r.Header.Add("Toast-Restaurant-External-ID", c.ToastRestaurantExternalID())
+	}
 
 	return r, nil
 }
@@ -433,33 +454,24 @@ type ErrorResponse struct {
 	// HTTP response that caused this error
 	Response *http.Response
 
-	Title   string              `json:"title"`
-	Status  int                 `json:"status"`
-	Detail  string              `json:"detail"`
-	TraceID string              `json:"traceId"`
-	Errors  map[string][]string `json:"errors"`
+	Status           int         `json:"status"`
+	Code             int         `json:"code"`
+	Message          string      `json:"message"`
+	MessageKey       string      `json:"messageKey"`
+	FieldName        string      `json:"fieldName"`
+	Link             string      `json:"link"`
+	RequestID        string      `json:"requestId"`
+	DeveloperMessage string      `json:"developerMessage"`
+	Errors           []string    `json:"errors"`
+	CanRetry         interface{} `json:"canRetry"`
 }
 
 func (r *ErrorResponse) Error() string {
-	if r.Title == "" && r.Status == 0 {
+	if r.Code == 0 {
 		return ""
 	}
 
-	if r.Title == "" && r.Detail == "" {
-		return ""
-	}
-
-	if len(r.Errors) > 0 {
-		errors := []string{}
-		for k, ee := range r.Errors {
-			for _, v := range ee {
-				errors = append(errors, fmt.Sprintf("%s: %s", k, v))
-			}
-		}
-		return strings.Join(errors, ", ")
-	}
-
-	return fmt.Sprintf("%s: %s", r.Title, r.Detail)
+	return fmt.Sprintf("%d: %s", r.Code, r.Message)
 }
 
 func checkContentType(response *http.Response) error {
@@ -507,4 +519,33 @@ func GetFileContentType(file io.Reader) (string, error) {
 	contentType := http.DetectContentType(buffer)
 
 	return contentType, nil
+}
+
+func (c *Client) InitToken(req *http.Request) error {
+	if c.token.AccessToken == "" {
+		req := c.NewLoginPostRequest()
+		req.RequestBody().ClientID = c.ClientID()
+		req.RequestBody().ClientSecret = c.ClientSecret()
+		resp, err := req.Do()
+		if err != nil {
+			return errors.WithStack(err)
+		}
+
+		c.token = resp.Token
+	}
+
+	if c.token.IsExpired() {
+		req := c.NewLoginPostRequest()
+		req.RequestBody().ClientID = c.ClientID()
+		req.RequestBody().ClientSecret = c.ClientSecret()
+		resp, err := req.Do()
+		if err != nil {
+			return errors.WithStack(err)
+		}
+
+		c.token = resp.Token
+	}
+
+	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", c.token.AccessToken))
+	return nil
 }

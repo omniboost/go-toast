@@ -1,4 +1,4 @@
-package asperion
+package toast
 
 import (
 	"encoding/json"
@@ -27,10 +27,22 @@ func (d *Date) MarshalJSON() ([]byte, error) {
 		return json.Marshal(nil)
 	}
 
-	return json.Marshal(d.Time.Format("2006-01-02T15:04:05"))
+	f := d.Time.Format("20060102")
+	i, err := strconv.Atoi(f)
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(i)
 }
 
 func (d *Date) UnmarshalJSON(text []byte) (err error) {
+	var i int
+	err = json.Unmarshal(text, &i)
+	if err == nil && i != 0 {
+		d.Time, err = time.Parse("20060102", strconv.Itoa(i))
+		return err
+	}
+
 	var value string
 	err = json.Unmarshal(text, &value)
 	if err != nil {
@@ -57,7 +69,7 @@ func (d *Date) UnmarshalJSON(text []byte) (err error) {
 }
 
 func (d DateTime) MarshalSchema() string {
-	return d.Time.Format(time.RFC3339)
+	return d.Time.Format("2006-01-02T15:04:05.000-07:00")
 }
 
 func (dt *DateTime) MarshalJSON() ([]byte, error) {
@@ -65,7 +77,7 @@ func (dt *DateTime) MarshalJSON() ([]byte, error) {
 		return json.Marshal(nil)
 	}
 
-	return json.Marshal(dt.Time.Format("2006-01-02T15:04:05"))
+	return json.Marshal(dt.Time.Format("2006-01-02T15:04:05.000-0700"))
 }
 
 func (dt *DateTime) UnmarshalJSON(text []byte) (err error) {
@@ -85,7 +97,7 @@ func (dt *DateTime) UnmarshalJSON(text []byte) (err error) {
 		return nil
 	}
 
-	dt.Time, err = time.Parse("2006-01-02T15:04:05", value)
+	dt.Time, err = time.Parse("2006-01-02T15:04:05.000-0700", value)
 	return err
 }
 
