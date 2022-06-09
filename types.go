@@ -204,3 +204,96 @@ type Order struct {
 	ChannelGUID     interface{} `json:"channelGuid"`
 	PricingFeatures []string    `json:"pricingFeatures"`
 }
+
+type Restaurant struct {
+	GUID    string `json:"guid"`
+	General struct {
+		Name                string      `json:"name"`
+		LocationName        string      `json:"locationName"`
+		LocationCode        interface{} `json:"locationCode"`
+		Description         string      `json:"description"`
+		TimeZone            string      `json:"timeZone"`
+		CloseoutHour        int         `json:"closeoutHour"`
+		ManagementGroupGUID string      `json:"managementGroupGuid"`
+	} `json:"general"`
+	Urls struct {
+		Website          interface{} `json:"website"`
+		Facebook         interface{} `json:"facebook"`
+		Twitter          string      `json:"twitter"`
+		OrderOnline      string      `json:"orderOnline"`
+		PurchaseGiftCard string      `json:"purchaseGiftCard"`
+		CheckGiftCard    string      `json:"checkGiftCard"`
+	} `json:"urls"`
+	Location struct {
+		Address1  string  `json:"address1"`
+		Address2  string  `json:"address2"`
+		City      string  `json:"city"`
+		StateCode string  `json:"stateCode"`
+		ZipCode   string  `json:"zipCode"`
+		Country   string  `json:"country"`
+		Phone     string  `json:"phone"`
+		Latitude  float64 `json:"latitude"`
+		Longitude float64 `json:"longitude"`
+	} `json:"location"`
+	Schedules struct {
+		DaySchedules struct {
+			Num600000000314630485 struct {
+				ScheduleName string `json:"scheduleName"`
+				Services     []struct {
+					Name  string `json:"name"`
+					Hours struct {
+						StartTime string `json:"startTime"`
+						EndTime   string `json:"endTime"`
+					} `json:"hours"`
+					Overnight bool `json:"overnight"`
+				} `json:"services"`
+				OpenTime  string `json:"openTime"`
+				CloseTime string `json:"closeTime"`
+			} `json:"600000000314630485"`
+		} `json:"daySchedules"`
+		WeekSchedule struct {
+			Monday    string `json:"monday"`
+			Tuesday   string `json:"tuesday"`
+			Wednesday string `json:"wednesday"`
+			Thursday  string `json:"thursday"`
+			Friday    string `json:"friday"`
+			Saturday  string `json:"saturday"`
+			Sunday    string `json:"sunday"`
+		} `json:"weekSchedule"`
+	} `json:"schedules"`
+	Delivery struct {
+		Enabled bool        `json:"enabled"`
+		Minimum interface{} `json:"minimum"`
+		Area    interface{} `json:"area"`
+	} `json:"delivery"`
+	OnlineOrdering struct {
+		Enabled                bool   `json:"enabled"`
+		Scheduling             bool   `json:"scheduling"`
+		SpecialRequests        bool   `json:"specialRequests"`
+		SpecialRequestsMessage string `json:"specialRequestsMessage"`
+		PaymentOptions         struct {
+			Delivery struct {
+				Cash      bool `json:"cash"`
+				CcSameDay bool `json:"ccSameDay"`
+				CcFuture  bool `json:"ccFuture"`
+			} `json:"delivery"`
+			Takeout struct {
+				Cash      bool `json:"cash"`
+				CcSameDay bool `json:"ccSameDay"`
+				CcFuture  bool `json:"ccFuture"`
+				CcInStore bool `json:"ccInStore"`
+			} `json:"takeout"`
+			CcTip bool `json:"ccTip"`
+		} `json:"paymentOptions"`
+	} `json:"onlineOrdering"`
+	PrepTimes struct {
+		DeliveryPrepTime        int `json:"deliveryPrepTime"`
+		DeliveryTimeAfterOpen   int `json:"deliveryTimeAfterOpen"`
+		DeliveryTimeBeforeClose int `json:"deliveryTimeBeforeClose"`
+		TakeoutPrepTime         int `json:"takeoutPrepTime"`
+		TakeoutTimeAfterOpen    int `json:"takeoutTimeAfterOpen"`
+		TakeoutTimeBeforeClose  int `json:"takeoutTimeBeforeClose"`
+		TakeoutThrottlingTime   int `json:"takeoutThrottlingTime"`
+		DeliveryThrottlingTime  int `json:"deliveryThrottlingTime"`
+	} `json:"prepTimes"`
+}

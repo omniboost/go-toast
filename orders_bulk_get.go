@@ -116,25 +116,54 @@ func (r *OrdersBulkGetRequest) URL() *url.URL {
 	return &u
 }
 
-func (r *OrdersBulkGetRequest) Do() (OrdersBulkGetResponseBody, error) {
+func (r *OrdersBulkGetRequest) Do() (OrdersBulkGetResponseBody, error, *http.Response) {
 	// Create http request
 	req, err := r.client.NewRequest(nil, r)
 	if err != nil {
-		return *r.NewResponseBody(), err
+		return *r.NewResponseBody(), err, nil
 	}
 
 	err = r.client.InitToken(req)
 	if err != nil {
-		return *r.NewResponseBody(), err
+		return *r.NewResponseBody(), err, nil
 	}
 
 	// Process query parameters
 	err = utils.AddQueryParamsToRequest(r.QueryParams(), req, false)
 	if err != nil {
-		return *r.NewResponseBody(), err
+		return *r.NewResponseBody(), err, nil
 	}
 
 	responseBody := r.NewResponseBody()
-	_, err = r.client.Do(req, responseBody)
-	return *responseBody, err
+	resp, err := r.client.Do(req, responseBody)
+	return *responseBody, err, resp
+}
+
+func (r *OrdersBulkGetRequest) All() (OrdersBulkGetResponseBody, error) {
+	body, err, resp := r.Do()
+	if err != nil {
+		return body, err
+	}
+
+	concat := body
+	next, err := r.client.GetNextPage(resp)
+	if err != nil {
+		return concat, err
+	}
+
+	for next != 0 {
+		r.QueryParams().Page = next
+		body, err, resp = r.Do()
+		if err != nil {
+			return concat, err
+		}
+
+		concat = append(concat, body...)
+		next, err = r.client.GetNextPage(resp)
+		if err != nil {
+			return concat, err
+		}
+	}
+
+	return concat, nil
 }

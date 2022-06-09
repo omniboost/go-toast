@@ -14,6 +14,7 @@ import (
 	"net/textproto"
 	"net/url"
 	"path"
+	"strconv"
 	"strings"
 	"text/template"
 
@@ -548,4 +549,35 @@ func (c *Client) InitToken(req *http.Request) error {
 
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", c.token.AccessToken))
 	return nil
+}
+
+func (c *Client) GetNextURL(resp *http.Response) (string, error) {
+	for _, h := range resp.Header.Values("Link") {
+		pieces := strings.Split(h, "; ")
+		if len(pieces) < 2 {
+			// do nothing
+			continue
+		}
+
+		if pieces[1] == `rel="next"` {
+			return strings.TrimLeft(strings.TrimLeft(pieces[0], "<"), ">"), nil
+		}
+	}
+
+	return "", nil
+}
+
+func (c *Client) GetNextPage(resp *http.Response) (int, error) {
+	s, err := c.GetNextURL(resp)
+	if s == "" {
+		return 0, nil
+	}
+
+	u, err := url.Parse(s)
+	if err != nil {
+		return 0, err
+	}
+
+	s = u.Query().Get("page")
+	return strconv.Atoi(s)
 }
