@@ -579,6 +579,10 @@ func (c *Client) GetNextPage(resp *http.Response) (int, error) {
 	}
 
 	s = u.Query().Get("page")
+	if s == "" {
+		return 0, nil
+	}
+
 	return strconv.Atoi(s)
 }
 

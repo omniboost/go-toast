@@ -253,7 +253,7 @@ type Order struct {
 	ClosedDate      DateTime    `json:"closedDate"`
 	DeletedDate     DateTime    `json:"deletedDate"`
 	ModifiedDate    DateTime    `json:"modifiedDate"`
-	PromisedDate    Date        `json:"promisedDate"`
+	PromisedDate    DateTime    `json:"promisedDate"`
 	ChannelGUID     interface{} `json:"channelGuid"`
 	PricingFeatures []string    `json:"pricingFeatures"`
 }
