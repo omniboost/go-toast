@@ -184,29 +184,17 @@ type Order struct {
 					} `json:"selection"`
 				} `json:"triggers"`
 			} `json:"AppliedDiscounts"`
-			Modifiers              []interface{} `json:"modifiers"`
-			SeatNumber             int           `json:"seatNumber"`
-			VoidDate               DateTime      `json:"voidDate"`
-			FulfillmentStatus      string        `json:"fulfillmentStatus"`
-			OptionGroupPricingMode interface{}   `json:"optionGroupPricingMode"`
-			SalesCategory          SalesCategory `json:"salesCategory"`
-			SelectionType          string        `json:"selectionType"`
-			Price                  float64       `json:"price"`
-			Voided                 bool          `json:"voided"`
-			AppliedTaxes           []struct {
-				GUID       string `json:"guid"`
-				EntityType string `json:"entityType"`
-				TaxRate    struct {
-					GUID       string `json:"guid"`
-					EntityType string `json:"entityType"`
-				} `json:"taxRate"`
-				Rate                          float64 `json:"rate"`
-				Name                          string  `json:"name"`
-				TaxAmount                     float64 `json:"taxAmount"`
-				Type                          string  `json:"type"`
-				FacilitatorCollectAndRemitTax bool    `json:"facilitatorCollectAndRemitTax"`
-			} `json:"appliedTaxes"`
-			StoredValueTransactionID interface{} `json:"storedValueTransactionId"`
+			Modifiers                Modifiers     `json:"modifiers"`
+			SeatNumber               int           `json:"seatNumber"`
+			VoidDate                 DateTime      `json:"voidDate"`
+			FulfillmentStatus        string        `json:"fulfillmentStatus"`
+			OptionGroupPricingMode   interface{}   `json:"optionGroupPricingMode"`
+			SalesCategory            SalesCategory `json:"salesCategory"`
+			SelectionType            string        `json:"selectionType"`
+			Price                    float64       `json:"price"`
+			Voided                   bool          `json:"voided"`
+			AppliedTaxes             AppliedTaxes  `json:"appliedTaxes"`
+			StoredValueTransactionID interface{}   `json:"storedValueTransactionId"`
 			ItemGroup                struct {
 				GUID            string      `json:"guid"`
 				EntityType      string      `json:"entityType"`
@@ -467,4 +455,59 @@ type TaxRate struct {
 	RoundingType        string        `json:"roundingType"`
 	Name                string        `json:"name"`
 	Type                string        `json:"type"`
+}
+
+type Modifiers []Modifier
+
+type Modifier struct {
+	AppliedDiscounts  []interface{} `json:"appliedDiscounts"`
+	AppliedTaxes      AppliedTaxes  `json:"appliedTaxes"`
+	CreatedDate       string        `json:"createdDate"`
+	Deferred          bool          `json:"deferred"`
+	DiningOption      interface{}   `json:"diningOption"`
+	DisplayName       string        `json:"displayName"`
+	EntityType        string        `json:"entityType"`
+	ExternalID        interface{}   `json:"externalId"`
+	FulfillmentStatus string        `json:"fulfillmentStatus"`
+	GUID              string        `json:"guid"`
+	Item              interface{}   `json:"item"`
+	ItemGroup         interface{}   `json:"itemGroup"`
+	ModifiedDate      string        `json:"modifiedDate"`
+	// Modifiers                Modifiers     `json:"modifiers"`
+	OptionGroup              interface{} `json:"optionGroup"`
+	OptionGroupPricingMode   interface{} `json:"optionGroupPricingMode"`
+	PreDiscountPrice         float64     `json:"preDiscountPrice"`
+	PreModifier              interface{} `json:"preModifier"`
+	Price                    float64     `json:"price"`
+	Quantity                 float64     `json:"quantity"`
+	ReceiptLinePrice         float64     `json:"receiptLinePrice"`
+	RefundDetails            interface{} `json:"refundDetails"`
+	SalesCategory            interface{} `json:"salesCategory"`
+	SeatNumber               int         `json:"seatNumber"`
+	SelectionType            string      `json:"selectionType"`
+	StoredValueTransactionID interface{} `json:"storedValueTransactionId"`
+	Tax                      float64     `json:"tax"`
+	TaxInclusion             string      `json:"taxInclusion"`
+	ToastGiftCard            interface{} `json:"toastGiftCard"`
+	UnitOfMeasure            string      `json:"unitOfMeasure"`
+	VoidBusinessDate         Date        `json:"voidBusinessDate"`
+	VoidDate                 DateTime    `json:"voidDate"`
+	VoidReason               interface{} `json:"voidReason"`
+	Voided                   bool        `json:"voided"`
+}
+
+type AppliedTaxes []AppliedTax
+
+type AppliedTax struct {
+	GUID       string `json:"guid"`
+	EntityType string `json:"entityType"`
+	TaxRate    struct {
+		GUID       string `json:"guid"`
+		EntityType string `json:"entityType"`
+	} `json:"taxRate"`
+	Rate                          float64 `json:"rate"`
+	Name                          string  `json:"name"`
+	TaxAmount                     float64 `json:"taxAmount"`
+	Type                          string  `json:"type"`
+	FacilitatorCollectAndRemitTax bool    `json:"facilitatorCollectAndRemitTax"`
 }
