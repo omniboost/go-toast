@@ -62,7 +62,7 @@ type Order struct {
 			GUID                  string      `json:"guid"`
 			EntityType            string      `json:"entityType"`
 			ExternalID            interface{} `json:"externalId"`
-			OriginalProcessingFee interface{} `json:"originalProcessingFee"`
+			OriginalProcessingFee float64 `json:"originalProcessingFee"`
 			Server                struct {
 				GUID       string      `json:"guid"`
 				EntityType string      `json:"entityType"`
