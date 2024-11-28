@@ -8,8 +8,8 @@ import (
 	"github.com/omniboost/go-toast/utils"
 )
 
-func (c *Client) NewRestaurantGetRequest() RestaurantGetRequest {
-	r := RestaurantGetRequest{
+func (c *Client) NewPartnerRestaurantsGetRequest() PartnerRestaurantsGetRequest {
+	r := PartnerRestaurantsGetRequest{
 		client:  c,
 		method:  http.MethodGet,
 		headers: http.Header{},
@@ -21,20 +21,20 @@ func (c *Client) NewRestaurantGetRequest() RestaurantGetRequest {
 	return r
 }
 
-type RestaurantGetRequest struct {
+type PartnerRestaurantsGetRequest struct {
 	client      *Client
-	queryParams *RestaurantGetRequestQueryParams
-	pathParams  *RestaurantGetRequestPathParams
+	queryParams *PartnerRestaurantsGetRequestQueryParams
+	pathParams  *PartnerRestaurantsGetRequestPathParams
 	method      string
 	headers     http.Header
-	requestBody RestaurantGetRequestBody
+	requestBody PartnerRestaurantsGetRequestBody
 }
 
-func (r RestaurantGetRequest) NewQueryParams() *RestaurantGetRequestQueryParams {
-	return &RestaurantGetRequestQueryParams{}
+func (r PartnerRestaurantsGetRequest) NewQueryParams() *PartnerRestaurantsGetRequestQueryParams {
+	return &PartnerRestaurantsGetRequestQueryParams{}
 }
 
-type RestaurantGetRequestQueryParams struct {
+type PartnerRestaurantsGetRequestQueryParams struct {
 	StartDate    DateTime `schema:"startDate,omitempty"`
 	EndDate      DateTime `schema:"endDate,omitempty"`
 	PageSize     int      `schema:"pageSize,omitempty"`
@@ -42,7 +42,7 @@ type RestaurantGetRequestQueryParams struct {
 	BusinessDate Date     `schema:"businessDate,omitempty"`
 }
 
-func (p RestaurantGetRequestQueryParams) ToURLValues() (url.Values, error) {
+func (p PartnerRestaurantsGetRequestQueryParams) ToURLValues() (url.Values, error) {
 	encoder := utils.NewSchemaEncoder()
 	encoder.RegisterEncoder(Date{}, utils.EncodeSchemaMarshaler)
 	encoder.RegisterEncoder(DateTime{}, utils.EncodeSchemaMarshaler)
@@ -56,64 +56,60 @@ func (p RestaurantGetRequestQueryParams) ToURLValues() (url.Values, error) {
 	return params, nil
 }
 
-func (r *RestaurantGetRequest) QueryParams() *RestaurantGetRequestQueryParams {
+func (r *PartnerRestaurantsGetRequest) QueryParams() *PartnerRestaurantsGetRequestQueryParams {
 	return r.queryParams
 }
 
-func (r RestaurantGetRequest) NewPathParams() *RestaurantGetRequestPathParams {
-	return &RestaurantGetRequestPathParams{}
+func (r PartnerRestaurantsGetRequest) NewPathParams() *PartnerRestaurantsGetRequestPathParams {
+	return &PartnerRestaurantsGetRequestPathParams{}
 }
 
-type RestaurantGetRequestPathParams struct {
-	GUID string `schema:"GUID"`
+type PartnerRestaurantsGetRequestPathParams struct {}
+
+func (p *PartnerRestaurantsGetRequestPathParams) Params() map[string]string {
+	return map[string]string{}
 }
 
-func (p *RestaurantGetRequestPathParams) Params() map[string]string {
-	return map[string]string{
-		"GUID": p.GUID,
-	}
-}
-
-func (r *RestaurantGetRequest) PathParams() *RestaurantGetRequestPathParams {
+func (r *PartnerRestaurantsGetRequest) PathParams() *PartnerRestaurantsGetRequestPathParams {
 	return r.pathParams
 }
 
-func (r *RestaurantGetRequest) PathParamsInterface() PathParams {
+func (r *PartnerRestaurantsGetRequest) PathParamsInterface() PathParams {
 	return r.pathParams
 }
 
-func (r *RestaurantGetRequest) SetMethod(method string) {
+func (r *PartnerRestaurantsGetRequest) SetMethod(method string) {
 	r.method = method
 }
 
-func (r *RestaurantGetRequest) Method() string {
+func (r *PartnerRestaurantsGetRequest) Method() string {
 	return r.method
 }
 
-func (r RestaurantGetRequest) NewRequestBody() RestaurantGetRequestBody {
-	return RestaurantGetRequestBody{}
+func (r PartnerRestaurantsGetRequest) NewRequestBody() PartnerRestaurantsGetRequestBody {
+	return PartnerRestaurantsGetRequestBody{}
 }
 
-type RestaurantGetRequestBody struct {
+type PartnerRestaurantsGetRequestBody struct {
 }
 
-func (r *RestaurantGetRequest) RequestBody() *RestaurantGetRequestBody {
+func (r *PartnerRestaurantsGetRequest) RequestBody() *PartnerRestaurantsGetRequestBody {
 	return nil
 }
 
-func (r *RestaurantGetRequest) RequestBodyInterface() interface{} {
+func (r *PartnerRestaurantsGetRequest) RequestBodyInterface() interface{} {
 	return nil
 }
 
-func (r *RestaurantGetRequest) SetRequestBody(body RestaurantGetRequestBody) {
+func (r *PartnerRestaurantsGetRequest) SetRequestBody(body PartnerRestaurantsGetRequestBody) {
 	r.requestBody = body
 }
 
-func (r *RestaurantGetRequest) NewResponseBody() *RestaurantGetResponseBody {
-	return &RestaurantGetResponseBody{}
+func (r *PartnerRestaurantsGetRequest) NewResponseBody() *PartnerRestaurantsGetResponseBody {
+	return &PartnerRestaurantsGetResponseBody{}
 }
 
-type RestaurantGetResponseBody []struct {
+type PartnerRestaurantsGetResponseBody []struct {
 	RestaurantGUID        string      `json:"restaurantGuid"`
 	ManagementGroupGUID   string      `json:"managementGroupGuid"`
 	RestaurantName        string      `json:"restaurantName"`
@@ -127,12 +123,12 @@ type RestaurantGetResponseBody []struct {
 	IsoCreatedDate        time.Time   `json:"isoCreatedDate"`
 }
 
-func (r *RestaurantGetRequest) URL() *url.URL {
-	u := r.client.GetEndpointURL("/restaurants/v1/restaurants/{{.GUID}}", r.PathParams())
+func (r *PartnerRestaurantsGetRequest) URL() *url.URL {
+	u := r.client.GetEndpointURL("/partners/v1/restaurants", r.PathParams())
 	return &u
 }
 
-func (r *RestaurantGetRequest) Do() (RestaurantGetResponseBody, error, *http.Response) {
+func (r *PartnerRestaurantsGetRequest) Do() (PartnerRestaurantsGetResponseBody, error, *http.Response) {
 	// Create http request
 	req, err := r.client.NewRequest(nil, r)
 	if err != nil {
@@ -154,4 +150,3 @@ func (r *RestaurantGetRequest) Do() (RestaurantGetResponseBody, error, *http.Res
 	resp, err := r.client.Do(req, responseBody)
 	return *responseBody, err, resp
 }
-

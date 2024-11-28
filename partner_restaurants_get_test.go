@@ -6,9 +6,8 @@ import (
 	"testing"
 )
 
-func TestRestaurantGet(t *testing.T) {
-	req := client.NewRestaurantGetRequest()
-	req.PathParams().GUID = client.ToastRestaurantExternalID()
+func TestPartnerRestaurantsGet(t *testing.T) {
+	req := client.NewPartnerRestaurantsGetRequest()
 	resp, err, _ := req.Do()
 	if err != nil {
 		t.Error(err)
@@ -17,4 +16,3 @@ func TestRestaurantGet(t *testing.T) {
 	b, _ := json.MarshalIndent(resp, "", "  ")
 	fmt.Println(string(b))
 }
-

@@ -62,7 +62,7 @@ type Order struct {
 			GUID                  string      `json:"guid"`
 			EntityType            string      `json:"entityType"`
 			ExternalID            interface{} `json:"externalId"`
-			OriginalProcessingFee float64 `json:"originalProcessingFee"`
+			OriginalProcessingFee float64     `json:"originalProcessingFee"`
 			Server                struct {
 				GUID       string      `json:"guid"`
 				EntityType string      `json:"entityType"`
@@ -95,9 +95,9 @@ type Order struct {
 			CreatedDevice      struct {
 				ID string `json:"id"`
 			} `json:"createdDevice"`
-			PaidBusinessDate Date        `json:"paidBusinessDate"`
-			Last4Digits      interface{} `json:"last4Digits"`
-			Refund           interface{} `json:"refund"`
+			PaidBusinessDate Date          `json:"paidBusinessDate"`
+			Last4Digits      interface{}   `json:"last4Digits"`
+			Refund           RefundDetails `json:"refund"`
 		} `json:"payments"`
 		AppliedDiscounts []struct {
 			AppliedPromoCode interface{} `json:"appliedPromoCode"`
@@ -207,18 +207,18 @@ type Order struct {
 				ExternalID      interface{} `json:"externalId"`
 				MultiLocationID string      `json:"multiLocationId"`
 			} `json:"item"`
-			TaxInclusion     string      `json:"taxInclusion"`
-			Quantity         float64     `json:"quantity"`
-			ReceiptLinePrice float64     `json:"receiptLinePrice"`
-			UnitOfMeasure    string      `json:"unitOfMeasure"`
-			RefundDetails    interface{} `json:"refundDetails"`
-			ToastGiftCard    interface{} `json:"toastGiftCard"`
-			Tax              float64     `json:"tax"`
-			DiningOption     interface{} `json:"diningOption"`
-			VoidBusinessDate Date        `json:"voidBusinessDate"`
-			CreatedDate      DateTime    `json:"createdDate"`
-			PreModifier      interface{} `json:"preModifier"`
-			ModifiedDate     DateTime    `json:"modifiedDate"`
+			TaxInclusion     string        `json:"taxInclusion"`
+			Quantity         float64       `json:"quantity"`
+			ReceiptLinePrice float64       `json:"receiptLinePrice"`
+			UnitOfMeasure    string        `json:"unitOfMeasure"`
+			RefundDetails    RefundDetails `json:"refundDetails"`
+			ToastGiftCard    interface{}   `json:"toastGiftCard"`
+			Tax              float64       `json:"tax"`
+			DiningOption     interface{}   `json:"diningOption"`
+			VoidBusinessDate Date          `json:"voidBusinessDate"`
+			CreatedDate      DateTime      `json:"createdDate"`
+			PreModifier      interface{}   `json:"preModifier"`
+			ModifiedDate     DateTime      `json:"modifiedDate"`
 		} `json:"selections"`
 		VoidBusinessDate Date     `json:"voidBusinessDate"`
 		CreatedDate      DateTime `json:"createdDate"`
@@ -246,6 +246,8 @@ type Order struct {
 	PricingFeatures []string    `json:"pricingFeatures"`
 }
 
+type Restaurants []Restaurant
+
 type Restaurant struct {
 	GUID    string `json:"guid"`
 	General struct {
@@ -266,30 +268,23 @@ type Restaurant struct {
 		CheckGiftCard    string      `json:"checkGiftCard"`
 	} `json:"urls"`
 	Location struct {
-		Address1  string  `json:"address1"`
-		Address2  string  `json:"address2"`
-		City      string  `json:"city"`
-		StateCode string  `json:"stateCode"`
-		ZipCode   string  `json:"zipCode"`
-		Country   string  `json:"country"`
-		Phone     string  `json:"phone"`
-		Latitude  float64 `json:"latitude"`
-		Longitude float64 `json:"longitude"`
+		Address1  string `json:"address1"`
+		Address2  string `json:"address2"`
+		City      string `json:"city"`
+		StateCode string `json:"stateCode"`
+		ZipCode   string `json:"zipCode"`
+		Country   string `json:"country"`
+		Phone     string `json:"phone"`
+		Latitude  int    `json:"latitude"`
+		Longitude int    `json:"longitude"`
 	} `json:"location"`
 	Schedules struct {
 		DaySchedules struct {
 			Num600000000314630485 struct {
-				ScheduleName string `json:"scheduleName"`
-				Services     []struct {
-					Name  string `json:"name"`
-					Hours struct {
-						StartTime string `json:"startTime"`
-						EndTime   string `json:"endTime"`
-					} `json:"hours"`
-					Overnight bool `json:"overnight"`
-				} `json:"services"`
-				OpenTime  string `json:"openTime"`
-				CloseTime string `json:"closeTime"`
+				ScheduleName string      `json:"scheduleName"`
+				Services     interface{} `json:"services"`
+				OpenTime     string      `json:"openTime"`
+				CloseTime    string      `json:"closeTime"`
 			} `json:"600000000314630485"`
 		} `json:"daySchedules"`
 		WeekSchedule struct {
@@ -338,6 +333,7 @@ type Restaurant struct {
 		DeliveryThrottlingTime  int `json:"deliveryThrottlingTime"`
 	} `json:"prepTimes"`
 }
+
 type MenuGroups []MenuGroup
 
 type MenuGroup struct {
@@ -474,26 +470,26 @@ type Modifier struct {
 	ItemGroup         interface{}   `json:"itemGroup"`
 	ModifiedDate      string        `json:"modifiedDate"`
 	// Modifiers                Modifiers     `json:"modifiers"`
-	OptionGroup              interface{} `json:"optionGroup"`
-	OptionGroupPricingMode   interface{} `json:"optionGroupPricingMode"`
-	PreDiscountPrice         float64     `json:"preDiscountPrice"`
-	PreModifier              interface{} `json:"preModifier"`
-	Price                    float64     `json:"price"`
-	Quantity                 float64     `json:"quantity"`
-	ReceiptLinePrice         float64     `json:"receiptLinePrice"`
-	RefundDetails            interface{} `json:"refundDetails"`
-	SalesCategory            interface{} `json:"salesCategory"`
-	SeatNumber               int         `json:"seatNumber"`
-	SelectionType            string      `json:"selectionType"`
-	StoredValueTransactionID interface{} `json:"storedValueTransactionId"`
-	Tax                      float64     `json:"tax"`
-	TaxInclusion             string      `json:"taxInclusion"`
-	ToastGiftCard            interface{} `json:"toastGiftCard"`
-	UnitOfMeasure            string      `json:"unitOfMeasure"`
-	VoidBusinessDate         Date        `json:"voidBusinessDate"`
-	VoidDate                 DateTime    `json:"voidDate"`
-	VoidReason               interface{} `json:"voidReason"`
-	Voided                   bool        `json:"voided"`
+	OptionGroup              interface{}   `json:"optionGroup"`
+	OptionGroupPricingMode   interface{}   `json:"optionGroupPricingMode"`
+	PreDiscountPrice         float64       `json:"preDiscountPrice"`
+	PreModifier              interface{}   `json:"preModifier"`
+	Price                    float64       `json:"price"`
+	Quantity                 float64       `json:"quantity"`
+	ReceiptLinePrice         float64       `json:"receiptLinePrice"`
+	RefundDetails            RefundDetails `json:"refundDetails"`
+	SalesCategory            interface{}   `json:"salesCategory"`
+	SeatNumber               int           `json:"seatNumber"`
+	SelectionType            string        `json:"selectionType"`
+	StoredValueTransactionID interface{}   `json:"storedValueTransactionId"`
+	Tax                      float64       `json:"tax"`
+	TaxInclusion             string        `json:"taxInclusion"`
+	ToastGiftCard            interface{}   `json:"toastGiftCard"`
+	UnitOfMeasure            string        `json:"unitOfMeasure"`
+	VoidBusinessDate         Date          `json:"voidBusinessDate"`
+	VoidDate                 DateTime      `json:"voidDate"`
+	VoidReason               interface{}   `json:"voidReason"`
+	Voided                   bool          `json:"voided"`
 }
 
 type AppliedTaxes []AppliedTax
@@ -510,4 +506,17 @@ type AppliedTax struct {
 	TaxAmount                     float64 `json:"taxAmount"`
 	Type                          string  `json:"type"`
 	FacilitatorCollectAndRemitTax bool    `json:"facilitatorCollectAndRemitTax"`
+}
+
+type RefundDetails struct {
+	RefundAmount       float64 `json:"refundAmount"`
+	RefundBusinessDate Date    `json:"refundBusinessDate"`
+	RefundDate         Date    `json:"refundDate"`
+	RefundStrategy     string  `json:"refundStrategy"`
+	RefundTransaction  struct {
+		EntityType string `json:"entityType"`
+		GUID       string `json:"guid"`
+	} `json:"refundTransaction"`
+	TipRefundAmount float64 `json:"tipRefundAmount"`
+	TaxRefundAmount float64 `json:"taxRefundAmount"`
 }
