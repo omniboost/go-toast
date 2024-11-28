@@ -509,10 +509,10 @@ type AppliedTax struct {
 }
 
 type RefundDetails struct {
-	RefundAmount       float64 `json:"refundAmount"`
-	RefundBusinessDate Date    `json:"refundBusinessDate"`
-	RefundDate         Date    `json:"refundDate"`
-	RefundStrategy     string  `json:"refundStrategy"`
+	RefundAmount       float64  `json:"refundAmount"`
+	RefundBusinessDate Date     `json:"refundBusinessDate"`
+	RefundDate         DateTime `json:"refundDate"`
+	RefundStrategy     string   `json:"refundStrategy"`
 	RefundTransaction  struct {
 		EntityType string `json:"entityType"`
 		GUID       string `json:"guid"`
