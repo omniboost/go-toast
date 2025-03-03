@@ -226,12 +226,12 @@ type Order struct {
 		CreatedDevice    struct {
 			ID string `json:"id"`
 		} `json:"createdDevice"`
-		ClosedDate            DateTime      `json:"closedDate"`
-		DeletedDate           DateTime      `json:"deletedDate"`
-		ModifiedDate          DateTime      `json:"modifiedDate"`
-		TaxAmount             float64       `json:"taxAmount"`
-		AppliedServiceCharges []interface{} `json:"appliedServiceCharges"`
-		Customer              interface{}   `json:"customer"`
+		ClosedDate            DateTime              `json:"closedDate"`
+		DeletedDate           DateTime              `json:"deletedDate"`
+		ModifiedDate          DateTime              `json:"modifiedDate"`
+		TaxAmount             float64               `json:"taxAmount"`
+		AppliedServiceCharges AppliedServiceCharges `json:"appliedServiceCharges"`
+		Customer              interface{}           `json:"customer"`
 	} `json:"checks"`
 	Deleted       bool `json:"deleted"`
 	CreatedDevice struct {
@@ -519,4 +519,31 @@ type RefundDetails struct {
 	} `json:"refundTransaction"`
 	TipRefundAmount float64 `json:"tipRefundAmount"`
 	TaxRefundAmount float64 `json:"taxRefundAmount"`
+}
+
+type AppliedServiceCharges []AppliedServiceCharge
+
+type AppliedServiceCharge struct {
+	AppliedTaxes  AppliedTaxes `json:"appliedTaxes"`
+	ChargeAmount  float64      `json:"chargeAmount"`
+	ChargeType    string       `json:"chargeType"`
+	Delivery      bool         `json:"delivery"`
+	Destination   string       `json:"destination"`
+	DineIn        bool         `json:"dineIn"`
+	EntityType    string       `json:"entityType"`
+	ExternalID    interface{}  `json:"externalId"`
+	Gratuity      bool         `json:"gratuity"`
+	GUID          string       `json:"guid"`
+	Name          string       `json:"name"`
+	PaymentGUID   interface{}  `json:"paymentGuid"`
+	RefundDetails interface{}  `json:"refundDetails"`
+	ServiceCharge struct {
+		EntityType string      `json:"entityType"`
+		ExternalID interface{} `json:"externalId"`
+		GUID       string      `json:"guid"`
+	} `json:"serviceCharge"`
+	ServiceChargeCalculation string `json:"serviceChargeCalculation"`
+	ServiceChargeCategory    string `json:"serviceChargeCategory"`
+	Takeout                  bool   `json:"takeout"`
+	Taxable                  bool   `json:"taxable"`
 }
