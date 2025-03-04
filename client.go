@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"mime/multipart"
 	"net/http"
@@ -214,8 +213,11 @@ func (c *Client) NewRequest(ctx context.Context, req Request) (*http.Request, er
 		}
 	}
 
+	if ctx == nil {
+		ctx = context.Background()
+	}
 	// create new http request
-	r, err := http.NewRequest(req.Method(), req.URL().String(), body)
+	r, err := http.NewRequestWithContext(ctx, req.Method(), req.URL().String(), body)
 	if err != nil {
 		return nil, err
 	}
@@ -225,11 +227,6 @@ func (c *Client) NewRequest(ctx context.Context, req Request) (*http.Request, er
 	// if err != nil {
 	// 	return nil, err
 	// }
-
-	// optionally pass along context
-	if ctx != nil {
-		r = r.WithContext(ctx)
-	}
 
 	// set other headers
 	r.Header.Add("Content-Type", fmt.Sprintf("%s; charset=%s", c.MediaType(), c.Charset()))
@@ -261,6 +258,9 @@ func (c *Client) NewFormRequest(ctx context.Context, method string, URL url.URL,
 			return nil, err
 		}
 		_, err = io.Copy(part, f.Content)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	err := w.Close()
@@ -268,8 +268,11 @@ func (c *Client) NewFormRequest(ctx context.Context, method string, URL url.URL,
 		return nil, err
 	}
 
+	if ctx == nil {
+		ctx = context.Background()
+	}
 	// create new http request
-	req, err := http.NewRequest(method, URL.String(), body)
+	req, err := http.NewRequestWithContext(ctx, method, URL.String(), body)
 	if err != nil {
 		return nil, err
 	}
@@ -278,11 +281,6 @@ func (c *Client) NewFormRequest(ctx context.Context, method string, URL url.URL,
 	err = utils.AddURLValuesToRequest(values, req, true)
 	if err != nil {
 		return nil, err
-	}
-
-	// optionally pass along context
-	if ctx != nil {
-		req = req.WithContext(ctx)
 	}
 
 	// set other headers
@@ -301,7 +299,7 @@ func (c *Client) Do(req *http.Request, body interface{}) (*http.Response, error)
 		c.beforeRequestDo(c.http, req, body)
 	}
 
-	if c.debug == true {
+	if c.debug {
 		dump, _ := httputil.DumpRequestOut(req, true)
 		log.Println(string(dump))
 	}
@@ -317,12 +315,10 @@ func (c *Client) Do(req *http.Request, body interface{}) (*http.Response, error)
 
 	// close body io.Reader
 	defer func() {
-		if rerr := httpResp.Body.Close(); err == nil {
-			err = rerr
-		}
+		_ = httpResp.Body.Close()
 	}()
 
-	if c.debug == true {
+	if c.debug {
 		dump, _ := httputil.DumpResponse(httpResp, true)
 		log.Println(string(dump))
 	}
@@ -364,12 +360,12 @@ func (c *Client) Unmarshal(r io.Reader, vv ...interface{}) error {
 		return nil
 	}
 
-	b, err := ioutil.ReadAll(r)
+	b, err := io.ReadAll(r)
 	if err != nil {
 		return err
 	}
 
-	errs := []error{}
+	var errs []error
 	for _, v := range vv {
 		r := bytes.NewReader(b)
 		dec := json.NewDecoder(r)
@@ -378,7 +374,7 @@ func (c *Client) Unmarshal(r io.Reader, vv ...interface{}) error {
 		}
 
 		err := dec.Decode(v)
-		if err != nil && err != io.EOF {
+		if err != nil && !errors.Is(err, io.EOF) {
 			errs = append(errs, err)
 		}
 
@@ -388,7 +384,7 @@ func (c *Client) Unmarshal(r io.Reader, vv ...interface{}) error {
 		// Everything errored
 		msgs := make([]string, len(errs))
 		for i, e := range errs {
-			msgs[i] = fmt.Sprint(e)
+			msgs[i] = e.Error()
 		}
 		return errors.New(strings.Join(msgs, ", "))
 	}
@@ -415,11 +411,12 @@ func CheckResponse(r *http.Response) error {
 	}
 
 	// read data and copy it back
-	data, err := ioutil.ReadAll(r.Body)
-	r.Body = ioutil.NopCloser(bytes.NewReader(data))
+	data, err := io.ReadAll(r.Body)
 	if err != nil {
 		return errorResponse
 	}
+	_ = r.Body.Close()
+	r.Body = io.NopCloser(bytes.NewReader(data))
 
 	err = checkContentType(r)
 	if err != nil {
@@ -515,7 +512,7 @@ func GetFileContentType(file io.Reader) (string, error) {
 		return "", err
 	}
 
-	// Use the net/http package's handy DectectContentType function. Always returns a valid
+	// Use the net/http package's handy DetectContentType function. Always returns a valid
 	// content-type by returning "application/octet-stream" if no others seemed to match.
 	contentType := http.DetectContentType(buffer)
 
@@ -523,23 +520,11 @@ func GetFileContentType(file io.Reader) (string, error) {
 }
 
 func (c *Client) InitToken(req *http.Request) error {
-	if c.token.AccessToken == "" {
-		req := c.NewLoginPostRequest()
-		req.RequestBody().ClientID = c.ClientID()
-		req.RequestBody().ClientSecret = c.ClientSecret()
-		resp, err := req.Do()
-		if err != nil {
-			return errors.WithStack(err)
-		}
-
-		c.token = resp.Token
-	}
-
-	if c.token.IsExpired() {
-		req := c.NewLoginPostRequest()
-		req.RequestBody().ClientID = c.ClientID()
-		req.RequestBody().ClientSecret = c.ClientSecret()
-		resp, err := req.Do()
+	if c.token.AccessToken == "" || c.token.IsExpired() {
+		loginRequest := c.NewLoginPostRequest()
+		loginRequest.RequestBody().ClientID = c.ClientID()
+		loginRequest.RequestBody().ClientSecret = c.ClientSecret()
+		resp, err := loginRequest.Do()
 		if err != nil {
 			return errors.WithStack(err)
 		}
@@ -568,7 +553,7 @@ func (c *Client) GetNextURL(resp *http.Response) (string, error) {
 }
 
 func (c *Client) GetNextPage(resp *http.Response) (int, error) {
-	s, err := c.GetNextURL(resp)
+	s, _ := c.GetNextURL(resp)
 	if s == "" {
 		return 0, nil
 	}
@@ -587,7 +572,7 @@ func (c *Client) GetNextPage(resp *http.Response) (int, error) {
 }
 
 func (c *Client) GetPageToken(resp *http.Response) (string, error) {
-	s, err := c.GetNextURL(resp)
+	s, _ := c.GetNextURL(resp)
 	if s == "" {
 		return "", nil
 	}

@@ -16,13 +16,11 @@ import (
 var (
 	// register custom encoders
 	EncodeSchemaMarshaler = func(v reflect.Value) string {
-		marshaler, ok := v.Interface().(SchemaMarshaler)
-		if ok == true {
+		if marshaler, ok := v.Interface().(SchemaMarshaler); ok {
 			return marshaler.MarshalSchema()
 		}
 
-		stringer, ok := v.Interface().(fmt.Stringer)
-		if ok == true {
+		if stringer, ok := v.Interface().(fmt.Stringer); ok {
 			return stringer.String()
 		}
 
@@ -42,8 +40,7 @@ func AddQueryParamsToRequest(requestParams interface{}, req *http.Request, skipE
 	var err error
 	params := url.Values{}
 
-	to, ok := requestParams.(ToURLValues)
-	if ok == true {
+	if to, ok := requestParams.(ToURLValues); ok {
 		params, err = to.ToURLValues()
 		if err != nil {
 			return err

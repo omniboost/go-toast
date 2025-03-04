@@ -1,6 +1,7 @@
 package toast
 
 import (
+	"context"
 	"net/http"
 	"net/url"
 	"time"
@@ -123,7 +124,7 @@ func (r *LoginPostRequest) URL() *url.URL {
 
 func (r *LoginPostRequest) Do() (LoginPostResponseBody, error) {
 	// Create http request
-	req, err := r.client.NewRequest(nil, r)
+	req, err := r.client.NewRequest(context.Background(), r)
 	if err != nil {
 		return *r.NewResponseBody(), err
 	}

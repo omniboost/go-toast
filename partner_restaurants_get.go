@@ -1,6 +1,7 @@
 package toast
 
 import (
+	"context"
 	"net/http"
 	"net/url"
 	"time"
@@ -64,7 +65,7 @@ func (r PartnerRestaurantsGetRequest) NewPathParams() *PartnerRestaurantsGetRequ
 	return &PartnerRestaurantsGetRequestPathParams{}
 }
 
-type PartnerRestaurantsGetRequestPathParams struct {}
+type PartnerRestaurantsGetRequestPathParams struct{}
 
 func (p *PartnerRestaurantsGetRequestPathParams) Params() map[string]string {
 	return map[string]string{}
@@ -130,7 +131,7 @@ func (r *PartnerRestaurantsGetRequest) URL() *url.URL {
 
 func (r *PartnerRestaurantsGetRequest) Do() (PartnerRestaurantsGetResponseBody, error, *http.Response) {
 	// Create http request
-	req, err := r.client.NewRequest(nil, r)
+	req, err := r.client.NewRequest(context.Background(), r)
 	if err != nil {
 		return *r.NewResponseBody(), err, nil
 	}

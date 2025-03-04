@@ -1,6 +1,7 @@
 package toast
 
 import (
+	"context"
 	"net/http"
 	"net/url"
 
@@ -118,7 +119,7 @@ func (r *OrdersBulkGetRequest) URL() *url.URL {
 
 func (r *OrdersBulkGetRequest) Do() (OrdersBulkGetResponseBody, error, *http.Response) {
 	// Create http request
-	req, err := r.client.NewRequest(nil, r)
+	req, err := r.client.NewRequest(context.Background(), r)
 	if err != nil {
 		return *r.NewResponseBody(), err, nil
 	}

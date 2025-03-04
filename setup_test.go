@@ -14,24 +14,11 @@ var (
 )
 
 func TestMain(m *testing.M) {
-	var err error
-
 	baseURLString := os.Getenv("BASE_URL")
 	clientID := os.Getenv("CLIENT_ID")
 	clientSecret := os.Getenv("CLIENT_SECRET")
 	toastRestaurantExternalID := os.Getenv("TOAST_RESTAURANT_EXTERNAL_ID")
 	debug := os.Getenv("DEBUG")
-	if err != nil {
-		log.Fatal(err)
-	}
-	var baseURL *url.URL
-
-	if baseURLString != "" {
-		baseURL, err = url.Parse(baseURLString)
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
 
 	client = asperion.NewClient(nil)
 	client.SetClientID(clientID)
@@ -41,10 +28,14 @@ func TestMain(m *testing.M) {
 		client.SetDebug(true)
 	}
 
-	if baseURL != nil {
-		client.SetBaseURL(*baseURL)
+	if baseURLString != "" {
+		if baseURL, err := url.Parse(baseURLString); err != nil {
+			log.Fatal(err)
+		} else {
+			client.SetBaseURL(*baseURL)
+		}
 	}
 
 	client.SetDisallowUnknownFields(true)
-	m.Run()
+	os.Exit(m.Run())
 }

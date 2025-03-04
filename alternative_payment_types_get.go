@@ -1,6 +1,7 @@
 package toast
 
 import (
+	"context"
 	"net/http"
 	"net/url"
 
@@ -114,7 +115,7 @@ func (r *AlternativePaymentTypesGetRequest) URL() *url.URL {
 
 func (r *AlternativePaymentTypesGetRequest) Do() (AlternativePaymentTypesGetResponseBody, error, *http.Response) {
 	// Create http request
-	req, err := r.client.NewRequest(nil, r)
+	req, err := r.client.NewRequest(context.Background(), r)
 	if err != nil {
 		return *r.NewResponseBody(), err, nil
 	}
