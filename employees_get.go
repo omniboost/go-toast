@@ -134,32 +134,3 @@ func (r *EmployeesGetRequest) Do() (EmployeesGetResponseBody, error, *http.Respo
 	resp, err := r.client.Do(req, responseBody)
 	return *responseBody, err, resp
 }
-
-func (r *EmployeesGetRequest) All() (EmployeesGetResponseBody, error) {
-	body, err, resp := r.Do()
-	if err != nil {
-		return body, err
-	}
-
-	concat := body
-	token, err := r.client.GetPageToken(resp)
-	if err != nil {
-		return concat, err
-	}
-
-	for token != "" {
-		r.QueryParams().PageToken = token
-		body, err, resp = r.Do()
-		if err != nil {
-			return concat, err
-		}
-
-		concat = append(concat, body...)
-		token, err = r.client.GetPageToken(resp)
-		if err != nil {
-			return concat, err
-		}
-	}
-
-	return concat, nil
-}

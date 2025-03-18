@@ -7,7 +7,7 @@ import (
 )
 
 func EmployeesGetRequest(t *testing.T) {
-	req := client.NewDiningOptionsGetRequest()
+	req := client.NewEmployeesGetRequest()
 	resp, err, _ := req.Do()
 	if err != nil {
 		t.Error(err)
