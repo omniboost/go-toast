@@ -421,6 +421,37 @@ type DiningOption struct {
 	Behavior   string      `json:"behavior"`
 }
 
+type Employees []Employee
+
+type Employee struct {
+	GUID                   string    `json:"guid"`
+	EntityType             string    `json:"entityType"`
+	ExternalID             string    `json:"externalId"`
+	CreatedDate            time.Time `json:"createdDate"`
+	ModifiedDate           time.Time `json:"modifiedDate"`
+	DeletedDate            time.Time `json:"deletedDate"`
+	FirstName              string    `json:"firstName"`
+	ChosenName             string    `json:"chosenName"`
+	LastName               string    `json:"lastName"`
+	Email                  string    `json:"email"`
+	PhoneNumber            string    `json:"phoneNumber"`
+	PhoneNumberCountryCode string    `json:"phoneNumberCountryCode"`
+	Passcode               string    `json:"passcode"`
+	ExternalEmployeeID     string    `json:"externalEmployeeId"`
+	Deleted                bool      `json:"deleted"`
+	JobReferences          []struct {
+		GUID       string `json:"guid"`
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
+	} `json:"jobReferences"`
+	WageOverrides []struct {
+		Wage         int `json:"wage"`
+		JobReference struct {
+		} `json:"jobReference"`
+	} `json:"wageOverrides"`
+	V2EmployeeGUID string `json:"v2EmployeeGuid"`
+}
+
 type RevenueCenters []RevenueCenter
 
 type RevenueCenter struct {
