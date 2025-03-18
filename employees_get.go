@@ -134,3 +134,12 @@ func (r *EmployeesGetRequest) Do() (EmployeesGetResponseBody, error, *http.Respo
 	resp, err := r.client.Do(req, responseBody)
 	return *responseBody, err, resp
 }
+
+func (r *EmployeesGetRequest) All() (EmployeesGetResponseBody, error) {
+	body, err, _ := r.Do()
+	if err != nil {
+		return body, err
+	}
+
+	return body, nil
+}

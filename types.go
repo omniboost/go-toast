@@ -422,34 +422,35 @@ type DiningOption struct {
 }
 
 type Employees []Employee
-
 type Employee struct {
-	GUID                   string    `json:"guid"`
-	EntityType             string    `json:"entityType"`
-	ExternalID             string    `json:"externalId"`
-	CreatedDate            time.Time `json:"createdDate"`
-	ModifiedDate           time.Time `json:"modifiedDate"`
-	DeletedDate            time.Time `json:"deletedDate"`
-	FirstName              string    `json:"firstName"`
-	ChosenName             string    `json:"chosenName"`
-	LastName               string    `json:"lastName"`
-	Email                  string    `json:"email"`
-	PhoneNumber            string    `json:"phoneNumber"`
-	PhoneNumberCountryCode string    `json:"phoneNumberCountryCode"`
-	Passcode               string    `json:"passcode"`
-	ExternalEmployeeID     string    `json:"externalEmployeeId"`
-	Deleted                bool      `json:"deleted"`
-	JobReferences          []struct {
-		GUID       string `json:"guid"`
-		EntityType string `json:"entityType"`
-		ExternalID string `json:"externalId"`
-	} `json:"jobReferences"`
-	WageOverrides []struct {
-		Wage         int `json:"wage"`
+	GUID           string      `json:"guid"`
+	EntityType     string      `json:"entityType"`
+	ExternalID     interface{} `json:"externalId"`
+	V2EmployeeGUID string      `json:"v2EmployeeGuid"`
+	LastName       string      `json:"lastName"`
+	WageOverrides  []struct {
+		Wage         float64 `json:"wage"`
 		JobReference struct {
+			GUID       string      `json:"guid"`
+			EntityType string      `json:"entityType"`
+			ExternalID interface{} `json:"externalId"`
 		} `json:"jobReference"`
 	} `json:"wageOverrides"`
-	V2EmployeeGUID string `json:"v2EmployeeGuid"`
+	PhoneNumberCountryCode string      `json:"phoneNumberCountryCode"`
+	FirstName              string      `json:"firstName"`
+	ChosenName             string      `json:"chosenName"`
+	CreatedDate            string      `json:"createdDate"`
+	PhoneNumber            interface{} `json:"phoneNumber"`
+	Deleted                bool        `json:"deleted"`
+	DeletedDate            string      `json:"deletedDate"`
+	JobReferences          []struct {
+		GUID       string      `json:"guid"`
+		EntityType string      `json:"entityType"`
+		ExternalID interface{} `json:"externalId"`
+	} `json:"jobReferences"`
+	ModifiedDate       string `json:"modifiedDate"`
+	ExternalEmployeeID string `json:"externalEmployeeId"`
+	Email              string `json:"email"`
 }
 
 type RevenueCenters []RevenueCenter
