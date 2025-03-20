@@ -579,3 +579,55 @@ type AppliedServiceCharge struct {
 	Takeout                  bool   `json:"takeout"`
 	Taxable                  bool   `json:"taxable"`
 }
+
+type TimeEntries []TimeEntry
+type TimeEntry struct {
+	GUID         string   `json:"guid"`
+	EntityType   string   `json:"entityType"`
+	ExternalID   string   `json:"externalId"`
+	CreatedDate  DateTime `json:"createdDate"`
+	ModifiedDate DateTime `json:"modifiedDate"`
+	DeletedDate  DateTime `json:"deletedDate"`
+	Deleted      bool     `json:"deleted"`
+	JobReference struct {
+		GUID       string `json:"guid"`
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
+	} `json:"jobReference"`
+	EmployeeReference struct {
+		GUID       string `json:"guid"`
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
+	} `json:"employeeReference"`
+	ShiftReference struct {
+		GUID       string `json:"guid"`
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
+	} `json:"shiftReference"`
+	InDate         DateTime `json:"inDate"`
+	OutDate        DateTime `json:"outDate"`
+	AutoClockedOut bool     `json:"autoClockedOut"`
+	BusinessDate   string   `json:"businessDate"`
+	RegularHours   float64  `json:"regularHours"`
+	OvertimeHours  float64  `json:"overtimeHours"`
+	HourlyWage     float64  `json:"hourlyWage"`
+	Breaks         []struct {
+		GUID      string `json:"guid"`
+		BreakType struct {
+			GUID       string `json:"guid"`
+			EntityType string `json:"entityType"`
+		} `json:"breakType"`
+		Paid          bool     `json:"paid"`
+		InDate        DateTime `json:"inDate"`
+		OutDate       DateTime `json:"outDate"`
+		Missed        bool     `json:"missed"`
+		AuditResponse bool     `json:"auditResponse"`
+	} `json:"breaks"`
+	DeclaredCashTips              float64 `json:"declaredCashTips"`
+	NonCashTips                   float64 `json:"nonCashTips"`
+	CashGratuityServiceCharges    float64 `json:"cashGratuityServiceCharges"`
+	NonCashGratuityServiceCharges float64 `json:"nonCashGratuityServiceCharges"`
+	TipsWithheld                  float64 `json:"tipsWithheld"`
+	NonCashSales                  float64 `json:"nonCashSales"`
+	CashSales                     float64 `json:"cashSales"`
+}
