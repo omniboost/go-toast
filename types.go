@@ -102,6 +102,7 @@ type Order struct {
 		EntityType    string `json:"entityType"`
 		ExternalID    string `json:"externalId"`
 		DisplayNumber string `json:"displayNumber"`
+		Duration      int    `json:"duration"`
 		Payments      []struct {
 			GUID                  string  `json:"guid"`
 			EntityType            string  `json:"entityType"`
@@ -218,14 +219,19 @@ type Order struct {
 			AccrualFamilyGuid       string `json:"accrualFamilyGuid"`
 			AccrualText             string `json:"accrualText"`
 		} `json:"appliedLoyaltyInfo"`
-		Voided        bool     `json:"voided"`
-		PaymentStatus string   `json:"paymentStatus"`
-		Amount        float64  `json:"amount"`
-		TabName       string   `json:"tabName"`
-		TaxExempt     bool     `json:"taxExempt"`
-		OpenedDate    DateTime `json:"openedDate"`
-		TotalAmount   float64  `json:"totalAmount"`
-		Selections    []struct {
+		Voided        bool    `json:"voided"`
+		PaymentStatus string  `json:"paymentStatus"`
+		Amount        float64 `json:"amount"`
+		TabName       string  `json:"tabName"`
+		TaxExempt     bool    `json:"taxExempt"`
+		OpenedBy      struct {
+			GUID       string `json:"guid"`
+			EntityType string `json:"entityType"`
+			ExternalID string `json:"externalId"`
+		} `json:"openedBy"`
+		OpenedDate  DateTime `json:"openedDate"`
+		TotalAmount float64  `json:"totalAmount"`
+		Selections  []struct {
 			GUID             string  `json:"guid"`
 			EntityType       string  `json:"entityType"`
 			ExternalID       string  `json:"externalId"`
