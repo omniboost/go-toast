@@ -582,6 +582,7 @@ type RevenueCenter struct {
 	EntityType  string `json:"entityType"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
+	ExternalID  string `json:"externalId"`
 }
 
 type AlternativePaymentTypes []AlternativePaymentType
