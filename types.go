@@ -21,12 +21,12 @@ type Orders []Order
 type Order struct {
 	GUID          string        `json:"guid"`
 	EntityType    string        `json:"entityType"`
-	ExternalID    interface{}   `json:"externalId"`
+	ExternalID    string        `json:"externalId"`
 	RevenueCenter RevenueCenter `json:"revenueCenter"`
 	Server        struct {
-		GUID       string      `json:"guid"`
-		EntityType string      `json:"entityType"`
-		ExternalID interface{} `json:"externalId"`
+		GUID       string `json:"guid"`
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
 	} `json:"server"`
 	LastModifiedDevice struct {
 		ID string `json:"id"`
@@ -37,96 +37,158 @@ type Order struct {
 	BusinessDate      Date     `json:"businessDate"`
 	PaidDate          DateTime `json:"paidDate"`
 	RestaurantService struct {
-		GUID       string      `json:"guid"`
-		EntityType string      `json:"entityType"`
-		ExternalID interface{} `json:"externalId"`
+		GUID       string `json:"guid"`
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
 	} `json:"restaurantService"`
-	Voided                   bool         `json:"voided"`
-	EstimatedFulfillmentDate DateTime     `json:"estimatedFulfillmentDate"`
-	Table                    interface{}  `json:"table"`
-	RequiredPrepTime         string       `json:"requiredPrepTime"`
-	ApprovalStatus           string       `json:"approvalStatus"`
-	DeliveryInfo             interface{}  `json:"deliveryInfo"`
-	ServiceArea              interface{}  `json:"serviceArea"`
-	CurbsidePickupInfo       interface{}  `json:"curbsidePickupInfo"`
-	NumberOfGuests           int          `json:"numberOfGuests"`
-	DiningOption             DiningOption `json:"diningOption"`
-	OpenedDate               DateTime     `json:"openedDate"`
-	VoidBusinessDate         Date         `json:"voidBusinessDate"`
-	Checks                   []struct {
-		GUID          string      `json:"guid"`
-		EntityType    string      `json:"entityType"`
-		ExternalID    interface{} `json:"externalId"`
-		DisplayNumber string      `json:"displayNumber"`
+	Voided                   bool     `json:"voided"`
+	EstimatedFulfillmentDate DateTime `json:"estimatedFulfillmentDate"`
+	Table                    struct {
+		GUID       string `json:"guid"`
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
+	} `json:"table"`
+	RequiredPrepTime string `json:"requiredPrepTime"`
+	ApprovalStatus   string `json:"approvalStatus"`
+	DeliveryInfo     struct {
+		Address1           string   `json:"address1"`
+		Address2           string   `json:"address2"`
+		City               string   `json:"city"`
+		AdministrativeArea string   `json:"administrativeArea"`
+		State              string   `json:"state"`
+		ZipCode            string   `json:"zipCode"`
+		Country            string   `json:"country"`
+		Latitude           float64  `json:"latitude"`
+		Longitude          float64  `json:"longitude"`
+		Notes              string   `json:"notes"`
+		DeliveredDate      DateTime `json:"deliveredDate"`
+		DispatchedDate     DateTime `json:"dispatchedDate"`
+		DeliveryEmployee   struct {
+			GUID       string `json:"guid"`
+			EntityType string `json:"entityType"`
+			ExternalID string `json:"externalId"`
+		} `json:"deliveryEmployee"`
+		DeliveryState string `json:"deliveryState"`
+	} `json:"deliveryInfo"`
+	ServiceArea struct {
+		GUID       string `json:"guid"`
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
+	} `json:"serviceArea"`
+	CurbsidePickupInfo struct {
+		GUID                 string `json:"guid"`
+		EntityType           string `json:"entityType"`
+		TransportColor       string `json:"transportColor"`
+		TransportDescription string `json:"transportDescription"`
+		Notes                string `json:"notes"`
+	} `json:"curbsidePickupInfo"`
+	NumberOfGuests   int          `json:"numberOfGuests"`
+	DiningOption     DiningOption `json:"diningOption"`
+	OpenedDate       DateTime     `json:"openedDate"`
+	VoidBusinessDate Date         `json:"voidBusinessDate"`
+	Checks           []struct {
+		GUID          string `json:"guid"`
+		EntityType    string `json:"entityType"`
+		ExternalID    string `json:"externalId"`
+		DisplayNumber string `json:"displayNumber"`
 		Payments      []struct {
-			GUID                  string      `json:"guid"`
-			EntityType            string      `json:"entityType"`
-			ExternalID            interface{} `json:"externalId"`
-			OriginalProcessingFee float64     `json:"originalProcessingFee"`
+			GUID                  string  `json:"guid"`
+			EntityType            string  `json:"entityType"`
+			ExternalID            string  `json:"externalId"`
+			OriginalProcessingFee float64 `json:"originalProcessingFee"`
 			Server                struct {
-				GUID       string      `json:"guid"`
-				EntityType string      `json:"entityType"`
-				ExternalID interface{} `json:"externalId"`
+				GUID       string `json:"guid"`
+				EntityType string `json:"entityType"`
+				ExternalID string `json:"externalId"`
 			} `json:"server"`
-			CashDrawer         interface{} `json:"cashDrawer"`
+			CashDrawer struct {
+				GUID       string `json:"guid"`
+				EntityType string `json:"entityType"`
+				ExternalID string `json:"externalId"`
+			} `json:"cashDrawer"`
 			LastModifiedDevice struct {
 				ID string `json:"id"`
 			} `json:"lastModifiedDevice"`
 			RefundStatus       string      `json:"refundStatus"`
 			IsProcessedOffline interface{} `json:"isProcessedOffline"`
 			Type               string      `json:"type"`
-			VoidInfo           interface{} `json:"voidInfo"`
-			CheckGUID          string      `json:"checkGuid"`
-			OtherPayment       struct {
-				GUID       string      `json:"guid"`
-				EntityType string      `json:"entityType"`
-				ExternalID interface{} `json:"externalId"`
+			VoidInfo           struct {
+				VoidUser struct {
+					GUID       string `json:"guid"`
+					EntityType string `json:"entityType"`
+					ExternalID string `json:"externalId"`
+				} `json:"voidUser"`
+				VoidApprover struct {
+					GUID       string `json:"guid"`
+					EntityType string `json:"entityType"`
+					ExternalID string `json:"externalId"`
+				} `json:"voidApprover"`
+				VoidDate         DateTime `json:"voidDate"`
+				VoidBusinessDate Date     `json:"voidBusinessDate"`
+				VoidReason       struct {
+					GUID       string `json:"guid"`
+					EntityType string `json:"entityType"`
+					ExternalID string `json:"externalId"`
+				} `json:"voidReason"`
+			} `json:"voidInfo"`
+			CheckGUID    string `json:"checkGuid"`
+			OtherPayment struct {
+				GUID       string `json:"guid"`
+				EntityType string `json:"entityType"`
+				ExternalID string `json:"externalId"`
 			} `json:"otherPayment"`
-			PaidDate           DateTime    `json:"paidDate"`
-			OrderGUID          string      `json:"orderGuid"`
-			CardEntryMode      interface{} `json:"cardEntryMode"`
-			PaymentStatus      string      `json:"paymentStatus"`
-			Amount             float64     `json:"amount"`
-			TipAmount          float64     `json:"tipAmount"`
-			AmountTendered     float64     `json:"amountTendered"`
-			CardType           interface{} `json:"cardType"`
-			HouseAccount       interface{} `json:"houseAccount"`
-			McaRepaymentAmount interface{} `json:"mcaRepaymentAmount"`
+			PaidDate       DateTime `json:"paidDate"`
+			OrderGUID      string   `json:"orderGuid"`
+			CardEntryMode  string   `json:"cardEntryMode"`
+			PaymentStatus  string   `json:"paymentStatus"`
+			Amount         float64  `json:"amount"`
+			TipAmount      float64  `json:"tipAmount"`
+			AmountTendered float64  `json:"amountTendered"`
+			CardType       string   `json:"cardType"`
+			HouseAccount   struct {
+				GUID       string `json:"guid"`
+				EntityType string `json:"entityType"`
+				ExternalID string `json:"externalId"`
+			} `json:"houseAccount"`
+			McaRepaymentAmount float64 `json:"mcaRepaymentAmount"`
 			CreatedDevice      struct {
 				ID string `json:"id"`
 			} `json:"createdDevice"`
 			PaidBusinessDate Date          `json:"paidBusinessDate"`
-			Last4Digits      interface{}   `json:"last4Digits"`
+			Last4Digits      string        `json:"last4Digits"`
 			Refund           RefundDetails `json:"refund"`
 		} `json:"payments"`
 		AppliedDiscounts []struct {
-			AppliedPromoCode interface{} `json:"appliedPromoCode"`
+			AppliedPromoCode string `json:"appliedPromoCode"`
 			Approver         struct {
-				EntityType string      `json:"entityType"`
-				ExternalID interface{} `json:"externalId"`
-				GUID       string      `json:"guid"`
+				EntityType string `json:"entityType"`
+				ExternalID string `json:"externalId"`
+				GUID       string `json:"guid"`
 			} `json:"approver"`
 			ComboItems []interface{} `json:"comboItems"`
 			Discount   struct {
 				EntityType string `json:"entityType"`
 				GUID       string `json:"guid"`
 			} `json:"discount"`
-			DiscountAmount       float64     `json:"discountAmount"`
-			DiscountPercent      float64     `json:"discountPercent"`
-			DiscountType         string      `json:"discountType"`
-			EntityType           string      `json:"entityType"`
-			ExternalID           interface{} `json:"externalId"`
-			GUID                 string      `json:"guid"`
-			LoyaltyDetails       interface{} `json:"loyaltyDetails"`
-			Name                 string      `json:"name"`
-			NonTaxDiscountAmount float64     `json:"nonTaxDiscountAmount"`
-			ProcessingState      interface{} `json:"processingState"`
+			DiscountAmount  float64 `json:"discountAmount"`
+			DiscountPercent float64 `json:"discountPercent"`
+			DiscountType    string  `json:"discountType"`
+			EntityType      string  `json:"entityType"`
+			ExternalID      string  `json:"externalId"`
+			GUID            string  `json:"guid"`
+			LoyaltyDetails  struct {
+				Vendor      string `json:"vendor"`
+				ReferenceID string `json:"referenceId"`
+			} `json:"loyaltyDetails"`
+			Name                 string  `json:"name"`
+			NonTaxDiscountAmount float64 `json:"nonTaxDiscountAmount"`
+			ProcessingState      string  `json:"processingState"`
 			Triggers             []struct {
 				Quantity  float64 `json:"quantity"`
 				Selection struct {
-					EntityType string      `json:"entityType"`
-					ExternalID interface{} `json:"externalId"`
-					GUID       string      `json:"guid"`
+					EntityType string `json:"entityType"`
+					ExternalID string `json:"externalId"`
+					GUID       string `json:"guid"`
 				} `json:"selection"`
 			} `json:"triggers"`
 		} `json:"AppliedDiscounts"`
@@ -134,53 +196,73 @@ type Order struct {
 		LastModifiedDevice struct {
 			ID string `json:"id"`
 		} `json:"lastModifiedDevice"`
-		VoidDate           DateTime    `json:"voidDate"`
-		PaidDate           DateTime    `json:"paidDate"`
-		AppliedLoyaltyInfo interface{} `json:"appliedLoyaltyInfo"`
-		Voided             bool        `json:"voided"`
-		PaymentStatus      string      `json:"paymentStatus"`
-		Amount             float64     `json:"amount"`
-		TabName            string      `json:"tabName"`
-		TaxExempt          bool        `json:"taxExempt"`
-		OpenedDate         DateTime    `json:"openedDate"`
-		TotalAmount        float64     `json:"totalAmount"`
-		Selections         []struct {
-			GUID             string      `json:"guid"`
-			EntityType       string      `json:"entityType"`
-			ExternalID       interface{} `json:"externalId"`
-			Deferred         bool        `json:"deferred"`
-			PreDiscountPrice float64     `json:"preDiscountPrice"`
-			VoidReason       interface{} `json:"voidReason"`
-			OptionGroup      interface{} `json:"optionGroup"`
-			DisplayName      string      `json:"displayName"`
+		VoidDate           DateTime `json:"voidDate"`
+		PaidDate           DateTime `json:"paidDate"`
+		AppliedLoyaltyInfo struct {
+			GUID                    string `json:"guid"`
+			EntityType              string `json:"entityType"`
+			LoyaltyIdentifier       string `json:"loyaltyIdentifier"`
+			MaskedLoyaltyIdentifier string `json:"maskedLoyaltyIdentifier"`
+			Vendor                  string `json:"vendor"`
+			AccrualFamilyGuid       string `json:"accrualFamilyGuid"`
+			AccrualText             string `json:"accrualText"`
+		} `json:"appliedLoyaltyInfo"`
+		Voided        bool     `json:"voided"`
+		PaymentStatus string   `json:"paymentStatus"`
+		Amount        float64  `json:"amount"`
+		TabName       string   `json:"tabName"`
+		TaxExempt     bool     `json:"taxExempt"`
+		OpenedDate    DateTime `json:"openedDate"`
+		TotalAmount   float64  `json:"totalAmount"`
+		Selections    []struct {
+			GUID             string  `json:"guid"`
+			EntityType       string  `json:"entityType"`
+			ExternalID       string  `json:"externalId"`
+			Deferred         bool    `json:"deferred"`
+			PreDiscountPrice float64 `json:"preDiscountPrice"`
+			VoidReason       struct {
+				GUID       string `json:"guid"`
+				EntityType string `json:"entityType"`
+				ExternalID string `json:"externalId"`
+			} `json:"voidReason"`
+			OptionGroup struct {
+				GUID            string `json:"guid"`
+				EntityType      string `json:"entityType"`
+				ExternalID      string `json:"externalId"`
+				MultiLocationID string `json:"multiLocationId"`
+			} `json:"optionGroup"`
+			DisplayName      string `json:"displayName"`
 			AppliedDiscounts []struct {
-				AppliedPromoCode interface{} `json:"appliedPromoCode"`
+				AppliedPromoCode string `json:"appliedPromoCode"`
 				Approver         struct {
-					EntityType string      `json:"entityType"`
-					ExternalID interface{} `json:"externalId"`
-					GUID       string      `json:"guid"`
+					EntityType string `json:"entityType"`
+					ExternalID string `json:"externalId"`
+					GUID       string `json:"guid"`
 				} `json:"approver"`
 				ComboItems []interface{} `json:"comboItems"`
 				Discount   struct {
 					EntityType string `json:"entityType"`
 					GUID       string `json:"guid"`
 				} `json:"discount"`
-				DiscountAmount       float64     `json:"discountAmount"`
-				DiscountPercent      float64     `json:"discountPercent"`
-				DiscountType         string      `json:"discountType"`
-				EntityType           string      `json:"entityType"`
-				ExternalID           interface{} `json:"externalId"`
-				GUID                 string      `json:"guid"`
-				LoyaltyDetails       interface{} `json:"loyaltyDetails"`
-				Name                 string      `json:"name"`
-				NonTaxDiscountAmount float64     `json:"nonTaxDiscountAmount"`
-				ProcessingState      interface{} `json:"processingState"`
+				DiscountAmount  float64 `json:"discountAmount"`
+				DiscountPercent float64 `json:"discountPercent"`
+				DiscountType    string  `json:"discountType"`
+				EntityType      string  `json:"entityType"`
+				ExternalID      string  `json:"externalId"`
+				GUID            string  `json:"guid"`
+				LoyaltyDetails  struct {
+					Vendor      string `json:"vendor"`
+					ReferenceID string `json:"referenceId"`
+				} `json:"loyaltyDetails"`
+				Name                 string  `json:"name"`
+				NonTaxDiscountAmount float64 `json:"nonTaxDiscountAmount"`
+				ProcessingState      string  `json:"processingState"`
 				Triggers             []struct {
 					Quantity  float64 `json:"quantity"`
 					Selection struct {
-						EntityType string      `json:"entityType"`
-						ExternalID interface{} `json:"externalId"`
-						GUID       string      `json:"guid"`
+						EntityType string `json:"entityType"`
+						ExternalID string `json:"externalId"`
+						GUID       string `json:"guid"`
 					} `json:"selection"`
 				} `json:"triggers"`
 			} `json:"AppliedDiscounts"`
@@ -188,7 +270,7 @@ type Order struct {
 			SeatNumber               int           `json:"seatNumber"`
 			VoidDate                 DateTime      `json:"voidDate"`
 			FulfillmentStatus        string        `json:"fulfillmentStatus"`
-			OptionGroupPricingMode   interface{}   `json:"optionGroupPricingMode"`
+			OptionGroupPricingMode   string        `json:"optionGroupPricingMode"`
 			SalesCategory            SalesCategory `json:"salesCategory"`
 			SelectionType            string        `json:"selectionType"`
 			Price                    float64       `json:"price"`
@@ -196,16 +278,16 @@ type Order struct {
 			AppliedTaxes             AppliedTaxes  `json:"appliedTaxes"`
 			StoredValueTransactionID interface{}   `json:"storedValueTransactionId"`
 			ItemGroup                struct {
-				GUID            string      `json:"guid"`
-				EntityType      string      `json:"entityType"`
-				ExternalID      interface{} `json:"externalId"`
-				MultiLocationID string      `json:"multiLocationId"`
+				GUID            string `json:"guid"`
+				EntityType      string `json:"entityType"`
+				ExternalID      string `json:"externalId"`
+				MultiLocationID string `json:"multiLocationId"`
 			} `json:"itemGroup"`
 			Item struct {
-				GUID            string      `json:"guid"`
-				EntityType      string      `json:"entityType"`
-				ExternalID      interface{} `json:"externalId"`
-				MultiLocationID string      `json:"multiLocationId"`
+				GUID            string `json:"guid"`
+				EntityType      string `json:"entityType"`
+				ExternalID      string `json:"externalId"`
+				MultiLocationID string `json:"multiLocationId"`
 			} `json:"item"`
 			TaxInclusion     string        `json:"taxInclusion"`
 			Quantity         float64       `json:"quantity"`
@@ -214,11 +296,20 @@ type Order struct {
 			RefundDetails    RefundDetails `json:"refundDetails"`
 			ToastGiftCard    interface{}   `json:"toastGiftCard"`
 			Tax              float64       `json:"tax"`
-			DiningOption     interface{}   `json:"diningOption"`
-			VoidBusinessDate Date          `json:"voidBusinessDate"`
-			CreatedDate      DateTime      `json:"createdDate"`
-			PreModifier      interface{}   `json:"preModifier"`
-			ModifiedDate     DateTime      `json:"modifiedDate"`
+			DiningOption     struct {
+				GUID       string `json:"guid"`
+				EntityType string `json:"entityType"`
+				ExternalID string `json:"externalId"`
+			} `json:"diningOption"`
+			VoidBusinessDate Date     `json:"voidBusinessDate"`
+			CreatedDate      DateTime `json:"createdDate"`
+			PreModifier      struct {
+				GUID            string `json:"guid"`
+				EntityType      string `json:"entityType"`
+				ExternalID      string `json:"externalId"`
+				MultiLocationID string `json:"multiLocationId"`
+			} `json:"preModifier"`
+			ModifiedDate DateTime `json:"modifiedDate"`
 		} `json:"selections"`
 		VoidBusinessDate Date     `json:"voidBusinessDate"`
 		CreatedDate      DateTime `json:"createdDate"`
@@ -231,19 +322,27 @@ type Order struct {
 		ModifiedDate          DateTime              `json:"modifiedDate"`
 		TaxAmount             float64               `json:"taxAmount"`
 		AppliedServiceCharges AppliedServiceCharges `json:"appliedServiceCharges"`
-		Customer              interface{}           `json:"customer"`
+		Customer              struct {
+			GUID             string `json:"guid"`
+			EntityType       string `json:"entityType"`
+			FirstName        string `json:"firstName"`
+			LastName         string `json:"lastName"`
+			Phone            string `json:"phone"`
+			PhoneCountryCode string `json:"phoneCountryCode"`
+			Email            string `json:"email"`
+		} `json:"customer"`
 	} `json:"checks"`
 	Deleted       bool `json:"deleted"`
 	CreatedDevice struct {
 		ID string `json:"id"`
 	} `json:"createdDevice"`
-	CreatedDate     DateTime    `json:"createdDate"`
-	ClosedDate      DateTime    `json:"closedDate"`
-	DeletedDate     DateTime    `json:"deletedDate"`
-	ModifiedDate    DateTime    `json:"modifiedDate"`
-	PromisedDate    DateTime    `json:"promisedDate"`
-	ChannelGUID     interface{} `json:"channelGuid"`
-	PricingFeatures []string    `json:"pricingFeatures"`
+	CreatedDate     DateTime `json:"createdDate"`
+	ClosedDate      DateTime `json:"closedDate"`
+	DeletedDate     DateTime `json:"deletedDate"`
+	ModifiedDate    DateTime `json:"modifiedDate"`
+	PromisedDate    DateTime `json:"promisedDate"`
+	ChannelGUID     string   `json:"channelGuid"`
+	PricingFeatures []string `json:"pricingFeatures"`
 }
 
 type Restaurants []Restaurant
