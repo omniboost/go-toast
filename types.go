@@ -366,6 +366,8 @@ type Order struct {
 		EntityType string `json:"entityType"`
 		GUID       string `json:"guid"`
 	} `json:"appliedPackagingInfo"`
+	ExcessFood        bool `json:"excessFood"`
+	CreatedInTestMode bool `json:"createdInTestMode"`
 }
 
 type Restaurants []Restaurant
@@ -454,8 +456,6 @@ type Restaurant struct {
 		TakeoutThrottlingTime   int `json:"takeoutThrottlingTime"`
 		DeliveryThrottlingTime  int `json:"deliveryThrottlingTime"`
 	} `json:"prepTimes"`
-	ExcessFood        bool `json:"excessFood"`
-	CreatedInTestMode bool `json:"createdInTestMode"`
 }
 
 type MenuGroups []MenuGroup
