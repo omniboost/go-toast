@@ -191,7 +191,7 @@ type Order struct {
 					GUID       string `json:"guid"`
 				} `json:"selection"`
 			} `json:"triggers"`
-		} `json:"AppliedDiscounts"`
+		} `json:"appliedDiscounts"`
 
 		LastModifiedDevice struct {
 			ID string `json:"id"`
