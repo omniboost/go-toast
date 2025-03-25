@@ -34,6 +34,7 @@ type Order struct {
 	Source            string   `json:"source"`
 	VoidDate          DateTime `json:"voidDate"`
 	Duration          int      `json:"duration"`
+	DisplayNumber     string   `json:"displayNumber"`
 	BusinessDate      Date     `json:"businessDate"`
 	PaidDate          DateTime `json:"paidDate"`
 	RestaurantService struct {
