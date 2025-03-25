@@ -454,6 +454,8 @@ type Restaurant struct {
 		TakeoutThrottlingTime   int `json:"takeoutThrottlingTime"`
 		DeliveryThrottlingTime  int `json:"deliveryThrottlingTime"`
 	} `json:"prepTimes"`
+	ExcessFood        bool `json:"excessFood"`
+	CreatedInTestMode bool `json:"createdInTestMode"`
 }
 
 type MenuGroups []MenuGroup
