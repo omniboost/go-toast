@@ -265,7 +265,7 @@ type Order struct {
 						GUID       string `json:"guid"`
 					} `json:"selection"`
 				} `json:"triggers"`
-			} `json:"AppliedDiscounts"`
+			} `json:"appliedDiscounts"`
 			Modifiers                Modifiers     `json:"modifiers"`
 			SeatNumber               int           `json:"seatNumber"`
 			VoidDate                 DateTime      `json:"voidDate"`
