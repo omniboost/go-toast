@@ -82,7 +82,17 @@ type Order struct {
 		TransportDescription string `json:"transportDescription"`
 		Notes                string `json:"notes"`
 	} `json:"curbsidePickupInfo"`
-	NumberOfGuests   int          `json:"numberOfGuests"`
+	NumberOfGuests      int `json:"numberOfGuests"`
+	DeliveryServiceInfo struct {
+		DriverName                 string   `json:"driverName"`
+		DriverPhoneNumber          string   `json:"driverPhoneNumber"`
+		EntityType                 string   `json:"entityType"`
+		GUID                       string   `json:"guid"`
+		OriginalQuotedDeliveryDate DateTime `json:"originalQuotedDeliveryDate"`
+		ProviderID                 string   `json:"providerId"`
+		ProviderInfo               string   `json:"providerInfo"`
+		ProviderName               string   `json:"providerName"`
+	} `json:"deliveryServiceInfo"`
 	DiningOption     DiningOption `json:"diningOption"`
 	OpenedDate       DateTime     `json:"openedDate"`
 	VoidBusinessDate Date         `json:"voidBusinessDate"`
@@ -336,13 +346,25 @@ type Order struct {
 	CreatedDevice struct {
 		ID string `json:"id"`
 	} `json:"createdDevice"`
-	CreatedDate     DateTime `json:"createdDate"`
-	ClosedDate      DateTime `json:"closedDate"`
-	DeletedDate     DateTime `json:"deletedDate"`
-	ModifiedDate    DateTime `json:"modifiedDate"`
-	PromisedDate    DateTime `json:"promisedDate"`
-	ChannelGUID     string   `json:"channelGuid"`
-	PricingFeatures []string `json:"pricingFeatures"`
+	CreatedDate          DateTime `json:"createdDate"`
+	ClosedDate           DateTime `json:"closedDate"`
+	DeletedDate          DateTime `json:"deletedDate"`
+	ModifiedDate         DateTime `json:"modifiedDate"`
+	PromisedDate         DateTime `json:"promisedDate"`
+	ChannelGUID          string   `json:"channelGuid"`
+	PricingFeatures      []string `json:"pricingFeatures"`
+	AppliedPackagingInfo struct {
+		AppliedPackagingItems []struct {
+			EntityType       string   `json:"entityType"`
+			GUID             string   `json:"guid"`
+			GuestDisplayName string   `json:"guestDisplayName"`
+			Inclusion        string   `json:"inclusion"`
+			ItemConfigId     string   `json:"itemConfigId"`
+			ItemTypes        []string `json:"itemTypes"`
+		} `json:"appliedPackagingItems"`
+		EntityType string `json:"entityType"`
+		GUID       string `json:"guid"`
+	} `json:"appliedPackagingInfo"`
 }
 
 type Restaurants []Restaurant
