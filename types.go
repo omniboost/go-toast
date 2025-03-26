@@ -585,6 +585,42 @@ type Employee struct {
 	Email              string `json:"email"`
 }
 
+type PostEmployee struct {
+	EntityType     string      `json:"entityType"`
+	ExternalID     interface{} `json:"externalId,omitempty"`
+	V2EmployeeGUID string      `json:"v2EmployeeGuid,omitempty"`
+	LastName       string      `json:"lastName,omitempty"`
+	WageOverrides  []struct {
+		Wage         float64 `json:"wage,omitempty"`
+		JobReference struct {
+			GUID       string      `json:"guid,omitempty"`
+			EntityType string      `json:"entityType,omitempty"`
+			ExternalID interface{} `json:"externalId,omitempty"`
+		} `json:"jobReference,omitempty"`
+	} `json:"wageOverrides,omitempty"`
+	PhoneNumberCountryCode string      `json:"phoneNumberCountryCode,omitempty"`
+	FirstName              string      `json:"firstName,omitempty"`
+	ChosenName             string      `json:"chosenName,omitempty"`
+	CreatedDate            string      `json:"createdDate,omitempty"`
+	PhoneNumber            interface{} `json:"phoneNumber,omitempty"`
+	JobReferences          []struct {
+		GUID       string      `json:"guid,omitempty"`
+		EntityType string      `json:"entityType,omitempty"`
+		ExternalID interface{} `json:"externalId,omitempty"`
+	} `json:"jobReferences,omitempty"`
+	ModifiedDate       string `json:"modifiedDate,omitempty"`
+	ExternalEmployeeID string `json:"externalEmployeeId,omitempty"`
+	Email              string `json:"email"`
+}
+
+type PatchEmployee struct {
+	FirstName          string `json:"firstName,omitempty"`
+	ChosenName         string `json:"chosenName,omitempty"`
+	LastName           string `json:"lastName,omitempty"`
+	ExternalEmployeeID string `json:"externalEmployeeId,omitempty"`
+	PassCode           string `json:"passCode,omitempty"`
+}
+
 type RevenueCenters []RevenueCenter
 
 type RevenueCenter struct {
