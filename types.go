@@ -606,7 +606,7 @@ type AppliedDiscount struct {
 	AppliedDiscountReason struct {
 		Comment        string `json:"comment"`
 		Description    string `json:"description"`
-		Name           string `json:"gunameid"`
+		Name           string `json:"name"`
 		DiscountReason struct {
 			EntityType string `json:"entityType"`
 			GUID       string `json:"guid"`
