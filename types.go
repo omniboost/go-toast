@@ -328,7 +328,13 @@ type Order struct {
 				ExternalID      string `json:"externalId"`
 				MultiLocationID string `json:"multiLocationId"`
 			} `json:"preModifier"`
-			ModifiedDate DateTime `json:"modifiedDate"`
+			ModifiedDate        DateTime `json:"modifiedDate"`
+			ExternalPriceAmount float64  `json:"externalPriceAmount"`
+			SplitOrigin         struct {
+				GUID       string `json:"guid"`
+				EntityType string `json:"entityType"`
+			} `json:"splitOrigin"`
+			OpenPriceAmount float64 `json:"openPriceAmount"`
 		} `json:"selections"`
 		VoidBusinessDate Date     `json:"voidBusinessDate"`
 		CreatedDate      DateTime `json:"createdDate"`
@@ -537,9 +543,11 @@ type Discount struct {
 type SalesCategories []SalesCategory
 
 type SalesCategory struct {
-	GUID       string `json:"guid"`
-	EntityType string `json:"entityType"`
-	Name       string `json:"name"`
+	GUID            string `json:"guid"`
+	EntityType      string `json:"entityType"`
+	Name            string `json:"name"`
+	ExternalID      string `json:"externalId"`
+	MultiLocationID string `json:"multiLocationId"`
 }
 
 type DiningOptions []DiningOption
