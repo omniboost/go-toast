@@ -172,40 +172,7 @@ type Order struct {
 			CardPaymentID         string        `json:"cardPaymentId"`
 			TenderTransactionGUID string        `json:"tenderTransactionGuid"`
 		} `json:"payments"`
-		AppliedDiscounts []struct {
-			AppliedPromoCode string `json:"appliedPromoCode"`
-			Approver         struct {
-				EntityType string `json:"entityType"`
-				ExternalID string `json:"externalId"`
-				GUID       string `json:"guid"`
-			} `json:"approver"`
-			ComboItems []interface{} `json:"comboItems"`
-			Discount   struct {
-				EntityType string `json:"entityType"`
-				GUID       string `json:"guid"`
-			} `json:"discount"`
-			DiscountAmount  float64 `json:"discountAmount"`
-			DiscountPercent float64 `json:"discountPercent"`
-			DiscountType    string  `json:"discountType"`
-			EntityType      string  `json:"entityType"`
-			ExternalID      string  `json:"externalId"`
-			GUID            string  `json:"guid"`
-			LoyaltyDetails  struct {
-				Vendor      string `json:"vendor"`
-				ReferenceID string `json:"referenceId"`
-			} `json:"loyaltyDetails"`
-			Name                 string  `json:"name"`
-			NonTaxDiscountAmount float64 `json:"nonTaxDiscountAmount"`
-			ProcessingState      string  `json:"processingState"`
-			Triggers             []struct {
-				Quantity  float64 `json:"quantity"`
-				Selection struct {
-					EntityType string `json:"entityType"`
-					ExternalID string `json:"externalId"`
-					GUID       string `json:"guid"`
-				} `json:"selection"`
-			} `json:"triggers"`
-		} `json:"appliedDiscounts"`
+		AppliedDiscounts AppliedDiscounts `json:"appliedDiscounts"`
 
 		LastModifiedDevice struct {
 			ID string `json:"id"`
@@ -580,51 +547,18 @@ type Selection struct {
 		ExternalID      string `json:"externalId"`
 		MultiLocationID string `json:"multiLocationId"`
 	} `json:"optionGroup"`
-	DisplayName      string `json:"displayName"`
-	AppliedDiscounts []struct {
-		AppliedPromoCode string `json:"appliedPromoCode"`
-		Approver         struct {
-			EntityType string `json:"entityType"`
-			ExternalID string `json:"externalId"`
-			GUID       string `json:"guid"`
-		} `json:"approver"`
-		ComboItems []interface{} `json:"comboItems"`
-		Discount   struct {
-			EntityType string `json:"entityType"`
-			GUID       string `json:"guid"`
-		} `json:"discount"`
-		DiscountAmount  float64 `json:"discountAmount"`
-		DiscountPercent float64 `json:"discountPercent"`
-		DiscountType    string  `json:"discountType"`
-		EntityType      string  `json:"entityType"`
-		ExternalID      string  `json:"externalId"`
-		GUID            string  `json:"guid"`
-		LoyaltyDetails  struct {
-			Vendor      string `json:"vendor"`
-			ReferenceID string `json:"referenceId"`
-		} `json:"loyaltyDetails"`
-		Name                 string  `json:"name"`
-		NonTaxDiscountAmount float64 `json:"nonTaxDiscountAmount"`
-		ProcessingState      string  `json:"processingState"`
-		Triggers             []struct {
-			Quantity  float64 `json:"quantity"`
-			Selection struct {
-				EntityType string `json:"entityType"`
-				ExternalID string `json:"externalId"`
-				GUID       string `json:"guid"`
-			} `json:"selection"`
-		} `json:"triggers"`
-	} `json:"appliedDiscounts"`
-	SeatNumber               int           `json:"seatNumber"`
-	VoidDate                 DateTime      `json:"voidDate"`
-	FulfillmentStatus        string        `json:"fulfillmentStatus"`
-	OptionGroupPricingMode   string        `json:"optionGroupPricingMode"`
-	SalesCategory            SalesCategory `json:"salesCategory"`
-	SelectionType            string        `json:"selectionType"`
-	Price                    float64       `json:"price"`
-	Voided                   bool          `json:"voided"`
-	AppliedTaxes             AppliedTaxes  `json:"appliedTaxes"`
-	StoredValueTransactionID interface{}   `json:"storedValueTransactionId"`
+	DisplayName              string           `json:"displayName"`
+	AppliedDiscounts         AppliedDiscounts `json:"appliedDiscounts"`
+	SeatNumber               int              `json:"seatNumber"`
+	VoidDate                 DateTime         `json:"voidDate"`
+	FulfillmentStatus        string           `json:"fulfillmentStatus"`
+	OptionGroupPricingMode   string           `json:"optionGroupPricingMode"`
+	SalesCategory            SalesCategory    `json:"salesCategory"`
+	SelectionType            string           `json:"selectionType"`
+	Price                    float64          `json:"price"`
+	Voided                   bool             `json:"voided"`
+	AppliedTaxes             AppliedTaxes     `json:"appliedTaxes"`
+	StoredValueTransactionID interface{}      `json:"storedValueTransactionId"`
 	ItemGroup                struct {
 		GUID            string `json:"guid"`
 		EntityType      string `json:"entityType"`
@@ -664,6 +598,56 @@ type Selection struct {
 		EntityType string `json:"entityType"`
 	} `json:"splitOrigin"`
 	OpenPriceAmount float64 `json:"openPriceAmount"`
+}
+
+type AppliedDiscounts []AppliedDiscount
+
+type AppliedDiscount struct {
+	AppliedDiscountReason struct {
+		Comment        string `json:"comment"`
+		Description    string `json:"description"`
+		Name           string `json:"gunameid"`
+		DiscountReason struct {
+			EntityType string `json:"entityType"`
+			GUID       string `json:"guid"`
+		} `json:"discountReason"`
+	} `json:"appliedDiscountReason"`
+	AppliedPromoCode string `json:"appliedPromoCode"`
+	Approver         struct {
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
+		GUID       string `json:"guid"`
+	} `json:"approver"`
+	ComboItems []struct {
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
+		GUID       string `json:"guid"`
+	} `json:"comboItems"`
+	Discount struct {
+		EntityType string `json:"entityType"`
+		GUID       string `json:"guid"`
+	} `json:"discount"`
+	DiscountAmount  float64 `json:"discountAmount"`
+	DiscountPercent float64 `json:"discountPercent"`
+	DiscountType    string  `json:"discountType"`
+	EntityType      string  `json:"entityType"`
+	ExternalID      string  `json:"externalId"`
+	GUID            string  `json:"guid"`
+	LoyaltyDetails  struct {
+		Vendor      string `json:"vendor"`
+		ReferenceID string `json:"referenceId"`
+	} `json:"loyaltyDetails"`
+	Name                 string  `json:"name"`
+	NonTaxDiscountAmount float64 `json:"nonTaxDiscountAmount"`
+	ProcessingState      string  `json:"processingState"`
+	Triggers             []struct {
+		Quantity  float64 `json:"quantity"`
+		Selection struct {
+			EntityType string `json:"entityType"`
+			ExternalID string `json:"externalId"`
+			GUID       string `json:"guid"`
+		} `json:"selection"`
+	} `json:"triggers"`
 }
 
 type AppliedTaxes []AppliedTax
