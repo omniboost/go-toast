@@ -669,6 +669,9 @@ type AppliedTax struct {
 	TaxAmount                     float64 `json:"taxAmount"`
 	Type                          string  `json:"type"`
 	FacilitatorCollectAndRemitTax bool    `json:"facilitatorCollectAndRemitTax"`
+	Jurisdiction                  string  `json:"jurisdiction"`
+	JurisdictionType              string  `json:"jurisdictionType"`
+	DisplayName                   string  `json:"displayName"`
 }
 
 type RefundDetails struct {
