@@ -701,19 +701,19 @@ type RefundDetails struct {
 type AppliedServiceCharges []AppliedServiceCharge
 
 type AppliedServiceCharge struct {
-	AppliedTaxes  AppliedTaxes `json:"appliedTaxes"`
-	ChargeAmount  float64      `json:"chargeAmount"`
-	ChargeType    string       `json:"chargeType"`
-	Delivery      bool         `json:"delivery"`
-	Destination   string       `json:"destination"`
-	DineIn        bool         `json:"dineIn"`
-	EntityType    string       `json:"entityType"`
-	ExternalID    interface{}  `json:"externalId"`
-	Gratuity      bool         `json:"gratuity"`
-	GUID          string       `json:"guid"`
-	Name          string       `json:"name"`
-	PaymentGUID   interface{}  `json:"paymentGuid"`
-	RefundDetails interface{}  `json:"refundDetails"`
+	AppliedTaxes  AppliedTaxes  `json:"appliedTaxes"`
+	ChargeAmount  float64       `json:"chargeAmount"`
+	ChargeType    string        `json:"chargeType"`
+	Delivery      bool          `json:"delivery"`
+	Destination   string        `json:"destination"`
+	DineIn        bool          `json:"dineIn"`
+	EntityType    string        `json:"entityType"`
+	ExternalID    interface{}   `json:"externalId"`
+	Gratuity      bool          `json:"gratuity"`
+	GUID          string        `json:"guid"`
+	Name          string        `json:"name"`
+	PaymentGUID   interface{}   `json:"paymentGuid"`
+	RefundDetails RefundDetails `json:"refundDetails"`
 	ServiceCharge struct {
 		EntityType string      `json:"entityType"`
 		ExternalID interface{} `json:"externalId"`
