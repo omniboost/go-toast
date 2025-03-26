@@ -166,9 +166,11 @@ type Order struct {
 			CreatedDevice      struct {
 				ID string `json:"id"`
 			} `json:"createdDevice"`
-			PaidBusinessDate Date          `json:"paidBusinessDate"`
-			Last4Digits      string        `json:"last4Digits"`
-			Refund           RefundDetails `json:"refund"`
+			PaidBusinessDate      Date          `json:"paidBusinessDate"`
+			Last4Digits           string        `json:"last4Digits"`
+			Refund                RefundDetails `json:"refund"`
+			CardPaymentID         string        `json:"cardPaymentId"`
+			TenderTransactionGUID string        `json:"tenderTransactionGuid"`
 		} `json:"payments"`
 		AppliedDiscounts []struct {
 			AppliedPromoCode string `json:"appliedPromoCode"`
