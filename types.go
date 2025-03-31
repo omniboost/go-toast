@@ -343,53 +343,69 @@ type Restaurant struct {
 type MenuGroups []MenuGroup
 
 type MenuGroup struct {
-	GUID          string        `json:"guid"`
-	EntityType    string        `json:"entityType"`
-	ExternalID    interface{}   `json:"externalId"`
-	Parent        interface{}   `json:"parent"`
-	Images        []interface{} `json:"images"`
-	Visibility    string        `json:"visibility"`
-	UnitOfMeasure string        `json:"unitOfMeasure"`
+	GUID       string      `json:"guid"`
+	EntityType string      `json:"entityType"`
+	ExternalID interface{} `json:"externalId"`
+	Parent     struct {
+		GUID       string `json:"guid"`
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
+	} `json:"parent"`
+	Images []struct {
+		URL string `json:"url"`
+	} `json:"images"`
+	Visibility    string `json:"visibility"`
+	UnitOfMeasure string `json:"unitOfMeasure"`
 	OptionGroups  []struct {
-		GUID       string      `json:"guid"`
-		EntityType string      `json:"entityType"`
-		ExternalID interface{} `json:"externalId"`
+		GUID       string `json:"guid"`
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
 	} `json:"optionGroups"`
 	Menu struct {
-		GUID       string      `json:"guid"`
-		EntityType string      `json:"entityType"`
-		ExternalID interface{} `json:"externalId"`
+		GUID       string `json:"guid"`
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
 	} `json:"menu"`
-	InheritUnitOfMeasure bool          `json:"inheritUnitOfMeasure"`
-	Subgroups            []interface{} `json:"subgroups"`
-	InheritOptionGroups  bool          `json:"inheritOptionGroups"`
-	OrderableOnline      string        `json:"orderableOnline"`
-	Name                 string        `json:"name"`
-	Items                []struct {
-		GUID       string      `json:"guid"`
-		EntityType string      `json:"entityType"`
-		ExternalID interface{} `json:"externalId"`
+	InheritUnitOfMeasure bool `json:"inheritUnitOfMeasure"`
+	Subgroups            []struct {
+		GUID       string `json:"guid"`
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
+	} `json:"subgroups"`
+	InheritOptionGroups bool   `json:"inheritOptionGroups"`
+	OrderableOnline     string `json:"orderableOnline"`
+	Name                string `json:"name"`
+	Items               []struct {
+		GUID       string `json:"guid"`
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
 	} `json:"items"`
 }
 
 type MenuItems []MenuItem
 
 type MenuItem struct {
-	GUID                 string        `json:"guid"`
-	EntityType           string        `json:"entityType"`
-	ExternalID           interface{}   `json:"externalId"`
-	Images               []interface{} `json:"images"`
-	Visibility           string        `json:"visibility"`
-	UnitOfMeasure        string        `json:"unitOfMeasure"`
-	OptionGroups         []interface{} `json:"optionGroups"`
-	Calories             interface{}   `json:"calories"`
-	Type                 interface{}   `json:"type"`
-	InheritUnitOfMeasure bool          `json:"inheritUnitOfMeasure"`
-	InheritOptionGroups  bool          `json:"inheritOptionGroups"`
-	OrderableOnline      string        `json:"orderableOnline"`
-	Name                 string        `json:"name"`
-	Plu                  string        `json:"plu"`
-	Sku                  string        `json:"sku"`
+	GUID       string `json:"guid"`
+	EntityType string `json:"entityType"`
+	ExternalID string `json:"externalId"`
+	Images     []struct {
+		URL string `json:"url"`
+	} `json:"images"`
+	Visibility    string `json:"visibility"`
+	UnitOfMeasure string `json:"unitOfMeasure"`
+	OptionGroups  []struct {
+		GUID       string `json:"guid"`
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
+	} `json:"optionGroups"`
+	Calories             int    `json:"calories"`
+	Type                 string `json:"type"`
+	InheritUnitOfMeasure bool   `json:"inheritUnitOfMeasure"`
+	InheritOptionGroups  bool   `json:"inheritOptionGroups"`
+	OrderableOnline      string `json:"orderableOnline"`
+	Name                 string `json:"name"`
+	Plu                  string `json:"plu"`
+	Sku                  string `json:"sku"`
 }
 
 type Discounts []Discount
