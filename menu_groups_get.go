@@ -39,6 +39,7 @@ type MenuGroupsGetRequestQueryParams struct {
 	PageSize     int      `schema:"pageSize,omitempty"`
 	Page         int      `schema:"page,omitempty"`
 	BusinessDate Date     `schema:"businessDate,omitempty"`
+	LastModified DateTime `schema:"lastModified,omitempty"`
 }
 
 func (p MenuGroupsGetRequestQueryParams) ToURLValues() (url.Values, error) {

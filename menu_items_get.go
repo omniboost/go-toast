@@ -34,7 +34,8 @@ func (r MenuItemsGetRequest) NewQueryParams() *MenuItemsGetRequestQueryParams {
 }
 
 type MenuItemsGetRequestQueryParams struct {
-	PageToken string `schema:"pageToken,omitempty"`
+	PageToken    string   `schema:"pageToken,omitempty"`
+	LastModified DateTime `schema:"lastModified,omitempty"`
 }
 
 func (p MenuItemsGetRequestQueryParams) ToURLValues() (url.Values, error) {

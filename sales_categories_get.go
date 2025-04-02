@@ -34,7 +34,8 @@ func (r SalesCategoriesGetRequest) NewQueryParams() *SalesCategoriesGetRequestQu
 }
 
 type SalesCategoriesGetRequestQueryParams struct {
-	PageToken string `schema:"pageToken,omitempty"`
+	PageToken    string   `schema:"pageToken,omitempty"`
+	LastModified DateTime `schema:"lastModified,omitempty"`
 }
 
 func (p SalesCategoriesGetRequestQueryParams) ToURLValues() (url.Values, error) {

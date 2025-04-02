@@ -776,3 +776,30 @@ type TimeEntry struct {
 	NonCashSales                  float64 `json:"nonCashSales"`
 	CashSales                     float64 `json:"cashSales"`
 }
+
+type MenuItemInventories []MenuItemInventory
+
+type MenuItemInventory struct {
+	GUID             string  `json:"guid"`
+	ItemGUIDValidity string  `json:"itemGuidValidity"`
+	MultiLocationID  string  `json:"multiLocationId"`
+	Quantity         float64 `json:"quantity"`
+	Status           string  `json:"status"`
+	VersionID        string  `json:"versionId"`
+}
+
+type MenuOptionGroups []MenuOptionGroup
+
+type MenuOptionGroup struct {
+	GUID          string `json:"guid"`
+	EntityType    string `json:"entityType"`
+	ExternalID    string `json:"externalId"`
+	MaxSelections int    `json:"maxSelections"`
+	MinSelections int    `json:"minSelections"`
+	Name          string `json:"name"`
+	Options       []struct {
+		GUID       string `json:"guid"`
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
+	} `json:"options"`
+}

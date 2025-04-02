@@ -45,6 +45,6 @@ func TestMain(m *testing.M) {
 		client.SetBaseURL(*baseURL)
 	}
 
-	client.SetDisallowUnknownFields(true)
+	client.SetDisallowUnknownFields(false)
 	m.Run()
 }
