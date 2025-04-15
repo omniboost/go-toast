@@ -382,6 +382,21 @@ type MenuGroup struct {
 	} `json:"items"`
 }
 
+type ModifierGroups []ModifierGroup
+type ModifierGroup struct {
+	GUID       string `json:"guid"`
+	EntityType string `json:"entityType"`
+	ExternalID string `json:"externalId"`
+	Name       string `json:"name"`
+	Options    []struct {
+		GUID       string `json:"guid"`
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
+	} `json:"options"`
+	MinSelections int `json:"minSelections"`
+	MaxSelections int `json:"maxSelections"`
+}
+
 type MenuItems []MenuItem
 
 type MenuItem struct {
