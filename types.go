@@ -33,7 +33,7 @@ type Order struct {
 	} `json:"lastModifiedDevice"`
 	Source            string   `json:"source"`
 	VoidDate          DateTime `json:"voidDate"`
-	Duration          int      `json:"duration"`
+	Duration          *int     `json:"duration"` // switched to pointer
 	DisplayNumber     string   `json:"displayNumber"`
 	BusinessDate      Date     `json:"businessDate"`
 	PaidDate          DateTime `json:"paidDate"`
@@ -42,7 +42,7 @@ type Order struct {
 		EntityType string `json:"entityType"`
 		ExternalID string `json:"externalId"`
 	} `json:"restaurantService"`
-	Voided                   bool     `json:"voided"`
+	Voided                   *bool    `json:"voided"` // switched to pointer
 	EstimatedFulfillmentDate DateTime `json:"estimatedFulfillmentDate"`
 	Table                    struct {
 		GUID       string `json:"guid"`
@@ -59,8 +59,8 @@ type Order struct {
 		State              string   `json:"state"`
 		ZipCode            string   `json:"zipCode"`
 		Country            string   `json:"country"`
-		Latitude           float64  `json:"latitude"`
-		Longitude          float64  `json:"longitude"`
+		Latitude           *float64 `json:"latitude"`  // switched to pointer
+		Longitude          *float64 `json:"longitude"` // switched to pointer
 		Notes              string   `json:"notes"`
 		DeliveredDate      DateTime `json:"deliveredDate"`
 		DispatchedDate     DateTime `json:"dispatchedDate"`
@@ -83,7 +83,7 @@ type Order struct {
 		TransportDescription string `json:"transportDescription"`
 		Notes                string `json:"notes"`
 	} `json:"curbsidePickupInfo"`
-	NumberOfGuests      int `json:"numberOfGuests"`
+	NumberOfGuests      *int `json:"numberOfGuests"` // switched to pointer
 	DeliveryServiceInfo struct {
 		DriverName                 string   `json:"driverName"`
 		DriverPhoneNumber          string   `json:"driverPhoneNumber"`
@@ -102,12 +102,12 @@ type Order struct {
 		EntityType    string `json:"entityType"`
 		ExternalID    string `json:"externalId"`
 		DisplayNumber string `json:"displayNumber"`
-		Duration      int    `json:"duration"`
+		Duration      *int   `json:"duration"` // switched to pointer
 		Payments      []struct {
-			GUID                  string  `json:"guid"`
-			EntityType            string  `json:"entityType"`
-			ExternalID            string  `json:"externalId"`
-			OriginalProcessingFee float64 `json:"originalProcessingFee"`
+			GUID                  string   `json:"guid"`
+			EntityType            string   `json:"entityType"`
+			ExternalID            string   `json:"externalId"`
+			OriginalProcessingFee *float64 `json:"originalProcessingFee"` // switched to pointer
 			Server                struct {
 				GUID       string `json:"guid"`
 				EntityType string `json:"entityType"`
@@ -122,7 +122,7 @@ type Order struct {
 				ID string `json:"id"`
 			} `json:"lastModifiedDevice"`
 			RefundStatus       string      `json:"refundStatus"`
-			IsProcessedOffline interface{} `json:"isProcessedOffline"`
+			IsProcessedOffline interface{} `json:"isProcessedOffline"` // not in the API documentation
 			Type               string      `json:"type"`
 			VoidInfo           struct {
 				VoidUser struct {
@@ -153,24 +153,24 @@ type Order struct {
 			OrderGUID      string   `json:"orderGuid"`
 			CardEntryMode  string   `json:"cardEntryMode"`
 			PaymentStatus  string   `json:"paymentStatus"`
-			Amount         float64  `json:"amount"`
-			TipAmount      float64  `json:"tipAmount"`
-			AmountTendered float64  `json:"amountTendered"`
+			Amount         *float64 `json:"amount"`         // switched to pointer
+			TipAmount      *float64 `json:"tipAmount"`      // switched to pointer
+			AmountTendered *float64 `json:"amountTendered"` // switched to pointer
 			CardType       string   `json:"cardType"`
 			HouseAccount   struct {
 				GUID       string `json:"guid"`
 				EntityType string `json:"entityType"`
 				ExternalID string `json:"externalId"`
 			} `json:"houseAccount"`
-			McaRepaymentAmount float64 `json:"mcaRepaymentAmount"`
+			McaRepaymentAmount *float64 `json:"mcaRepaymentAmount"` // switched to pointer
 			CreatedDevice      struct {
 				ID string `json:"id"`
 			} `json:"createdDevice"`
-			PaidBusinessDate      Date          `json:"paidBusinessDate"`
-			Last4Digits           string        `json:"last4Digits"`
-			Refund                RefundDetails `json:"refund"`
-			CardPaymentID         string        `json:"cardPaymentId"`
-			TenderTransactionGUID string        `json:"tenderTransactionGuid"`
+			PaidBusinessDate      Date   `json:"paidBusinessDate"`
+			Last4Digits           string `json:"last4Digits"`
+			Refund                Refund `json:"refund"` // used to be RefundDetails
+			CardPaymentID         string `json:"cardPaymentId"`
+			TenderTransactionGUID string `json:"tenderTransactionGuid"`
 		} `json:"payments"`
 		AppliedDiscounts AppliedDiscounts `json:"appliedDiscounts"`
 
@@ -188,32 +188,32 @@ type Order struct {
 			AccrualFamilyGuid       string `json:"accrualFamilyGuid"`
 			AccrualText             string `json:"accrualText"`
 		} `json:"appliedLoyaltyInfo"`
-		Voided        bool    `json:"voided"`
-		PaymentStatus string  `json:"paymentStatus"`
-		Amount        float64 `json:"amount"`
-		TabName       string  `json:"tabName"`
-		TaxExempt     bool    `json:"taxExempt"`
+		Voided        *bool    `json:"voided"` // switched to pointer
+		PaymentStatus string   `json:"paymentStatus"`
+		Amount        *float64 `json:"amount"` // switched to pointer
+		TabName       string   `json:"tabName"`
+		TaxExempt     *bool    `json:"taxExempt"` // switched to pointer
 		OpenedBy      struct {
 			GUID       string `json:"guid"`
 			EntityType string `json:"entityType"`
 			ExternalID string `json:"externalId"`
 		} `json:"openedBy"`
 		OpenedDate  DateTime `json:"openedDate"`
-		TotalAmount float64  `json:"totalAmount"`
+		TotalAmount *float64 `json:"totalAmount"` // switched to pointer
 		Selections  []struct {
 			Selection
 			Modifiers []Selection `json:"modifiers"`
 		} `json:"selections"`
 		VoidBusinessDate Date     `json:"voidBusinessDate"`
 		CreatedDate      DateTime `json:"createdDate"`
-		Deleted          bool     `json:"deleted"`
+		Deleted          *bool    `json:"deleted"` // switched to pointer
 		CreatedDevice    struct {
 			ID string `json:"id"`
 		} `json:"createdDevice"`
 		ClosedDate            DateTime              `json:"closedDate"`
 		DeletedDate           DateTime              `json:"deletedDate"`
 		ModifiedDate          DateTime              `json:"modifiedDate"`
-		TaxAmount             float64               `json:"taxAmount"`
+		TaxAmount             *float64              `json:"taxAmount"` // switched to pointer
 		AppliedServiceCharges AppliedServiceCharges `json:"appliedServiceCharges"`
 		Customer              struct {
 			GUID             string `json:"guid"`
@@ -225,7 +225,7 @@ type Order struct {
 			Email            string `json:"email"`
 		} `json:"customer"`
 	} `json:"checks"`
-	Deleted       bool `json:"deleted"`
+	Deleted       *bool `json:"deleted"` // switched to pointer
 	CreatedDevice struct {
 		ID string `json:"id"`
 	} `json:"createdDevice"`
@@ -248,8 +248,8 @@ type Order struct {
 		EntityType string `json:"entityType"`
 		GUID       string `json:"guid"`
 	} `json:"appliedPackagingInfo"`
-	ExcessFood        bool `json:"excessFood"`
-	CreatedInTestMode bool `json:"createdInTestMode"`
+	ExcessFood        *bool `json:"excessFood"`        // switched to pointer
+	CreatedInTestMode *bool `json:"createdInTestMode"` // switched to pointer
 }
 
 type Restaurants []Restaurant
@@ -452,12 +452,12 @@ type SalesCategory struct {
 type DiningOptions []DiningOption
 
 type DiningOption struct {
-	GUID       string      `json:"guid"`
-	EntityType string      `json:"entityType"`
-	ExternalID interface{} `json:"externalId"`
-	Name       string      `json:"name"`
-	Curbside   bool        `json:"curbside"`
-	Behavior   string      `json:"behavior"`
+	GUID       string `json:"guid"`
+	EntityType string `json:"entityType"`
+	ExternalID string `json:"externalId"`
+	Name       string `json:"name"`     // not in the API documentation
+	Curbside   bool   `json:"curbside"` // not in the API documentation
+	Behavior   string `json:"behavior"` // not in the API documentation
 }
 
 type Employees []Employee
@@ -533,8 +533,8 @@ type RevenueCenters []RevenueCenter
 type RevenueCenter struct {
 	GUID        string `json:"guid"`
 	EntityType  string `json:"entityType"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	Name        string `json:"name"`        // not in the API documentation
+	Description string `json:"description"` // not in the API documentation
 	ExternalID  string `json:"externalId"`
 }
 
@@ -562,11 +562,11 @@ type TaxRate struct {
 }
 
 type Selection struct {
-	GUID             string  `json:"guid"`
-	EntityType       string  `json:"entityType"`
-	ExternalID       string  `json:"externalId"`
-	Deferred         bool    `json:"deferred"`
-	PreDiscountPrice float64 `json:"preDiscountPrice"`
+	GUID             string   `json:"guid"`
+	EntityType       string   `json:"entityType"`
+	ExternalID       string   `json:"externalId"`
+	Deferred         *bool    `json:"deferred"`         // switched to pointer
+	PreDiscountPrice *float64 `json:"preDiscountPrice"` // switched to pointer
 	VoidReason       struct {
 		GUID       string `json:"guid"`
 		EntityType string `json:"entityType"`
@@ -578,18 +578,23 @@ type Selection struct {
 		ExternalID      string `json:"externalId"`
 		MultiLocationID string `json:"multiLocationId"`
 	} `json:"optionGroup"`
-	DisplayName              string           `json:"displayName"`
-	AppliedDiscounts         AppliedDiscounts `json:"appliedDiscounts"`
-	SeatNumber               int              `json:"seatNumber"`
-	VoidDate                 DateTime         `json:"voidDate"`
-	FulfillmentStatus        string           `json:"fulfillmentStatus"`
-	OptionGroupPricingMode   string           `json:"optionGroupPricingMode"`
-	SalesCategory            SalesCategory    `json:"salesCategory"`
-	SelectionType            string           `json:"selectionType"`
-	Price                    float64          `json:"price"`
-	Voided                   bool             `json:"voided"`
-	AppliedTaxes             AppliedTaxes     `json:"appliedTaxes"`
-	StoredValueTransactionID interface{}      `json:"storedValueTransactionId"`
+	DisplayName            string           `json:"displayName"`
+	AppliedDiscounts       AppliedDiscounts `json:"appliedDiscounts"`
+	SeatNumber             *int             `json:"seatNumber"` // switched to pointer
+	VoidDate               DateTime         `json:"voidDate"`
+	FulfillmentStatus      string           `json:"fulfillmentStatus"`
+	OptionGroupPricingMode string           `json:"optionGroupPricingMode"`
+	SalesCategory          struct {
+		GUID            string `json:"guid"`
+		EntityType      string `json:"entityType"`
+		ExternalID      string `json:"externalId"`
+		MultiLocationID string `json:"multiLocationId"`
+	} `json:"salesCategory"` // used to be SalesCategory but is actually a reference to SalesCategory (only name is missing)
+	SelectionType            string       `json:"selectionType"`
+	Price                    *float64     `json:"price"`  // switched to pointer
+	Voided                   *bool        `json:"voided"` // switched to pointer
+	AppliedTaxes             AppliedTaxes `json:"appliedTaxes"`
+	StoredValueTransactionID interface{}  `json:"storedValueTransactionId"` // not in the API documentation
 	ItemGroup                struct {
 		GUID            string `json:"guid"`
 		EntityType      string `json:"entityType"`
@@ -603,12 +608,12 @@ type Selection struct {
 		MultiLocationID string `json:"multiLocationId"`
 	} `json:"item"`
 	TaxInclusion     string        `json:"taxInclusion"`
-	Quantity         float64       `json:"quantity"`
-	ReceiptLinePrice float64       `json:"receiptLinePrice"`
+	Quantity         *float64      `json:"quantity"`         // switched to pointer
+	ReceiptLinePrice *float64      `json:"receiptLinePrice"` // switched to pointer
 	UnitOfMeasure    string        `json:"unitOfMeasure"`
 	RefundDetails    RefundDetails `json:"refundDetails"`
-	ToastGiftCard    interface{}   `json:"toastGiftCard"`
-	Tax              float64       `json:"tax"`
+	ToastGiftCard    interface{}   `json:"toastGiftCard"` // not in the API documentation
+	Tax              *float64      `json:"tax"`           // switched to pointer
 	DiningOption     struct {
 		GUID       string `json:"guid"`
 		EntityType string `json:"entityType"`
@@ -623,12 +628,12 @@ type Selection struct {
 		MultiLocationID string `json:"multiLocationId"`
 	} `json:"preModifier"`
 	ModifiedDate        DateTime `json:"modifiedDate"`
-	ExternalPriceAmount float64  `json:"externalPriceAmount"`
+	ExternalPriceAmount *float64 `json:"externalPriceAmount"` // switched to pointer
 	SplitOrigin         struct {
 		GUID       string `json:"guid"`
 		EntityType string `json:"entityType"`
 	} `json:"splitOrigin"`
-	OpenPriceAmount float64 `json:"openPriceAmount"`
+	OpenPriceAmount *float64 `json:"openPriceAmount"` // switched to pointer
 }
 
 type AppliedDiscounts []AppliedDiscount
@@ -658,21 +663,21 @@ type AppliedDiscount struct {
 		EntityType string `json:"entityType"`
 		GUID       string `json:"guid"`
 	} `json:"discount"`
-	DiscountAmount  float64 `json:"discountAmount"`
-	DiscountPercent float64 `json:"discountPercent"`
-	DiscountType    string  `json:"discountType"`
-	EntityType      string  `json:"entityType"`
-	ExternalID      string  `json:"externalId"`
-	GUID            string  `json:"guid"`
+	DiscountAmount  *float64 `json:"discountAmount"`  // switched to pointer
+	DiscountPercent *float64 `json:"discountPercent"` // switched to pointer
+	DiscountType    string   `json:"discountType"`
+	EntityType      string   `json:"entityType"`
+	ExternalID      string   `json:"externalId"`
+	GUID            string   `json:"guid"`
 	LoyaltyDetails  struct {
 		Vendor      string `json:"vendor"`
 		ReferenceID string `json:"referenceId"`
 	} `json:"loyaltyDetails"`
-	Name                 string  `json:"name"`
-	NonTaxDiscountAmount float64 `json:"nonTaxDiscountAmount"`
-	ProcessingState      string  `json:"processingState"`
+	Name                 string   `json:"name"`
+	NonTaxDiscountAmount *float64 `json:"nonTaxDiscountAmount"` // switched to pointer
+	ProcessingState      string   `json:"processingState"`
 	Triggers             []struct {
-		Quantity  float64 `json:"quantity"`
+		Quantity  *float64 `json:"quantity"` // switched to pointer
 		Selection struct {
 			EntityType string `json:"entityType"`
 			ExternalID string `json:"externalId"`
@@ -690,41 +695,52 @@ type AppliedTax struct {
 		GUID       string `json:"guid"`
 		EntityType string `json:"entityType"`
 	} `json:"taxRate"`
-	Rate                          float64 `json:"rate"`
-	Name                          string  `json:"name"`
-	TaxAmount                     float64 `json:"taxAmount"`
-	Type                          string  `json:"type"`
-	FacilitatorCollectAndRemitTax bool    `json:"facilitatorCollectAndRemitTax"`
-	Jurisdiction                  string  `json:"jurisdiction"`
-	JurisdictionType              string  `json:"jurisdictionType"`
-	DisplayName                   string  `json:"displayName"`
+	Rate                          *float64 `json:"rate"` // switched to pointer
+	Name                          string   `json:"name"`
+	TaxAmount                     *float64 `json:"taxAmount"` // switched to pointer
+	Type                          string   `json:"type"`
+	FacilitatorCollectAndRemitTax *bool    `json:"facilitatorCollectAndRemitTax"` // switched to pointer
+	Jurisdiction                  string   `json:"jurisdiction"`
+	JurisdictionType              string   `json:"jurisdictionType"`
+	DisplayName                   string   `json:"displayName"`
 }
 
-type RefundDetails struct {
-	RefundAmount       float64  `json:"refundAmount"`
+type RefundDetails struct { // used to be share for both RefundDetails and Refund
+	RefundAmount *float64 `json:"refundAmount"` // switched to pointer
+	// RefundBusinessDate Date     `json:"refundBusinessDate"`
+	// RefundDate         DateTime `json:"refundDate"`
+	// RefundStrategy     string   `json:"refundStrategy"`
+	RefundTransaction struct {
+		EntityType string `json:"entityType"`
+		GUID       string `json:"guid"`
+	} `json:"refundTransaction"`
+	// TipRefundAmount float64 `json:"tipRefundAmount"`
+	TaxRefundAmount *float64 `json:"taxRefundAmount"` // switched to pointer
+}
+
+type Refund struct {
+	RefundAmount       *float64 `json:"refundAmount"` // switched to pointer
 	RefundBusinessDate Date     `json:"refundBusinessDate"`
 	RefundDate         DateTime `json:"refundDate"`
-	RefundStrategy     string   `json:"refundStrategy"`
 	RefundTransaction  struct {
 		EntityType string `json:"entityType"`
 		GUID       string `json:"guid"`
 	} `json:"refundTransaction"`
-	TipRefundAmount float64 `json:"tipRefundAmount"`
-	TaxRefundAmount float64 `json:"taxRefundAmount"`
+	TipRefundAmount *float64 `json:"tipRefundAmount"` // switched to pointer
 }
 
 type AppliedServiceCharges []AppliedServiceCharge
 
 type AppliedServiceCharge struct {
 	AppliedTaxes  AppliedTaxes  `json:"appliedTaxes"`
-	ChargeAmount  float64       `json:"chargeAmount"`
+	ChargeAmount  *float64      `json:"chargeAmount"` // switched to pointer
 	ChargeType    string        `json:"chargeType"`
-	Delivery      bool          `json:"delivery"`
-	Destination   string        `json:"destination"`
-	DineIn        bool          `json:"dineIn"`
+	Delivery      *bool         `json:"delivery"`    // switched to pointer
+	Destination   string        `json:"destination"` // not in the API documentation
+	DineIn        *bool         `json:"dineIn"`      // switched to pointer
 	EntityType    string        `json:"entityType"`
 	ExternalID    interface{}   `json:"externalId"`
-	Gratuity      bool          `json:"gratuity"`
+	Gratuity      *bool         `json:"gratuity"` // switched to pointer
 	GUID          string        `json:"guid"`
 	Name          string        `json:"name"`
 	PaymentGUID   interface{}   `json:"paymentGuid"`
@@ -736,8 +752,8 @@ type AppliedServiceCharge struct {
 	} `json:"serviceCharge"`
 	ServiceChargeCalculation string `json:"serviceChargeCalculation"`
 	ServiceChargeCategory    string `json:"serviceChargeCategory"`
-	Takeout                  bool   `json:"takeout"`
-	Taxable                  bool   `json:"taxable"`
+	Takeout                  *bool  `json:"takeout"` // switched to pointer
+	Taxable                  *bool  `json:"taxable"` // switched to pointer
 }
 
 type TimeEntries []TimeEntry
@@ -795,12 +811,12 @@ type TimeEntry struct {
 type MenuItemInventories []MenuItemInventory
 
 type MenuItemInventory struct {
-	GUID             string  `json:"guid"`
-	ItemGUIDValidity string  `json:"itemGuidValidity"`
-	MultiLocationID  string  `json:"multiLocationId"`
-	Quantity         float64 `json:"quantity"`
-	Status           string  `json:"status"`
-	VersionID        string  `json:"versionId"`
+	GUID             string   `json:"guid"`
+	ItemGUIDValidity string   `json:"itemGuidValidity"`
+	MultiLocationID  string   `json:"multiLocationId"`
+	Quantity         *float64 `json:"quantity"`
+	Status           string   `json:"status"`
+	VersionID        string   `json:"versionId"`
 }
 
 type MenuOptionGroups []MenuOptionGroup

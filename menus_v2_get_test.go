@@ -13,5 +13,29 @@ func TestMenuV2Get(t *testing.T) {
 		t.Error(err)
 	}
 	b, _ := json.MarshalIndent(resp, "", "  ")
-	fmt.Println(string(b))
+	lines := 0
+	for _, line := range splitLines(string(b)) {
+		fmt.Println(line)
+		lines++
+		if lines >= 10 {
+			break
+		}
+	}
+
+}
+
+// splitLines splits a string into lines.
+func splitLines(s string) []string {
+	var lines []string
+	start := 0
+	for i, c := range s {
+		if c == '\n' {
+			lines = append(lines, s[start:i])
+			start = i + 1
+		}
+	}
+	if start < len(s) {
+		lines = append(lines, s[start:])
+	}
+	return lines
 }

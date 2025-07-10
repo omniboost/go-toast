@@ -121,7 +121,7 @@ type MenuV2GetResponseBody struct {
 		Image               string   `json:"image"`
 		Visibility          []string `json:"visibility"`
 		Availability        struct {
-			AlwaysAvailable bool `json:"alwaysAvailable"`
+			AlwaysAvailable *bool `json:"alwaysAvailable"`
 			Schedule        []struct {
 				Days       []string
 				TimeRanges []struct {
@@ -139,8 +139,8 @@ type MenuV2GetResponseBody struct {
 
 type PricingRulesV2 struct {
 	TimeSpecificPricingRules []struct {
-		TimeSpecificPrice float64 `json:"timeSpecificPrice"`
-		BasePrice         float64 `json:"basePrice"`
+		TimeSpecificPrice *float64 `json:"timeSpecificPrice"`
+		BasePrice         *float64 `json:"basePrice"`
 		Schedule          []struct {
 			Days       []string `json:"days"`
 			TimeRanges []struct {
@@ -154,8 +154,8 @@ type PricingRulesV2 struct {
 		SizeName       string `json:"sizeName"`
 		SizeGUID       string `json:"sizeGuid"`
 		SequencePrices []struct {
-			Sequence int     `json:"sequence"`
-			Price    float64 `json:"price"`
+			Sequence *int     `json:"sequence"`
+			Price    *float64 `json:"price"`
 		} `json:"sequencePrices"`
 	} `json:"sizeSequencePricingRules"`
 }
@@ -191,11 +191,11 @@ type MenuItemV2 struct {
 	POSButtonColorDark  string         `json:"posButtonColorDark"`
 	Image               string         `json:"image"`
 	Visibility          []string       `json:"visibility"`
-	Price               float64        `json:"price"`
+	Price               *float64       `json:"price"`
 	PricingStrategy     string         `json:"pricingStrategy"`
 	PricingRules        PricingRulesV2 `json:"pricingRules"`
-	IsDeferred          bool           `json:"isDeferred"`
-	IsDiscountable      bool           `json:"isDiscountable"`
+	IsDeferred          *bool          `json:"isDeferred"`
+	IsDiscountable      *bool          `json:"isDiscountable"`
 	SalesCategory       struct {
 		Name string `json:"name"`
 		GUID string `json:"guid"`
@@ -208,7 +208,7 @@ type MenuItemV2 struct {
 	} `json:"itemTags"`
 	Plu               string `json:"plu"`
 	Sku               string `json:"sku"`
-	Calories          int    `json:"calories"`
+	Calories          *int   `json:"calories"`
 	ContentAdvisories struct {
 		Alcohol struct {
 			ContainsAlcohol string `json:"containsAlcohol"`
@@ -220,7 +220,7 @@ type MenuItemV2 struct {
 		GUID                    string `json:"guid"`
 		ModifierGroupReferences []int  `json:"modifierGroupReferences"`
 	} `json:"portions"`
-	PrepTime                          int      `json:"prepTime"`
+	PrepTime                          *int     `json:"prepTime"`
 	PrepStations                      []string `json:"prepStations"`
 	ModifierGroupReferences           []int    `json:"modifierGroupReferences"`
 	EligiblePaymentAssistancePrograms []string `json:"eligiblePaymentAssistancePrograms"`
@@ -237,7 +237,7 @@ type MenuItemV2 struct {
 type ModifierGroupV2 struct {
 	Name            string `json:"name"`
 	GUID            string `json:"guid"`
-	ReferenceID     int    `json:"referenceId"`
+	ReferenceID     *int   `json:"referenceId"`
 	MultiLocationID string `json:"multiLocationId"`
 	// MasterID            int      `json:"masterId"` -> deprecated
 	POSName                           string         `json:"posName"`
@@ -248,16 +248,16 @@ type ModifierGroupV2 struct {
 	PricingRules                      PricingRulesV2 `json:"pricingRules"`
 	DefaultOptionsChargePrice         string         `json:"defaultOptionsChargePrice"`
 	DefaultOptionsSubstitutionPricing string         `json:"defaultOptionsSubstitutionPricing"`
-	MinSelections                     int            `json:"minSelections"`
-	MaxSelections                     int            `json:"maxSelections"`
+	MinSelections                     *int           `json:"minSelections"`
+	MaxSelections                     *int           `json:"maxSelections"`
 	RequiredMode                      string         `json:"requiredMode"`
-	IsMultiSelect                     bool           `json:"isMultiSelect"`
-	PreModifierGroupReference         int            `json:"preModifierGroupReference"`
+	IsMultiSelect                     *bool          `json:"isMultiSelect"`
+	PreModifierGroupReference         *int           `json:"preModifierGroupReference"`
 	ModifierOptionReferences          []int          `json:"modifierOptionReferences"`
 }
 
 type ModifierOptionV2 struct {
-	ReferenceID     int    `json:"referenceId"`
+	ReferenceID     *int   `json:"referenceId"`
 	Name            string `json:"name"`
 	KitchenName     string `json:"kitchenName"`
 	GUID            string `json:"guid"`
@@ -270,7 +270,7 @@ type ModifierOptionV2 struct {
 	PrepStations        []string       `json:"prepStations"`
 	Image               string         `json:"image"`
 	Visibility          []string       `json:"visibility"`
-	Price               int            `json:"price"`
+	Price               *float64       `json:"price"`
 	PricingStrategy     string         `json:"pricingStrategy"`
 	PricingRules        PricingRulesV2 `json:"pricingRules"`
 	SalesCategory       struct {
@@ -280,7 +280,7 @@ type ModifierOptionV2 struct {
 	TaxInfo               []string `json:"taxInfo"`
 	ModifierOptionTaxInfo struct {
 		TaxRateGuids         []string `json:"taxRateGuids"`
-		OverrideItemTaxRates bool     `json:"overrideItemTaxRates"`
+		OverrideItemTaxRates *bool    `json:"overrideItemTaxRates"`
 	} `json:"modifierOptionTaxInfo"`
 	ItemTags []struct {
 		Name string `json:"name"`
@@ -288,30 +288,30 @@ type ModifierOptionV2 struct {
 	} `json:"itemTags"`
 	Plu               string `json:"plu"`
 	Sku               string `json:"sku"`
-	Calories          int    `json:"calories"`
+	Calories          *int   `json:"calories"`
 	ContentAdvisories struct {
 		Alcohol struct {
 			ContainsAlcohol string `json:"containsAlcohol"`
 		} `json:"alcohol"`
 	} `json:"contentAdvisories"`
 	UnitOfMeasure    string `json:"unitOfMeasure"`
-	IsDefault        bool   `json:"isDefault"`
-	AllowsDuplicates bool   `json:"allowsDuplicates"`
+	IsDefault        *bool  `json:"isDefault"`
+	AllowsDuplicates *bool  `json:"allowsDuplicates"`
 	Portions         []struct {
 		Name                    string `json:"name"`
 		GUID                    string `json:"guid"`
 		ModifierGroupReferences []int  `json:"modifierGroupReferences"`
 	} `json:"portions"`
-	PrepTime                int      `json:"prepTime"`
+	PrepTime                *int     `json:"prepTime"`
 	ModifierGroupReferences []int    `json:"modifierGroupReferences"`
-	Length                  float64  `json:"length"`
-	Height                  float64  `json:"height"`
-	Width                   float64  `json:"width"`
+	Length                  *float64 `json:"length"`
+	Height                  *float64 `json:"height"`
+	Width                   *float64 `json:"width"`
 	DimensionUnitOfMeasure  string   `json:"dimensionUnitOfMeasure"`
-	Weight                  float64  `json:"weight"`
+	Weight                  *float64 `json:"weight"`
 	WeightUnitOfMeasure     string   `json:"weightUnitOfMeasure"`
 	Images                  []string `json:"images"`
-	GuestCount              float64  `json:"guestCount"`
+	GuestCount              *float64 `json:"guestCount"`
 }
 
 type PreModifierGroupV2 struct {
@@ -319,15 +319,15 @@ type PreModifierGroupV2 struct {
 	GUID            string `json:"guid"`
 	MultiLocationID string `json:"multiLocationId"`
 	PreModifiers    struct {
-		Name                 string  `json:"name"`
-		GUID                 string  `json:"guid"`
-		MultiLocationID      string  `json:"multiLocationId"`
-		FixedPrice           float64 `json:"fixedPrice"`
-		MultiplicationFactor float64 `json:"multiplicationFactor"`
-		DisplayMode          string  `json:"displayMode"`
-		POSName              string  `json:"posName"`
-		POSButtonColorLight  string  `json:"posButtonColorLight"`
-		POSButtonColorDark   string  `json:"posButtonColorDark"`
+		Name                 string   `json:"name"`
+		GUID                 string   `json:"guid"`
+		MultiLocationID      string   `json:"multiLocationId"`
+		FixedPrice           *float64 `json:"fixedPrice"`
+		MultiplicationFactor *float64 `json:"multiplicationFactor"`
+		DisplayMode          string   `json:"displayMode"`
+		POSName              string   `json:"posName"`
+		POSButtonColorLight  string   `json:"posButtonColorLight"`
+		POSButtonColorDark   string   `json:"posButtonColorDark"`
 	} `json:"preModifiers"`
 }
 
