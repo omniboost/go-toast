@@ -584,8 +584,6 @@ func (c *Client) InitToken(req *http.Request) error {
 		c.token = resp.Token
 	}
 
-	log.Printf("Using access token: %s\n", c.token.AccessToken)
-
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", c.token.AccessToken))
 	return nil
 }
