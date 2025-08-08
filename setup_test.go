@@ -19,6 +19,7 @@ func TestMain(m *testing.M) {
 	baseURLString := os.Getenv("BASE_URL")
 	clientID := os.Getenv("CLIENT_ID")
 	clientSecret := os.Getenv("CLIENT_SECRET")
+	// accessToken := os.Getenv("ACCESS_TOKEN")
 	toastRestaurantExternalID := os.Getenv("TOAST_RESTAURANT_EXTERNAL_ID")
 	debug := os.Getenv("DEBUG")
 	if err != nil {
@@ -37,6 +38,7 @@ func TestMain(m *testing.M) {
 	client.SetClientID(clientID)
 	client.SetClientSecret(clientSecret)
 	client.SetToastRestaurantExternalID(toastRestaurantExternalID)
+	// client.SetToken(accessToken, nil, nil, nil, nil, nil, nil) -> for caching token between tests
 	if debug != "" {
 		client.SetDebug(true)
 	}

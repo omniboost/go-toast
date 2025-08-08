@@ -17,6 +17,7 @@ import (
 	"strconv"
 	"strings"
 	"text/template"
+	"time"
 
 	"github.com/omniboost/go-toast/utils"
 	"github.com/pkg/errors"
@@ -88,6 +89,42 @@ type RequestCompletionCallback func(*http.Request, *http.Response)
 
 func (c *Client) SetHTTPClient(client *http.Client) {
 	c.http = client
+}
+
+func (c *Client) SetToken(accessToken string, expiry *time.Time, expiresIn *int, IDToken *string, refreshToken *string, scope *string, tokenType *string) {
+	var expiryValue time.Time
+	if expiry != nil {
+		expiryValue = *expiry
+	}
+
+	var expiresInValue int
+	if expiresIn != nil {
+		expiresInValue = *expiresIn
+	}
+
+	var idTokenValue, refreshTokenValue, scopeValue, tokenTypeValue string
+	if IDToken != nil {
+		idTokenValue = *IDToken
+	}
+	if refreshToken != nil {
+		refreshTokenValue = *refreshToken
+	}
+	if scope != nil {
+		scopeValue = *scope
+	}
+	if tokenType != nil {
+		tokenTypeValue = *tokenType
+	}
+
+	c.token = Token{
+		AccessToken:  accessToken,
+		expiry:       expiryValue,
+		ExpiresIn:    expiresInValue,
+		IDToken:      idTokenValue,
+		RefreshToken: refreshTokenValue,
+		Scope:        scopeValue,
+		TokenType:    tokenTypeValue,
+	}
 }
 
 func (c Client) ClientID() string {
@@ -546,6 +583,8 @@ func (c *Client) InitToken(req *http.Request) error {
 
 		c.token = resp.Token
 	}
+
+	log.Printf("Using access token: %s\n", c.token.AccessToken)
 
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", c.token.AccessToken))
 	return nil
