@@ -91,6 +91,11 @@ func (c *Client) SetHTTPClient(client *http.Client) {
 	c.http = client
 }
 
+func (c Client) Token() Token {
+	return c.token
+}
+
+// TODO: add lock on client access token while refreshing
 func (c *Client) SetToken(accessToken string, expiry *time.Time, expiresIn *int, IDToken *string, refreshToken *string, scope *string, tokenType *string) {
 	var expiryValue time.Time
 	if expiry != nil {
