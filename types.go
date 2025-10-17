@@ -834,3 +834,10 @@ type MenuOptionGroup struct {
 		ExternalID string `json:"externalId"`
 	} `json:"options"`
 }
+
+type VoidSaleReasons []VoidSaleReason
+type VoidSaleReason struct {
+	GUID       string `json:"guid"`
+	EntityType string `json:"entityType"`
+	Name       string `json:"name"`
+}
