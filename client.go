@@ -21,6 +21,7 @@ import (
 
 	"github.com/omniboost/go-toast/utils"
 	"github.com/pkg/errors"
+	"golang.org/x/time/rate"
 )
 
 const (
@@ -45,6 +46,11 @@ func NewClient(httpClient *http.Client) *Client {
 	}
 
 	client := &Client{}
+
+	// 20 requests per second, 10,000 requests per 15 minutes
+	client.limiters = []*rate.Limiter{
+		rate.NewLimiter(rate.Limit(10000/(15*60)), 20),
+	}
 
 	client.SetHTTPClient(httpClient)
 	client.SetBaseURL(BaseURL)
@@ -78,6 +84,7 @@ type Client struct {
 	disallowUnknownFields bool
 
 	// Rate limiting
+	limiters  []*rate.Limiter
 	rateLimit struct {
 		Remaining int
 		Reset     time.Time
@@ -94,6 +101,8 @@ type BeforeRequestDoCallback func(*http.Client, *http.Request, interface{})
 type RequestCompletionCallback func(*http.Request, *http.Response)
 
 func (c *Client) SetHTTPClient(client *http.Client) {
+	// add rate limiter to transport and wrap old transport
+	client.Transport = NewThrottledTransport(c.limiters, client.Transport)
 	c.http = client
 }
 
