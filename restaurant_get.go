@@ -1,6 +1,7 @@
 package toast
 
 import (
+	"context"
 	"net/http"
 	"net/url"
 	"time"
@@ -132,9 +133,9 @@ func (r *RestaurantGetRequest) URL() *url.URL {
 	return &u
 }
 
-func (r *RestaurantGetRequest) Do() (RestaurantGetResponseBody, error, *http.Response) {
+func (r *RestaurantGetRequest) Do(ctx context.Context) (RestaurantGetResponseBody, error, *http.Response) {
 	// Create http request
-	req, err := r.client.NewRequest(nil, r)
+	req, err := r.client.NewRequest(ctx, r)
 	if err != nil {
 		return *r.NewResponseBody(), err, nil
 	}
@@ -154,4 +155,3 @@ func (r *RestaurantGetRequest) Do() (RestaurantGetResponseBody, error, *http.Res
 	resp, err := r.client.Do(req, responseBody)
 	return *responseBody, err, resp
 }
-

@@ -1,6 +1,7 @@
 package toast
 
 import (
+	"context"
 	"net/http"
 	"net/url"
 
@@ -109,9 +110,9 @@ func (r *EmployeesPostRequest) URL() *url.URL {
 	return &u
 }
 
-func (r *EmployeesPostRequest) Do() (EmployeesPostResponseBody, error, *http.Response) {
+func (r *EmployeesPostRequest) Do(ctx context.Context) (EmployeesPostResponseBody, error, *http.Response) {
 	// Create http request
-	req, err := r.client.NewRequest(nil, r)
+	req, err := r.client.NewRequest(ctx, r)
 	if err != nil {
 		return *r.NewResponseBody(), err, nil
 	}

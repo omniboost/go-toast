@@ -1,6 +1,7 @@
 package toast_test
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"testing"
@@ -8,7 +9,7 @@ import (
 
 func TimeEntriesGetRequest(t *testing.T) {
 	req := client.NewTimeEntriesGetRequest()
-	resp, err, _ := req.Do()
+	resp, err, _ := req.Do(context.Background())
 	if err != nil {
 		t.Error(err)
 	}

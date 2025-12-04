@@ -1,6 +1,7 @@
 package toast_test
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"testing"
@@ -9,7 +10,7 @@ import (
 func TestRestaurantGet(t *testing.T) {
 	req := client.NewRestaurantGetRequest()
 	req.PathParams().GUID = client.ToastRestaurantExternalID()
-	resp, err, _ := req.Do()
+	resp, err, _ := req.Do(context.Background())
 	if err != nil {
 		t.Error(err)
 	}
@@ -17,4 +18,3 @@ func TestRestaurantGet(t *testing.T) {
 	b, _ := json.MarshalIndent(resp, "", "  ")
 	fmt.Println(string(b))
 }
-

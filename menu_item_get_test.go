@@ -1,6 +1,7 @@
 package toast_test
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"testing"
@@ -9,7 +10,7 @@ import (
 func TestMenuItemGet(t *testing.T) {
 	req := client.NewMenuItemGetRequest()
 	req.PathParams().GUID = "b3550ab4-269b-4f48-8027-4ac1b2369802"
-	resp, err, _ := req.Do()
+	resp, err, _ := req.Do(context.Background())
 	if err != nil {
 		t.Error(err)
 	}

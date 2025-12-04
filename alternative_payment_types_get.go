@@ -1,6 +1,7 @@
 package toast
 
 import (
+	"context"
 	"net/http"
 	"net/url"
 
@@ -112,9 +113,9 @@ func (r *AlternativePaymentTypesGetRequest) URL() *url.URL {
 	return &u
 }
 
-func (r *AlternativePaymentTypesGetRequest) Do() (AlternativePaymentTypesGetResponseBody, error, *http.Response) {
+func (r *AlternativePaymentTypesGetRequest) Do(ctx context.Context) (AlternativePaymentTypesGetResponseBody, error, *http.Response) {
 	// Create http request
-	req, err := r.client.NewRequest(nil, r)
+	req, err := r.client.NewRequest(ctx, r)
 	if err != nil {
 		return *r.NewResponseBody(), err, nil
 	}
@@ -135,8 +136,8 @@ func (r *AlternativePaymentTypesGetRequest) Do() (AlternativePaymentTypesGetResp
 	return *responseBody, err, resp
 }
 
-func (r *AlternativePaymentTypesGetRequest) All() (AlternativePaymentTypesGetResponseBody, error) {
-	body, err, resp := r.Do()
+func (r *AlternativePaymentTypesGetRequest) All(ctx context.Context) (AlternativePaymentTypesGetResponseBody, error) {
+	body, err, resp := r.Do(ctx)
 	if err != nil {
 		return body, err
 	}
@@ -149,7 +150,7 @@ func (r *AlternativePaymentTypesGetRequest) All() (AlternativePaymentTypesGetRes
 
 	for token != "" {
 		r.QueryParams().PageToken = token
-		body, err, resp = r.Do()
+		body, err, resp = r.Do(ctx)
 		if err != nil {
 			return concat, err
 		}

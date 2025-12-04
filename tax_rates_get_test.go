@@ -1,6 +1,7 @@
 package toast_test
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"testing"
@@ -8,7 +9,7 @@ import (
 
 func TestTaxRatesGet(t *testing.T) {
 	req := client.NewTaxRatesGetRequest()
-	resp, err, _ := req.Do()
+	resp, err, _ := req.Do(context.Background())
 	if err != nil {
 		t.Error(err)
 	}

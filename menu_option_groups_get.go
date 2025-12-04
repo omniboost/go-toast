@@ -1,6 +1,7 @@
 package toast
 
 import (
+	"context"
 	"net/http"
 	"net/url"
 
@@ -113,9 +114,9 @@ func (r *MenuOptionGroupsGetRequest) URL() *url.URL {
 	return &u
 }
 
-func (r *MenuOptionGroupsGetRequest) Do() (MenuOptionGroupsGetResponseBody, error, *http.Response) {
+func (r *MenuOptionGroupsGetRequest) Do(ctx context.Context) (MenuOptionGroupsGetResponseBody, error, *http.Response) {
 	// Create http request
-	req, err := r.client.NewRequest(nil, r)
+	req, err := r.client.NewRequest(ctx, r)
 	if err != nil {
 		return *r.NewResponseBody(), err, nil
 	}
@@ -136,8 +137,8 @@ func (r *MenuOptionGroupsGetRequest) Do() (MenuOptionGroupsGetResponseBody, erro
 	return *responseBody, err, resp
 }
 
-func (r *MenuOptionGroupsGetRequest) All() (MenuOptionGroupsGetResponseBody, error) {
-	body, err, resp := r.Do()
+func (r *MenuOptionGroupsGetRequest) All(ctx context.Context) (MenuOptionGroupsGetResponseBody, error) {
+	body, err, resp := r.Do(ctx)
 	if err != nil {
 		return body, err
 	}
@@ -150,7 +151,7 @@ func (r *MenuOptionGroupsGetRequest) All() (MenuOptionGroupsGetResponseBody, err
 
 	for token != "" {
 		r.QueryParams().PageToken = token
-		body, err, resp = r.Do()
+		body, err, resp = r.Do(ctx)
 		if err != nil {
 			return concat, err
 		}

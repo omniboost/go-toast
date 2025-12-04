@@ -1,6 +1,7 @@
 package toast
 
 import (
+	"context"
 	"net/http"
 	"net/url"
 
@@ -110,9 +111,9 @@ func (r *VoidSaleReasonsGetRequest) URL() *url.URL {
 	return &u
 }
 
-func (r *VoidSaleReasonsGetRequest) Do() (VoidSaleReasonsGetResponseBody, error, *http.Response) {
+func (r *VoidSaleReasonsGetRequest) Do(ctx context.Context) (VoidSaleReasonsGetResponseBody, error, *http.Response) {
 	// Create http request
-	req, err := r.client.NewRequest(nil, r)
+	req, err := r.client.NewRequest(ctx, r)
 	if err != nil {
 		return *r.NewResponseBody(), err, nil
 	}
@@ -133,8 +134,8 @@ func (r *VoidSaleReasonsGetRequest) Do() (VoidSaleReasonsGetResponseBody, error,
 	return *responseBody, err, resp
 }
 
-func (r *VoidSaleReasonsGetRequest) All() (VoidSaleReasonsGetResponseBody, error) {
-	body, err, _ := r.Do()
+func (r *VoidSaleReasonsGetRequest) All(ctx context.Context) (VoidSaleReasonsGetResponseBody, error) {
+	body, err, _ := r.Do(ctx)
 	if err != nil {
 		return body, err
 	}

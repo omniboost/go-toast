@@ -1,6 +1,7 @@
 package toast
 
 import (
+	"context"
 	"net/http"
 	"net/url"
 
@@ -33,7 +34,7 @@ func (r PaymentGetRequest) NewQueryParams() *PaymentGetRequestQueryParams {
 	return &PaymentGetRequestQueryParams{}
 }
 
-type PaymentGetRequestQueryParams struct {}
+type PaymentGetRequestQueryParams struct{}
 
 func (p PaymentGetRequestQueryParams) ToURLValues() (url.Values, error) {
 	encoder := utils.NewSchemaEncoder()
@@ -113,9 +114,9 @@ func (r *PaymentGetRequest) URL() *url.URL {
 	return &u
 }
 
-func (r *PaymentGetRequest) Do() (PaymentGetResponseBody, error, *http.Response) {
+func (r *PaymentGetRequest) Do(ctx context.Context) (PaymentGetResponseBody, error, *http.Response) {
 	// Create http request
-	req, err := r.client.NewRequest(nil, r)
+	req, err := r.client.NewRequest(ctx, r)
 	if err != nil {
 		return *r.NewResponseBody(), err, nil
 	}
@@ -135,5 +136,3 @@ func (r *PaymentGetRequest) Do() (PaymentGetResponseBody, error, *http.Response)
 	resp, err := r.client.Do(req, responseBody)
 	return *responseBody, err, resp
 }
-
-

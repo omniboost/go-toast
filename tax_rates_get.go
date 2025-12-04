@@ -1,6 +1,7 @@
 package toast
 
 import (
+	"context"
 	"net/http"
 	"net/url"
 
@@ -112,9 +113,9 @@ func (r *TaxRatesGetRequest) URL() *url.URL {
 	return &u
 }
 
-func (r *TaxRatesGetRequest) Do() (TaxRatesGetResponseBody, error, *http.Response) {
+func (r *TaxRatesGetRequest) Do(ctx context.Context) (TaxRatesGetResponseBody, error, *http.Response) {
 	// Create http request
-	req, err := r.client.NewRequest(nil, r)
+	req, err := r.client.NewRequest(ctx, r)
 	if err != nil {
 		return *r.NewResponseBody(), err, nil
 	}
@@ -135,8 +136,8 @@ func (r *TaxRatesGetRequest) Do() (TaxRatesGetResponseBody, error, *http.Respons
 	return *responseBody, err, resp
 }
 
-func (r *TaxRatesGetRequest) All() (TaxRatesGetResponseBody, error) {
-	body, err, resp := r.Do()
+func (r *TaxRatesGetRequest) All(ctx context.Context) (TaxRatesGetResponseBody, error) {
+	body, err, resp := r.Do(ctx)
 	if err != nil {
 		return body, err
 	}
@@ -149,7 +150,7 @@ func (r *TaxRatesGetRequest) All() (TaxRatesGetResponseBody, error) {
 
 	for token != "" {
 		r.QueryParams().PageToken = token
-		body, err, resp = r.Do()
+		body, err, resp = r.Do(ctx)
 		if err != nil {
 			return concat, err
 		}

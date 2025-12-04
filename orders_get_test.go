@@ -1,6 +1,7 @@
 package toast_test
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"testing"
@@ -8,8 +9,8 @@ import (
 
 func TestOrdersGet(t *testing.T) {
 	req := client.NewOrdersGetRequest()
-	req.PathParams().OrderGUID = "5b70e749-a365-4d13-a78b-94a55ea7e8e7"
-	resp, err, _ := req.Do()
+	req.PathParams().OrderGUID = "71213cdd-b21a-43f2-ab40-04a824034f37"
+	resp, err, _ := req.Do(context.Background())
 	if err != nil {
 		t.Error(err)
 	}
@@ -17,4 +18,3 @@ func TestOrdersGet(t *testing.T) {
 	b, _ := json.MarshalIndent(resp, "", "  ")
 	fmt.Println(string(b))
 }
-

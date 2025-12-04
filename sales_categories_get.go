@@ -1,6 +1,7 @@
 package toast
 
 import (
+	"context"
 	"net/http"
 	"net/url"
 
@@ -113,9 +114,9 @@ func (r *SalesCategoriesGetRequest) URL() *url.URL {
 	return &u
 }
 
-func (r *SalesCategoriesGetRequest) Do() (SalesCategoriesGetResponseBody, error, *http.Response) {
+func (r *SalesCategoriesGetRequest) Do(ctx context.Context) (SalesCategoriesGetResponseBody, error, *http.Response) {
 	// Create http request
-	req, err := r.client.NewRequest(nil, r)
+	req, err := r.client.NewRequest(ctx, r)
 	if err != nil {
 		return *r.NewResponseBody(), err, nil
 	}
@@ -136,8 +137,8 @@ func (r *SalesCategoriesGetRequest) Do() (SalesCategoriesGetResponseBody, error,
 	return *responseBody, err, resp
 }
 
-func (r *SalesCategoriesGetRequest) All() (SalesCategoriesGetResponseBody, error) {
-	body, err, resp := r.Do()
+func (r *SalesCategoriesGetRequest) All(ctx context.Context) (SalesCategoriesGetResponseBody, error) {
+	body, err, resp := r.Do(ctx)
 	if err != nil {
 		return body, err
 	}
@@ -150,7 +151,7 @@ func (r *SalesCategoriesGetRequest) All() (SalesCategoriesGetResponseBody, error
 
 	for token != "" {
 		r.QueryParams().PageToken = token
-		body, err, resp = r.Do()
+		body, err, resp = r.Do(ctx)
 		if err != nil {
 			return concat, err
 		}

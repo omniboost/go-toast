@@ -1,6 +1,7 @@
 package toast
 
 import (
+	"context"
 	"net/http"
 	"net/url"
 
@@ -116,9 +117,9 @@ func (r *PaymentsGetRequest) URL() *url.URL {
 	return &u
 }
 
-func (r *PaymentsGetRequest) Do() (PaymentsGetResponseBody, error, *http.Response) {
+func (r *PaymentsGetRequest) Do(ctx context.Context) (PaymentsGetResponseBody, error, *http.Response) {
 	// Create http request
-	req, err := r.client.NewRequest(nil, r)
+	req, err := r.client.NewRequest(ctx, r)
 	if err != nil {
 		return *r.NewResponseBody(), err, nil
 	}
@@ -139,8 +140,8 @@ func (r *PaymentsGetRequest) Do() (PaymentsGetResponseBody, error, *http.Respons
 	return *responseBody, err, resp
 }
 
-func (r *PaymentsGetRequest) All() (PaymentsGetResponseBody, error) {
-	body, err, resp := r.Do()
+func (r *PaymentsGetRequest) All(ctx context.Context) (PaymentsGetResponseBody, error) {
+	body, err, resp := r.Do(ctx)
 	if err != nil {
 		return body, err
 	}
@@ -153,7 +154,7 @@ func (r *PaymentsGetRequest) All() (PaymentsGetResponseBody, error) {
 
 	for next != 0 {
 		r.QueryParams().Page = next
-		body, err, resp = r.Do()
+		body, err, resp = r.Do(ctx)
 		if err != nil {
 			return concat, err
 		}

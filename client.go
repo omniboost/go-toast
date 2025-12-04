@@ -568,7 +568,7 @@ func (c *Client) InitToken(req *http.Request) error {
 		req := c.NewLoginPostRequest()
 		req.RequestBody().ClientID = c.ClientID()
 		req.RequestBody().ClientSecret = c.ClientSecret()
-		resp, err := req.Do()
+		resp, err := req.Do(context.Background())
 		if err != nil {
 			return errors.WithStack(err)
 		}
@@ -580,7 +580,7 @@ func (c *Client) InitToken(req *http.Request) error {
 		req := c.NewLoginPostRequest()
 		req.RequestBody().ClientID = c.ClientID()
 		req.RequestBody().ClientSecret = c.ClientSecret()
-		resp, err := req.Do()
+		resp, err := req.Do(context.Background())
 		if err != nil {
 			return errors.WithStack(err)
 		}

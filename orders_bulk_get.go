@@ -1,6 +1,7 @@
 package toast
 
 import (
+	"context"
 	"net/http"
 	"net/url"
 
@@ -116,9 +117,9 @@ func (r *OrdersBulkGetRequest) URL() *url.URL {
 	return &u
 }
 
-func (r *OrdersBulkGetRequest) Do() (OrdersBulkGetResponseBody, error, *http.Response) {
+func (r *OrdersBulkGetRequest) Do(ctx context.Context) (OrdersBulkGetResponseBody, error, *http.Response) {
 	// Create http request
-	req, err := r.client.NewRequest(nil, r)
+	req, err := r.client.NewRequest(ctx, r)
 	if err != nil {
 		return *r.NewResponseBody(), err, nil
 	}
@@ -139,8 +140,8 @@ func (r *OrdersBulkGetRequest) Do() (OrdersBulkGetResponseBody, error, *http.Res
 	return *responseBody, err, resp
 }
 
-func (r *OrdersBulkGetRequest) All() (OrdersBulkGetResponseBody, error) {
-	body, err, resp := r.Do()
+func (r *OrdersBulkGetRequest) All(ctx context.Context) (OrdersBulkGetResponseBody, error) {
+	body, err, resp := r.Do(ctx)
 	if err != nil {
 		return body, err
 	}
@@ -153,7 +154,7 @@ func (r *OrdersBulkGetRequest) All() (OrdersBulkGetResponseBody, error) {
 
 	for next != 0 {
 		r.QueryParams().Page = next
-		body, err, resp = r.Do()
+		body, err, resp = r.Do(ctx)
 		if err != nil {
 			return concat, err
 		}

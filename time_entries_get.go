@@ -1,6 +1,7 @@
 package toast
 
 import (
+	"context"
 	"net/http"
 	"net/url"
 
@@ -119,9 +120,9 @@ func (r *TimeEntriesGetRequest) URL() *url.URL {
 	return &u
 }
 
-func (r *TimeEntriesGetRequest) Do() (TimeEntriesGetResponseBody, error, *http.Response) {
+func (r *TimeEntriesGetRequest) Do(ctx context.Context) (TimeEntriesGetResponseBody, error, *http.Response) {
 	// Create http request
-	req, err := r.client.NewRequest(nil, r)
+	req, err := r.client.NewRequest(ctx, r)
 	if err != nil {
 		return *r.NewResponseBody(), err, nil
 	}
@@ -142,8 +143,8 @@ func (r *TimeEntriesGetRequest) Do() (TimeEntriesGetResponseBody, error, *http.R
 	return *responseBody, err, resp
 }
 
-func (r *TimeEntriesGetRequest) All() (TimeEntriesGetResponseBody, error) {
-	body, err, _ := r.Do()
+func (r *TimeEntriesGetRequest) All(ctx context.Context) (TimeEntriesGetResponseBody, error) {
+	body, err, _ := r.Do(ctx)
 	if err != nil {
 		return body, err
 	}

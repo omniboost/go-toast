@@ -1,6 +1,7 @@
 package toast
 
 import (
+	"context"
 	"net/http"
 	"net/url"
 
@@ -113,9 +114,9 @@ func (r *MenuItemGetRequest) URL() *url.URL {
 	return &u
 }
 
-func (r *MenuItemGetRequest) Do() (MenuItemGetResponseBody, error, *http.Response) {
+func (r *MenuItemGetRequest) Do(ctx context.Context) (MenuItemGetResponseBody, error, *http.Response) {
 	// Create http request
-	req, err := r.client.NewRequest(nil, r)
+	req, err := r.client.NewRequest(ctx, r)
 	if err != nil {
 		return *r.NewResponseBody(), err, nil
 	}
