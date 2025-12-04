@@ -77,6 +77,12 @@ type Client struct {
 	charset               string
 	disallowUnknownFields bool
 
+	// Rate limiting
+	rateLimit struct {
+		Remaining int
+		Reset     time.Time
+	}
+
 	// Optional function called after every successful request made to the DO Clients
 	beforeRequestDo    BeforeRequestDoCallback
 	onRequestCompleted RequestCompletionCallback
@@ -338,6 +344,9 @@ func (c *Client) NewFormRequest(ctx context.Context, method string, URL url.URL,
 // pointed to by v, or returned as an error if an Client error has occurred. If v implements the io.Writer interface,
 // the raw response will be written to v, without attempting to decode it.
 func (c *Client) Do(req *http.Request, body interface{}) (*http.Response, error) {
+	// Sleep for rate limits
+	c.sleepUntilRateLimit()
+
 	if c.beforeRequestDo != nil {
 		c.beforeRequestDo(c.http, req, body)
 	}
@@ -351,6 +360,9 @@ func (c *Client) Do(req *http.Request, body interface{}) (*http.Response, error)
 	if err != nil {
 		return nil, err
 	}
+
+	// Register request limit
+	c.registerRateLimit(httpResp)
 
 	if c.onRequestCompleted != nil {
 		c.onRequestCompleted(req, httpResp)
@@ -366,6 +378,12 @@ func (c *Client) Do(req *http.Request, body interface{}) (*http.Response, error)
 	if c.debug == true {
 		dump, _ := httputil.DumpResponse(httpResp, true)
 		log.Println(string(dump))
+	}
+
+	// Handle '429 - Too many requests' response
+	if httpResp.StatusCode == 429 {
+		c.sleepUntilRateLimit()
+		return c.Do(req, body)
 	}
 
 	// check if the response isn't an error
@@ -398,6 +416,36 @@ func (c *Client) Do(req *http.Request, body interface{}) (*http.Response, error)
 	}
 
 	return httpResp, nil
+}
+
+func (c *Client) registerRateLimit(req *http.Response) error {
+	// Create variables
+	var err error
+
+	// Set remaining
+	c.rateLimit.Remaining, err = strconv.Atoi(req.Header.Get("X-Toast-Ratelimit-Remaining"))
+	if err != nil {
+		return err
+	}
+
+	// Set reset timestamp
+	i, err := strconv.ParseInt(req.Header.Get("X-Toast-Ratelimit-Reset"), 10, 64)
+	if err != nil {
+		return err
+	}
+	c.rateLimit.Reset = time.Unix(i, 0)
+
+	return nil
+}
+
+func (c *Client) sleepUntilRateLimit() {
+	// When remaining requests is more than 1, continue
+	if c.rateLimit.Remaining > 1 {
+		return
+	}
+
+	// Sleep for time until it reaches reset
+	time.Sleep(time.Until(c.rateLimit.Reset))
 }
 
 func (c *Client) Unmarshal(r io.Reader, vv ...interface{}) error {
