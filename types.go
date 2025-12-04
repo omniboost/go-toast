@@ -98,80 +98,12 @@ type Order struct {
 	OpenedDate       DateTime     `json:"openedDate"`
 	VoidBusinessDate Date         `json:"voidBusinessDate"`
 	Checks           []struct {
-		GUID          string `json:"guid"`
-		EntityType    string `json:"entityType"`
-		ExternalID    string `json:"externalId"`
-		DisplayNumber string `json:"displayNumber"`
-		Duration      *int   `json:"duration"` // switched to pointer
-		Payments      []struct {
-			GUID                  string   `json:"guid"`
-			EntityType            string   `json:"entityType"`
-			ExternalID            string   `json:"externalId"`
-			OriginalProcessingFee *float64 `json:"originalProcessingFee"` // switched to pointer
-			Server                struct {
-				GUID       string `json:"guid"`
-				EntityType string `json:"entityType"`
-				ExternalID string `json:"externalId"`
-			} `json:"server"`
-			CashDrawer struct {
-				GUID       string `json:"guid"`
-				EntityType string `json:"entityType"`
-				ExternalID string `json:"externalId"`
-			} `json:"cashDrawer"`
-			LastModifiedDevice struct {
-				ID string `json:"id"`
-			} `json:"lastModifiedDevice"`
-			RefundStatus       string      `json:"refundStatus"`
-			IsProcessedOffline interface{} `json:"isProcessedOffline"` // not in the API documentation
-			Type               string      `json:"type"`
-			VoidInfo           struct {
-				VoidUser struct {
-					GUID       string `json:"guid"`
-					EntityType string `json:"entityType"`
-					ExternalID string `json:"externalId"`
-				} `json:"voidUser"`
-				VoidApprover struct {
-					GUID       string `json:"guid"`
-					EntityType string `json:"entityType"`
-					ExternalID string `json:"externalId"`
-				} `json:"voidApprover"`
-				VoidDate         DateTime `json:"voidDate"`
-				VoidBusinessDate Date     `json:"voidBusinessDate"`
-				VoidReason       struct {
-					GUID       string `json:"guid"`
-					EntityType string `json:"entityType"`
-					ExternalID string `json:"externalId"`
-				} `json:"voidReason"`
-			} `json:"voidInfo"`
-			CheckGUID    string `json:"checkGuid"`
-			OtherPayment struct {
-				GUID       string `json:"guid"`
-				EntityType string `json:"entityType"`
-				ExternalID string `json:"externalId"`
-			} `json:"otherPayment"`
-			PaidDate       DateTime `json:"paidDate"`
-			OrderGUID      string   `json:"orderGuid"`
-			CardEntryMode  string   `json:"cardEntryMode"`
-			PaymentStatus  string   `json:"paymentStatus"`
-			Amount         *float64 `json:"amount"`         // switched to pointer
-			TipAmount      *float64 `json:"tipAmount"`      // switched to pointer
-			AmountTendered *float64 `json:"amountTendered"` // switched to pointer
-			CardType       string   `json:"cardType"`
-			HouseAccount   struct {
-				GUID       string `json:"guid"`
-				EntityType string `json:"entityType"`
-				ExternalID string `json:"externalId"`
-			} `json:"houseAccount"`
-			McaRepaymentAmount *float64 `json:"mcaRepaymentAmount"` // switched to pointer
-			CreatedDevice      struct {
-				ID string `json:"id"`
-			} `json:"createdDevice"`
-			PaidBusinessDate      Date   `json:"paidBusinessDate"`
-			Last4Digits           string `json:"last4Digits"`
-			Refund                Refund `json:"refund"` // used to be RefundDetails
-			CardPaymentID         string `json:"cardPaymentId"`
-			TenderTransactionGUID string `json:"tenderTransactionGuid"`
-		} `json:"payments"`
+		GUID             string           `json:"guid"`
+		EntityType       string           `json:"entityType"`
+		ExternalID       string           `json:"externalId"`
+		DisplayNumber    string           `json:"displayNumber"`
+		Duration         *int             `json:"duration"` // switched to pointer
+		Payments         Payments         `json:"payments"`
 		AppliedDiscounts AppliedDiscounts `json:"appliedDiscounts"`
 
 		LastModifiedDevice struct {
@@ -840,4 +772,76 @@ type VoidSaleReason struct {
 	GUID       string `json:"guid"`
 	EntityType string `json:"entityType"`
 	Name       string `json:"name"`
+}
+
+type Payments []Payment
+
+type Payment struct {
+	GUID                  string   `json:"guid"`
+	EntityType            string   `json:"entityType"`
+	ExternalID            string   `json:"externalId"`
+	OriginalProcessingFee *float64 `json:"originalProcessingFee"` // switched to pointer
+	Server                struct {
+		GUID       string `json:"guid"`
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
+	} `json:"server"`
+	CashDrawer struct {
+		GUID       string `json:"guid"`
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
+	} `json:"cashDrawer"`
+	LastModifiedDevice struct {
+		ID string `json:"id"`
+	} `json:"lastModifiedDevice"`
+	RefundStatus       string `json:"refundStatus"`
+	IsProcessedOffline any    `json:"isProcessedOffline"` // not in the API documentation
+	Type               string `json:"type"`
+	VoidInfo           struct {
+		VoidUser struct {
+			GUID       string `json:"guid"`
+			EntityType string `json:"entityType"`
+			ExternalID string `json:"externalId"`
+		} `json:"voidUser"`
+		VoidApprover struct {
+			GUID       string `json:"guid"`
+			EntityType string `json:"entityType"`
+			ExternalID string `json:"externalId"`
+		} `json:"voidApprover"`
+		VoidDate         DateTime `json:"voidDate"`
+		VoidBusinessDate Date     `json:"voidBusinessDate"`
+		VoidReason       struct {
+			GUID       string `json:"guid"`
+			EntityType string `json:"entityType"`
+			ExternalID string `json:"externalId"`
+		} `json:"voidReason"`
+	} `json:"voidInfo"`
+	CheckGUID    string `json:"checkGuid"`
+	OtherPayment struct {
+		GUID       string `json:"guid"`
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
+	} `json:"otherPayment"`
+	PaidDate       DateTime `json:"paidDate"`
+	OrderGUID      string   `json:"orderGuid"`
+	CardEntryMode  string   `json:"cardEntryMode"`
+	PaymentStatus  string   `json:"paymentStatus"`
+	Amount         *float64 `json:"amount"`         // switched to pointer
+	TipAmount      *float64 `json:"tipAmount"`      // switched to pointer
+	AmountTendered *float64 `json:"amountTendered"` // switched to pointer
+	CardType       string   `json:"cardType"`
+	HouseAccount   struct {
+		GUID       string `json:"guid"`
+		EntityType string `json:"entityType"`
+		ExternalID string `json:"externalId"`
+	} `json:"houseAccount"`
+	McaRepaymentAmount *float64 `json:"mcaRepaymentAmount"` // switched to pointer
+	CreatedDevice      struct {
+		ID string `json:"id"`
+	} `json:"createdDevice"`
+	PaidBusinessDate      Date   `json:"paidBusinessDate"`
+	Last4Digits           string `json:"last4Digits"`
+	Refund                Refund `json:"refund"` // used to be RefundDetails
+	CardPaymentID         string `json:"cardPaymentId"`
+	TenderTransactionGUID string `json:"tenderTransactionGuid"`
 }
