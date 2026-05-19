@@ -101,8 +101,13 @@ type BeforeRequestDoCallback func(*http.Client, *http.Request, interface{})
 type RequestCompletionCallback func(*http.Request, *http.Response)
 
 func (c *Client) SetHTTPClient(client *http.Client) {
+	transport := client.Transport
+	if transport == nil {
+		transport = http.DefaultTransport
+	}
+
 	// add rate limiter to transport and wrap old transport
-	client.Transport = NewThrottledTransport(c.limiters, client.Transport)
+	client.Transport = NewThrottledTransport(c.limiters, transport)
 	c.http = client
 }
 
