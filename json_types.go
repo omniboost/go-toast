@@ -53,7 +53,13 @@ func (d *Date) UnmarshalJSON(text []byte) (err error) {
 		return nil
 	}
 
-	// first try standard date
+	// first try short format
+	d.Time, err = time.Parse("20060102", value)
+	if err == nil {
+		return nil
+	}
+
+	// then standard date
 	d.Time, err = time.Parse(time.RFC3339, value)
 	if err == nil {
 		return nil

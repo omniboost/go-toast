@@ -715,7 +715,7 @@ type TimeEntry struct {
 	InDate         DateTime `json:"inDate"`
 	OutDate        DateTime `json:"outDate"`
 	AutoClockedOut bool     `json:"autoClockedOut"`
-	BusinessDate   string   `json:"businessDate"`
+	BusinessDate   Date     `json:"businessDate"`
 	RegularHours   float64  `json:"regularHours"`
 	OvertimeHours  float64  `json:"overtimeHours"`
 	HourlyWage     float64  `json:"hourlyWage"`
