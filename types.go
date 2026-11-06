@@ -845,3 +845,11 @@ type Payment struct {
 	CardPaymentID         string `json:"cardPaymentId"`
 	TenderTransactionGUID string `json:"tenderTransactionGuid"`
 }
+
+type RestaurantServices []RestaurantService
+
+type RestaurantService struct {
+	GUID       string `json:"guid"`
+	EntityType string `json:"entityType"`
+	Name       string `json:"name"`
+}
